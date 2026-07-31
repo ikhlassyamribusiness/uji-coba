@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <!--
   ============================================================================
-  AI-READY LANDING PAGE TEMPLATE #5 · "AURA" (Apple Vision Pro-inspired)
+  AI-READY BIO / LINK-IN-BIO TEMPLATE · "GRAND LINE" (tema Monkey D. Luffy)
   ============================================================================
-  Single-product landing page ultra-minimalis & premium ala Apple: kontras
-  tinggi PUTIH <-> HITAM, tipografi besar rapat, "eyebrow" label, tombol pill,
-  carousel geser horizontal, dan section teknologi berlatar hitam.
+  Halaman "link in bio" (seperti Linktree): foto profil bulat, nama, bio singkat,
+  dan daftar tombol tautan. Bertema One Piece / Luffy: langit-laut, merah-kuning,
+  topi jerami. Cocok untuk taut semua link penting di satu halaman.
 
-  100% SELF-CONTAINED: HTML + CSS + JS dalam satu file. TANPA framework/CDN,
-  jadi tetap tampil sempurna & responsif walau dibuka OFFLINE.
+  100% SELF-CONTAINED: HTML + CSS + JS satu file, tanpa framework/CDN, jalan OFFLINE.
 
-  CARA PAKAI (untuk user):
+  CARA PAKAI:
   1. Ubah TEMA (warna & font) di blok :root pada bagian STYLE di bawah.
-  2. Isi COPYWRITING dengan bantuan AI (lihat PANDUAN-PROMPT.md di folder induk repo).
-  3. Ganti ASET (logo, gambar, link checkout). Cari penanda [[ ... ]].
-  4. Sembunyikan bagian yang tak dipakai: cukup hapus blok SECTION-nya.
+  2. Isi teks & tautan dengan bantuan AI (komentar "AI INSTRUCTION" jadi panduan).
+  3. Ganti ASET (foto profil, link). Cari penanda [[ ... ]].
+  4. Tambah/kurangi tombol: cukup duplikat/hapus blok <a class="link"> ... </a>.
   ============================================================================
   ATURAN UNTUK AI YANG MENGEDIT FILE INI - BACA DULU
   ============================================================================
@@ -33,37 +32,35 @@
   4. JANGAN menambah framework, CDN, library, atau file eksternal apa pun.
   5. Ikon sosial media: ganti href-nya saja. Jangan ubah <svg> ikon menjadi <img>
      kecuali pemilik memang memberi nama file ikon sendiri.
-  6. Testimoni memakai GAMBAR screenshot asli: ganti src-nya saja.
-     DILARANG KERAS mengarang kutipan atau nama testimoni.
-  7. Bar atas HANYA SATU (sub-nav sticky), berisi logo opsional BERDAMPINGAN dengan
-     nama produk, lalu tombol Beli. Logo dipasang dengan menyisipkan <img
-     class="brand-logo"> sesuai komentar di sana. JANGAN hapus nama produknya, dan
-     JANGAN menambah bar/baris menu baru di atasnya.
-  8. Angka statistik diisi HANYA bila ada data nyata. Bila tidak ada, hapus
-     seluruh blok statistiknya.
-  9. Link checkout HANYA pada tombol CTA TERAKHIR di bagian harga. Tombol CTA
-     lain sudah href="#cta-akhir" agar scroll ke harga; biarkan apa adanya.
- 10. Kembalikan SELURUH isi file ini, utuh dan siap disimpan.
+  6. Menambah tautan: duplikat satu blok tombol yang sudah ada lalu ganti
+     teksnya. Menghapus tautan: hapus satu blok tombol secara utuh.
+     Kelas penanda tombol unggulan dipakai pada satu tombol saja.
+  7. Nama tampilan adalah SATU field bebas: boleh "@username" atau nama biasa.
+     Jangan dipecah menjadi nama + handle.
+  8. Kembalikan SELURUH isi file ini, utuh dan siap disimpan.
   ============================================================================
 -->
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- minimum-scale=1 mencegah halaman di-zoom OUT di bawah ukuran pas layar.
+       Perlu karena latar dekoratif memakai position:fixed sehingga tidak ikut
+       mengecil saat di-zoom out dan menyisakan area kosong. Zoom IN sengaja
+       TIDAK dibatasi (tanpa maximum-scale / user-scalable=no) demi aksesibilitas. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
 
-  <!-- AI INSTRUCTION: Ganti <title> dengan "Nama Produk – Janji singkat" (maks 60 karakter) -->
-  <title>Ngeclip Cuan – Blueprint Cuan dari Video Clipper</title>
+  <!-- AI INSTRUCTION: Ganti <title> dengan "Nama / @username" -->
+  <title>@IkhlasClip</title>
+  <!-- AI INSTRUCTION: 1 kalimat deskripsi singkat (maks 150 karakter) -->
+  <meta name="description" content="Belajar Menghasilkan Uang untuk Clipper Pemula" />
 
-  <!-- AI INSTRUCTION: Ganti description dengan 1 kalimat manfaat utama (maks 155 karakter) -->
-  <meta name="description" content="Pelajari rahasia menjadi Clipper profesional dan hasilkan cuan tanpa batas dari video pendek dengan blueprint Ngeclip Cuan. Mulai perjalananmu sekarang!" />
+  <!-- [[ FAVICON: ganti href dengan ikon Anda, mis. favicon.png ]] -->
+  <link rel="icon" type="image/png" href="logo-clipper.png" />
 
-  <!-- [[ FAVICON: ganti href dengan file ikon Anda, mis. favicon.png (32x32) ]] -->
-  <link rel="icon" type="image/png" href="favicon.png" />
-
-  <!-- Font: pakai font sistem Apple bila ada; Inter sebagai cadangan. -->
+  <!-- Font: Poppins. Bila offline, pakai font sistem. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
     /* ========================================================================
@@ -71,33 +68,23 @@
        (Untuk AI: JANGAN hapus satu baris pun di blok :root ini.)
        ======================================================================== */
     :root {
-      /* --- AKSEN --- */
-      --accent:       #0066cc;  /* Biru khas Apple (tautan & tombol Buy) */
-
-      /* --- SECTION PUTIH --- */
-      --white-bg:     #ffffff;
-      --white-text:   #1d1d1f;
-      --white-muted:  #6e6e73;
-
-      /* --- SECTION HITAM --- */
-      --black-bg:     #000000;
-      --black-text:   #f5f5f7;
-      --black-muted:  #a1a1a6;
-      --black-line:   #2a2a2c;
+      /* --- WARNA TEMA (One Piece / Luffy) --- */
+      --red:       #E12A2A;   /* Merah baju Luffy (aksen/bayangan)  */
+      --yellow:    #FFD028;   /* Kuning topi/sabuk (tombol unggulan) */
+      --sky:       #58BFF2;   /* Biru langit (latar atas)           */
+      --sea:       #0E5FA6;   /* Biru laut (latar bawah)            */
+      --ink:       #17293a;   /* Teks gelap di atas tombol putih    */
+      --btn-bg:    #ffffff;   /* Latar tombol                       */
+      --btn-text:  #17293a;   /* Teks tombol                        */
 
       /* --- FONT --- */
-      --font-heading: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, Segoe UI, Roboto, sans-serif;
-      --font-body:    -apple-system, BlinkMacSystemFont, 'Inter', system-ui, Segoe UI, Roboto, sans-serif;
+      --font-body: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 
       /* --- BENTUK --- */
-      --radius-pill:  999px;
-      --radius-card:  1.5rem;
-
-      /* --- GAMBAR HERO (bentuk asli, tinggi dibatasi) --- */
-      --hero-media-h: 30rem;
+      --radius-btn: 16px;
     }
     /* ======================================================================== */
-    /* JANGAN UBAH KODE DI BAWAH INI KECUALI ANDA PAHAM CSS (mobile-first)       */
+    /* JANGAN UBAH KODE DI BAWAH INI KECUALI ANDA PAHAM CSS                      */
 
     /* ----------------------------------------------------------------------
        JARING PENGAMAN - JANGAN HAPUS BLOK INI.
@@ -110,471 +97,314 @@
        Untuk mengganti tema, edit blok :root di ATAS, bukan blok ini.
        ---------------------------------------------------------------------- */
     html {
-      --accent:       #0066cc;
-      --white-bg:     #ffffff;
-      --white-text:   #1d1d1f;
-      --white-muted:  #6e6e73;
-      --black-bg:     #000000;
-      --black-text:   #f5f5f7;
-      --black-muted:  #a1a1a6;
-      --black-line:   #2a2a2c;
-      --font-heading: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, Segoe UI, Roboto, sans-serif;
-      --font-body:    -apple-system, BlinkMacSystemFont, 'Inter', system-ui, Segoe UI, Roboto, sans-serif;
-      --radius-pill:  999px;
-      --radius-card:  1.5rem;
-      --hero-media-h: 30rem;
+      --red:        #E12A2A;
+      --yellow:     #FFD028;
+      --sky:        #58BFF2;
+      --sea:        #0E5FA6;
+      --ink:        #17293a;
+      --btn-bg:     #ffffff;
+      --btn-text:   #17293a;
+      --font-body:  'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --radius-btn: 16px;
     }
     /* ======================================================================== */
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-    body { font-family: var(--font-body); line-height: 1.5; color: var(--white-text); background: var(--white-bg); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-    img, svg { max-width: 100%; display: block; }
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; cursor: pointer; }
-    h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; }
-
-    .wrap { width: 100%; max-width: 70rem; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem; }
-    @media (min-width: 768px) { .wrap { padding-left: 2.5rem; padding-right: 2.5rem; } }
-    .pad { padding-top: 5.5rem; padding-bottom: 5.5rem; }
-    @media (min-width: 768px) { .pad { padding-top: 8rem; padding-bottom: 8rem; } }
-    .narrow { max-width: 46rem; margin-left: auto; margin-right: auto; }
-    .center { text-align: center; }
-    #cta-akhir { scroll-margin-top: 4.5rem; }
-
-    /* --- Tema section --- */
-    .sec-white { background: var(--white-bg); color: var(--white-text); }
-    .sec-black { background: var(--black-bg); color: var(--black-text); }
-    .sec-white .muted { color: var(--white-muted); }
-    .sec-black .muted { color: var(--black-muted); }
-
-    /* --- Tipografi --- */
-    .h1 { font-size: clamp(2.6rem, 8vw, 5rem); font-weight: 800; }
-    .h2 { font-size: clamp(2.1rem, 6vw, 3.75rem); font-weight: 800; }
-    .lead { font-size: clamp(1.1rem, 2.3vw, 1.5rem); font-weight: 500; }
-    /* Eyebrow (label kategori kecil di atas judul) */
-    .eyebrow { font-size: clamp(1.05rem, 2.4vw, 1.4rem); font-weight: 700; color: var(--white-muted); letter-spacing: -0.01em; margin-bottom: .4rem; }
-    .sec-black .eyebrow { color: var(--black-muted); }
-
-    /* --- Tombol pill --- */
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; font-weight: 500; font-size: 1.05rem; padding: .7rem 1.5rem; border: 1px solid transparent; border-radius: var(--radius-pill); transition: opacity .15s ease, background-color .15s ease, transform .12s ease; }
-    .btn:hover { transform: translateY(-1px); }
-    .btn-solid { background: var(--white-text); color: #fff; }
-    .sec-black .btn-solid { background: #fff; color: #000; }
-    .btn-solid:hover { opacity: .85; }
-    .btn-outline { background: transparent; color: var(--white-text); border-color: color-mix(in srgb, var(--white-text) 35%, transparent); }
-    .sec-black .btn-outline { color: #fff; border-color: rgba(255,255,255,.4); }
-    .btn-blue { background: var(--accent); color: #fff; }
-    .btn-blue:hover { opacity: .9; }
-    .btn-sm { padding: .5rem 1.1rem; font-size: .95rem; }
-    .btn-lg { padding: .85rem 1.9rem; font-size: 1.1rem; }
-
-    /* --- Tautan biru (Apple) --- */
-    .link-blue { color: var(--accent); font-weight: 500; font-size: 1.1rem; display: inline-flex; align-items: center; gap: .2rem; }
-    .link-blue:hover { text-decoration: underline; }
-
-    /* --- Sub-nav sticky (logo + nama produk + tombol Beli) --- */
-    .logo { font-weight: 700; font-size: 1.05rem; }
-    .subnav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid #e6e6e6; }
-    .subnav-inner { height: 3.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-    /* Logo (bila dipasang) berdampingan dengan nama produk di sisi kiri */
-    .subnav-brand { display: flex; align-items: center; gap: .55rem; min-width: 0; }
-    .subnav .name { font-weight: 700; font-size: 1.15rem; letter-spacing: -0.02em;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .brand-logo { height: 1.6rem; width: auto; flex-shrink: 0; }
-
-    /* --- Hero image (bentuk asli, tinggi dibatasi) --- */
-    .hero-media { margin: 0 auto; width: auto; height: auto; max-width: min(100%, 56rem); max-height: var(--hero-media-h); border-radius: var(--radius-card); }
-
-    /* --- Visual fitur = ILUSTRASI VEKTOR (inline SVG), bukan foto produk --- */
-    .feature-visual { width: 100%; aspect-ratio: 16 / 10; border-radius: var(--radius-card); display: grid; place-items: center; overflow: hidden;
-      background: linear-gradient(135deg, #f5f5f7, #e8e8ed); }
-    .sec-black .feature-visual { background: linear-gradient(135deg, #161617, #0c0c0d); }
-    .feature-visual svg { width: 34%; height: 34%; stroke: var(--white-text); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
-    .sec-black .feature-visual svg { stroke: #fff; }
-
-    /* --- Carousel horizontal (geser) --- */
-    .carousel { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 1rem; cursor: grab; scrollbar-width: none; }
-    .carousel::-webkit-scrollbar { display: none; }
-    .carousel:active { cursor: grabbing; }
-    .carousel > .cc { scroll-snap-align: start; flex: 0 0 78%; border-radius: var(--radius-card); padding: 1.75rem; min-height: 22rem; display: flex; flex-direction: column; justify-content: flex-end;
-      background: linear-gradient(160deg, #f5f5f7, #e6e6eb); }
-    @media (min-width: 640px) { .carousel > .cc { flex-basis: 42%; } }
-    @media (min-width: 1000px){ .carousel > .cc { flex-basis: 30%; } }
-    .cc .cc-ico { width: 2.6rem; height: 2.6rem; margin-bottom: auto; }
-    .cc .cc-ico svg { width: 2.6rem; height: 2.6rem; stroke: var(--white-text); fill: none; stroke-width: 1.6; }
-    .cc h3 { font-size: 1.3rem; font-weight: 700; margin-top: 1rem; }
-    .cc p { color: var(--white-muted); margin-top: .4rem; }
-    .slide-hint { display: inline-flex; align-items: center; gap: .4rem; color: var(--white-muted); font-size: .9rem; font-weight: 600; }
-    @keyframes nudge { 0%,100%{transform:translateX(0)} 50%{transform:translateX(5px)} }
-    @media (prefers-reduced-motion: no-preference) { .slide-hint .sw { animation: nudge 1.4s ease-in-out infinite; } }
-
-    /* --- Stats (section hitam) --- */
-    .stats { max-width: 46rem; margin: 0 auto; }
-    .stat { padding: 1.6rem 0; border-bottom: 1px solid var(--black-line); }
-    .stat:first-child { border-top: 1px solid var(--black-line); }
-    .stat .num { font-size: clamp(2.4rem, 7vw, 3.75rem); font-weight: 800; letter-spacing: -0.03em; }
-    .stat .lbl { color: var(--black-muted); font-size: 1.05rem; margin-top: .1rem; }
-
-    /* --- Testimoni gambar --- */
-    .tgrid { display: grid; gap: 1.25rem; grid-template-columns: 1fr; align-items: start; }
-    @media (min-width: 640px) { .tgrid { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 900px) { .tgrid { grid-template-columns: repeat(3, 1fr); } }
-    .testi-card { background: #f5f5f7; border-radius: var(--radius-card); padding: .5rem; }
-    .testi-img { width: 100%; height: auto; border-radius: 1.1rem; display: block; }
-
-    /* --- FAQ --- */
-    .faq { display: flex; flex-direction: column; max-width: 50rem; margin: 0 auto; }
-    .faq-item { border-bottom: 1px solid #e0e0e2; }
-    .faq-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; text-align: left; padding: 1.4rem 0; background: none; border: none; color: inherit; font-weight: 600; font-size: 1.15rem; }
-    .faq-icon { font-size: 1.6rem; line-height: 1; color: var(--accent); flex-shrink: 0; transition: transform .25s ease; }
-    .faq-answer { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
-    .faq-answer p { padding: 0 0 1.4rem; color: var(--white-muted); font-size: 1.05rem; }
-    .faq-item[data-open="true"] .faq-answer { max-height: 420px; }
-    .faq-item[data-open="true"] .faq-icon { transform: rotate(45deg); }
-
-    /* --- Harga --- */
-    .price-old { font-size: 1.3rem; color: var(--white-muted); text-decoration: line-through; }
-    .price-new { font-size: clamp(2.6rem, 8vw, 3.75rem); font-weight: 800; letter-spacing: -0.03em; }
-
-    /* --- Footer --- */
-    .foot { background: #f5f5f7; color: #6e6e73; }
-    .foot a { color: var(--white-text); }
-    .foot-cols { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-    @media (min-width: 640px) { .foot-cols { grid-template-columns: 2fr 1fr 1fr; } }
-    .foot-cols h4 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #86868b; margin-bottom: .9rem; }
-    .foot-cols a { display: block; padding: .28rem 0; font-size: .95rem; }
-    .foot-legal { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #d2d2d7; font-size: .8rem; }
-
-    /* --- Floating WhatsApp --- */
-    .wa-float { position: fixed; z-index: 60; right: 1rem; bottom: 1.5rem; width: 3.5rem; height: 3.5rem; border-radius: 999px; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,.25); transition: transform .15s ease; }
-    .wa-float:hover { transform: scale(1.05); }
-    .wa-float svg { width: 1.75rem; height: 1.75rem; fill: #fff; }
-
-    .mt-3{margin-top:.75rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.mt-6{margin-top:1.5rem}
-    .mt-8{margin-top:2rem}.mt-10{margin-top:2.5rem}.mt-12{margin-top:3rem}.mt-14{margin-top:3.5rem}
-
-    @media (prefers-reduced-motion: no-preference) {
-      .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
-      .reveal.in { opacity: 1; transform: none; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: var(--font-body); color: #fff; min-height: 100vh;
+      background: linear-gradient(180deg, var(--sky) 0%, var(--sea) 60%, #093f70 100%);
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      display: flex; flex-direction: column; align-items: center;
     }
+    /* Matahari lembut di pojok atas + ombak dekoratif */
+    body::before { content: ""; position: fixed; top: -12%; right: -10%; width: 55vw; height: 55vw; max-width: 320px; max-height: 320px;
+      background: radial-gradient(circle, rgba(255,224,130,.6), transparent 70%); pointer-events: none; z-index: 0; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .page { position: relative; z-index: 1; width: 100%; max-width: 30rem;
+      padding: 4.75rem 1.25rem calc(var(--sea-h, 12rem) + 1.5rem); text-align: center; }
+
+    /* --- Profil --- */
+    .avatar-wrap { position: relative; width: 8rem; margin: 0 auto; }
+    .avatar { width: 8rem; height: 8rem; border-radius: 50%; object-fit: cover; border: 5px solid #fff;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25); background: #eaf6ff; }
+    /* Topi jerami (SVG inline) — duduk di atas avatar, hanya menutupi bagian atasnya.
+       Atur --hat-w (ukuran) & --hat-top (seberapa turun menutupi foto). */
+    .hat { position: absolute; top: var(--hat-top, -3.35rem); left: 50%; transform: translateX(-50%);
+      width: var(--hat-w, 9.5rem); z-index: 2; filter: drop-shadow(0 5px 5px rgba(0,0,0,.25)); }
+    .hat svg { width: 100%; height: auto; display: block; }
+
+    /* Nama: satu baris, bersih & modern (bisa "@username" atau nama biasa) */
+    .name { font-weight: 800; font-size: clamp(1.7rem, 6vw, 2.4rem); margin-top: 1.2rem; color: #fff;
+      text-shadow: 0 2px 6px rgba(0,0,0,.22); }
+    .bio { margin-top: .8rem; font-size: .98rem; opacity: .95; line-height: 1.5; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+
+    /* --- Tombol tautan --- */
+    .links { margin-top: 1.8rem; display: flex; flex-direction: column; gap: .9rem; }
+    .link { position: relative; display: block; background: var(--btn-bg); color: var(--btn-text);
+      border-radius: var(--radius-btn); padding: 1rem 1.1rem; box-shadow: 0 6px 0 rgba(0,0,0,.18);
+      transition: transform .12s ease, box-shadow .12s ease; }
+    .link:hover { transform: translateY(-2px); box-shadow: 0 9px 0 rgba(0,0,0,.18); }
+    .link:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+    .link .t { font-weight: 700; font-size: 1.05rem; }
+    .link .s { font-size: .85rem; color: #5b6b78; margin-top: .1rem; }
+    /* Varian tombol unggulan (kuning) */
+    .link.feature { background: var(--yellow); }
+    .link.feature .s { color: #7a5c00; }
+    /* Badge kecil di pojok kanan atas tombol */
+    .badge { position: absolute; top: -.55rem; right: .8rem; background: var(--red); color: #fff;
+      font-size: .65rem; font-weight: 800; letter-spacing: .04em; padding: .2rem .55rem; border-radius: 999px; text-transform: uppercase; }
+
+    /* --- Sosial (opsional) --- */
+    .socials { margin-top: 1.6rem; display: flex; justify-content: center; gap: .75rem; }
+    .socials a { width: 2.75rem; height: 2.75rem; border-radius: 50%; background: rgba(255,255,255,.18);
+      display: grid; place-items: center; transition: background .12s ease; }
+    .socials a:hover { background: rgba(255,255,255,.32); }
+    .socials svg { width: 1.35rem; height: 1.35rem; fill: #fff; }
+
+    /* --- LAUT + KAPAL (dekoratif, di bawah halaman) --- */
+    /* Laut & kapal MENETAP di bawah layar (tidak ikut ter-scroll) */
+    .sea { position: fixed; left: 0; bottom: 0; z-index: 0; width: 100%; height: var(--sea-h, 12rem); pointer-events: none; }
+    .waves { position: absolute; bottom: 0; left: 0; width: 100%; height: 7.5rem; display: block; }
+    /* Kapal ada di KANAN BAWAH; ombak digambar setelahnya sehingga lambung tampak tenggelam sedikit */
+    /* Pembungkus luar: bergeser ke kiri saat halaman di-scroll */
+    .ship { position: absolute; right: 7%; bottom: 2.75rem; width: var(--ship-w, 8rem);
+      transform: translateX(var(--ship-x, 0px)); will-change: transform; }
+    /* Pembungkus dalam: animasi mengapung (naik-turun & miring) */
+    .ship-in { transform-origin: 50% 90%; animation: shipBob 4.5s ease-in-out infinite; }
+    .ship svg { width: 100%; height: auto; display: block; }
+    @keyframes shipBob { 0%,100% { transform: translateY(0) rotate(-2.5deg); } 50% { transform: translateY(-9px) rotate(2.5deg); } }
+    @keyframes seaDrift { from { transform: translateX(0); } to { transform: translateX(-600px); } }
+    .w1 { animation: seaDrift 14s linear infinite; }
+    .w2 { animation: seaDrift 9s linear infinite; }
+    @media (prefers-reduced-motion: reduce) { .ship-in, .w1, .w2 { animation: none; } }
   </style>
 </head>
 
 <body>
+  <main class="page">
+    <!-- ====================================================================
+         PROFIL
+         ==================================================================== -->
+    <div class="avatar-wrap">
+      <!-- Topi jerami (SVG dekoratif) -->
+      <span class="hat" aria-hidden="true">
+        <svg viewBox="0 0 240 150">
+          <defs>
+            <clipPath id="hatBrim"><ellipse cx="120" cy="98" rx="112" ry="40" transform="rotate(-7 120 98)"/></clipPath>
+            <clipPath id="hatCrown"><path d="M62,86 C58,44 78,16 112,16 C148,16 172,42 168,76 C146,94 86,98 62,86 Z"/></clipPath>
+          </defs>
 
-  <!-- ======================================================================
-       SUB-NAV STICKY (logo + nama produk + tombol Beli biru) — menempel saat scroll
-       Ini satu-satunya bar di atas. Tidak ada baris menu terpisah di atasnya.
-       ====================================================================== -->
-  <div class="subnav sec-white">
-    <div class="wrap subnav-inner">
-      <div class="subnav-brand">
-        <!-- [[ LOGO (opsional): untuk memasang logo, sisipkan satu baris tepat di bawah
-             komentar ini, PERSIS seperti contoh berikut, dengan nama file logo Anda:
-             <img src="logo.png" alt="Nama Brand" class="brand-logo" />
-             Logo tampil BERDAMPINGAN dengan nama produk, bukan menggantikannya.
-             Tidak punya logo? Biarkan saja tanpa gambar. ]] -->
-        <img src="logo-clipper.png" alt="Ngeclip Cuan" class="brand-logo" />
-        <!-- AI INSTRUCTION: Nama produk (singkat, maks 3 kata). JANGAN dihapus. -->
-        
-      </div>
-      <!-- AI INSTRUCTION: Tombol Beli. href="#cta-akhir" = scroll ke harga; biarkan. -->
-      <a href="#cta-akhir" class="btn btn-blue btn-sm">Beli</a>
+          <!-- 1. BRIM (Pinggiran Topi & Anyaman) -->
+          <ellipse cx="120" cy="98" rx="112" ry="40" transform="rotate(-7 120 98)" fill="#C2A480"/>
+          <g clip-path="url(#hatBrim)">
+            <ellipse cx="111" cy="109" rx="112" ry="40" transform="rotate(-7 111 109)" fill="#F2C94C"/>
+            <!-- anyaman cincin konsentris -->
+            <g fill="none" stroke="#C9982F" stroke-width="1.5" opacity=".5">
+              <ellipse cx="112" cy="107" rx="99" ry="33" transform="rotate(-7 112 107)"/>
+              <ellipse cx="112" cy="105" rx="86" ry="27" transform="rotate(-7 112 105)"/>
+              <ellipse cx="112" cy="103" rx="73" ry="21" transform="rotate(-7 112 103)"/>
+              <ellipse cx="112" cy="101" rx="60" ry="15" transform="rotate(-7 112 101)"/>
+            </g>
+            <!-- anyaman guratan radial -->
+            <g stroke="#C9982F" stroke-width="1.7" stroke-linecap="round" opacity=".55">
+              <path d="M22,96 l14,5"/><path d="M28,112 l13,7"/><path d="M44,124 l10,9"/>
+              <path d="M64,132 l7,10"/><path d="M88,138 l4,10"/><path d="M112,140 l1,10"/>
+              <path d="M136,138 l-1,10"/><path d="M160,132 l-4,10"/><path d="M182,122 l-7,9"/>
+              <path d="M200,108 l-11,8"/><path d="M212,92 l-13,6"/><path d="M218,76 l-14,4"/>
+            </g>
+          </g>
+          <!-- Garis Luar Brim -->
+          <ellipse cx="120" cy="98" rx="112" ry="40" transform="rotate(-7 120 98)" fill="none" stroke="#3B2A18" stroke-width="5"/>
+
+          <!-- 2. CROWN (Warna Dasar & Bayangan) -->
+          <path d="M62,86 C58,44 78,16 112,16 C148,16 172,42 168,76 C146,94 86,98 62,86 Z" fill="#F2C94C"/>
+          <g clip-path="url(#hatCrown)">
+            <ellipse cx="182" cy="26" rx="70" ry="68" fill="#C2A480"/>
+            <ellipse cx="90" cy="42" rx="24" ry="28" fill="#F9DE84" opacity=".75"/>
+            <g fill="none" stroke="#C9982F" stroke-width="1.5" opacity=".5">
+              <path d="M74,84 C69,56 78,28 94,17"/>
+              <path d="M92,90 C89,58 94,30 106,16"/>
+              <path d="M111,92 C110,60 112,32 115,16"/>
+              <path d="M130,90 C133,58 133,32 127,18"/>
+              <path d="M148,84 C154,58 152,34 141,23"/>
+            </g>
+          </g>
+          
+          <!-- 3. PITA MERAH — DIKURUNG ke bentuk crown (clip) agar warna & garisnya
+               tidak pernah menonjol keluar siluet topi. -->
+          <g clip-path="url(#hatCrown)">
+            <path d="M56,56 C88,74 148,70 178,44 L178,80 C148,98 88,98 56,80 Z" fill="#E02020"/>
+            <path d="M56,56 C88,74 148,70 178,44 L178,55 C148,80 88,84 56,66 Z" fill="#F04444" opacity=".5"/>
+            <path d="M56,56 C88,74 148,70 178,44" fill="none" stroke="#3B2A18" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M56,80 C88,98 148,96 178,80" fill="none" stroke="#3B2A18" stroke-width="4.5" stroke-linecap="round"/>
+          </g>
+
+          <!-- Garis Luar Crown digambar TERAKHIR agar tepi pita tertutup rapi -->
+          <path d="M62,86 C58,44 78,16 112,16 C148,16 172,42 168,76" fill="none" stroke="#3B2A18" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <!-- [[ FOTO PROFIL: ganti src dengan foto Anda, mis. profil.jpg ]] -->
+      <img class="avatar" src="logo-clipper.png" alt="Foto profil" />
     </div>
-  </div>
 
-  <main>
-    <!-- ====================================================================
-         1. HERO (putih)
-         ==================================================================== -->
-    <section class="sec-white">
-      <div class="wrap pad center reveal">
-        <!-- AI INSTRUCTION: Eyebrow / kategori kecil, mis. "Baru" atau nama lini produk -->
-        <p class="eyebrow">Blueprint Clipper Profesional</p>
-        <!-- AI INSTRUCTION: HEADLINE (H1) — nama/janji produk, besar & rapat, maks 6 kata -->
-        <h1 class="h1">Ubah Video Panjang Jadi Mesin Cuan</h1>
-        <!-- AI INSTRUCTION: Sub-headline 1 kalimat -->
-        <p class="lead muted narrow mt-5">Kuasai seni mengubah siaran langsung menjadi video pendek viral dan bangun sumber penghasilan pasif sebagai Clipper profesional.</p>
-        <!-- Dua tombol pill (keduanya scroll ke harga; biarkan href="#cta-akhir") -->
-        <div class="mt-8" style="display:flex; flex-wrap:wrap; gap:.75rem; justify-content:center;">
-          <!-- AI INSTRUCTION: Tombol utama, mis. "Beli Sekarang" -->
-          <a href="#cta-akhir" class="btn btn-solid btn-lg">Mulai Ngeclip Cuan</a>
-          <!-- AI INSTRUCTION: Tombol sekunder, mis. "Pelajari Lebih Lanjut" -->
-          <a href="#cta-akhir" class="btn btn-outline btn-lg">Lihat Strateginya</a>
-        </div>
-        <!-- [[ GAMBAR HERO: ganti src dengan foto/mockup produk. Tampil sesuai bentuk asli; tinggi dibatasi. ]] -->
-        <img class="hero-media mt-12" src="ngeclip-cuan.png" alt="Tampilan produk Ngeclip Cuan" />
-      </div>
-    </section>
+    <!-- AI INSTRUCTION: Nama tampilan -->
+    <h1 class="name">@IkhlasClip</h1>
+    <!-- AI INSTRUCTION: Bio singkat -->
+    <p class="bio">Belajar Menghasilkan Uang untuk Clipper Pemula</p>
 
     <!-- ====================================================================
-         2. FITUR A (putih) — eyebrow, judul, ilustrasi, tautan, carousel
+         TOMBOL TAUTAN
          ==================================================================== -->
-    <section class="sec-white">
-      <div class="wrap pad">
-        <div class="narrow reveal">
-          <!-- AI INSTRUCTION: Eyebrow fitur A, mis. "Kemudahan" -->
-          <p class="eyebrow">Workflow Efisien</p>
-          <!-- AI INSTRUCTION: Judul besar fitur A, maks 6 kata -->
-          <h2 class="h2">Sistem Kerja Clipper Cerdas & Cepat</h2>
-        </div>
-
-        <!-- Visual besar = ILUSTRASI VEKTOR (bukan foto produk).
-             AI INSTRUCTION (VISUAL FITUR): boleh ganti isi <svg> dengan ilustrasi relevan; DILARANG foto produk. -->
-        <div class="feature-visual mt-10 reveal">
-          <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="42" r="20"/><path d="M50 62v22M32 74h36"/><path d="m42 42 6 6 12-12"/></svg>
-        </div>
-
-        <div class="narrow mt-8 reveal">
-          <!-- AI INSTRUCTION: 2-3 kalimat penjelasan fitur A -->
-          <p class="lead muted">Tinggalkan cara amatir yang membuang waktu. Saya akan menunjukkan sistem rahasia untuk memindai video berjam-jam dan menemukan "Golden Moment" hanya dalam 15 menit.</p>
-          <!-- SCROLL-KE-HARGA: tautan biru -->
-          <a href="#cta-akhir" class="link-blue mt-4" style="display:inline-flex;">Pelajari lebih lanjut &rsaquo;</a>
-        </div>
-
-        <!-- Carousel kartu (geser). Kartu = ilustrasi vektor + teks, BUKAN foto produk. -->
-        <p class="slide-hint mt-10">Geser <span class="sw">&rarr;</span></p>
-        <div class="carousel mt-3">
-          <!-- KARTU (duplikat/kurangi; ganti isi <svg> dengan ilustrasi relevan) -->
-          <div class="cc">
-            <span class="cc-ico"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg></span>
-            <!-- AI INSTRUCTION: Judul kartu 1 -->
-            <h3>Radar Konten Cepat</h3>
-            <!-- AI INSTRUCTION: 1 kalimat -->
-            <p>Deteksi momen viral seketika tanpa harus menonton video secara penuh.</p>
-          </div>
-          <div class="cc">
-            <span class="cc-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
-            <h3>Mode Batching Edit</h3>
-            <p>Potong puluhan klip dalam satu hari untuk stok upload selama seminggu penuh.</p>
-          </div>
-          <div class="cc">
-            <span class="cc-ico"><svg viewBox="0 0 24 24"><path d="M12 3 4 7v6c0 5 3.5 7.5 8 8 4.5-.5 8-3 8-8V7l-8-4Z"/></svg></span>
-            <h3>Auto-Captions Sakti</h3>
-            <p>Buat subtitle otomatis yang dinamis untuk menarik perhatian penonton seketika.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="links">
+      <!-- TOMBOL TAUTAN: untuk menambah tautan, DUPLIKAT seluruh blok <a class="link"> ... </a>.
+           Jangan mengubah class-nya. Kelas "feature" = tombol kuning (unggulan). -->
+      <a href="https://joinbib.id/clipper/cara-jadi-clipper" class="link feature">
+        <!-- AI INSTRUCTION: Label badge, 1-2 kata (mis. "Utama"). Hapus <span> ini bila tak perlu. -->
+        <span class="badge">Utama</span>
+        <!-- AI INSTRUCTION: Judul tautan 1 (maks 4 kata) -->
+        <div class="t">Cara Jadi Clipper</div>
+        <!-- AI INSTRUCTION: Keterangan singkat tautan 1 (maks 8 kata) -->
+        <div class="s">Peta Lengkap Menghasilkan dari Clipper</div>
+      </a>
+      <a href="https://joinbib.id/clipper/platform-clipper-indonesia" class="link">
+        <!-- AI INSTRUCTION: Judul tautan 2 -->
+        <div class="t">Platform Clipper Indonesia</div>
+        <!-- AI INSTRUCTION: Keterangan singkat tautan 2 -->
+        <div class="s">Rekomendasi Daftar + Komisinya</div>
+      </a>
+      <a href="https://joinbib.id/clipper/platform-clipper-luar-negeri" class="link">
+        <!-- AI INSTRUCTION: Judul tautan 3 -->
+        <div class="t">Platform Clipper Luar Negeri</div>
+        <!-- AI INSTRUCTION: Keterangan singkat tautan 3 -->
+        <div class="s">Lebih Cuan dari Lokal</div>
+      </a>
+      <a href="https://joinbib.id/sisi-gelap-ai" class="link">
+        <!-- AI INSTRUCTION: Judul tautan 4 -->
+        <div class="t">Sisi Gelap AI Clipper</div>
+        <!-- AI INSTRUCTION: Keterangan singkat tautan 4 -->
+        <div class="s">AI Bisa Bikin Akunmu Mati</div>
+      </a>
+      <a href="https://joinbib.id/clipper/ngeclip-cuan" class="link">
+        <!-- AI INSTRUCTION: Judul tautan 5 -->
+        <div class="t">E-Book Ngeclip Cuan</div>
+        <!-- AI INSTRUCTION: Keterangan singkat tautan 5 -->
+        <div class="s">Belajar Menghasilkan dari 0</div>
+      </a>
+      <a href="https://joinbib.id/" class="link">
+        <!-- AI INSTRUCTION: Judul tautan 6 -->
+        <div class="t">Sistem BiB (Bisnis In a Box)</div>
+        <!-- AI INSTRUCTION: Keterangan singkat tautan 6 -->
+        <div class="s">Panduan Lengkap Bangun Bisnis Digital</div>
+      </a>
+      <a href="https://whatsapp.com/channel/0029VbD3xRK6LwHdluqg330X" class="link">
+        <!-- AI INSTRUCTION: Judul tautan 7 -->
+        <div class="t">Gabung WA Channel (Gratis)</div>
+        <!-- AI INSTRUCTION: Keterangan singkat tautan 7 -->
+        <div class="s">Berbagai Wawasan Harian Seputar Clipper</div>
+      </a>
+    </div>
 
     <!-- ====================================================================
-         3. FITUR B (putih) — pola sama, ilustrasi berbeda
+         SOSIAL
          ==================================================================== -->
-    <section class="sec-white">
-      <div class="wrap" style="padding-bottom:6rem;">
-        <div class="narrow reveal">
-          <!-- AI INSTRUCTION: Eyebrow fitur B -->
-          <p class="eyebrow">Retensi Maksimal</p>
-          <!-- AI INSTRUCTION: Judul besar fitur B -->
-          <h2 class="h2">Retensi Penonton Adalah Kunci Algoritma</h2>
-        </div>
-        <div class="feature-visual mt-10 reveal">
-          <!-- AI INSTRUCTION (VISUAL FITUR): ilustrasi vektor relevan; DILARANG foto produk. -->
-          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M18 78h64"/><path d="M30 78V56M48 78V40M66 78V50"/><path d="m26 44 16-10 12 6 20-16"/></svg>
-        </div>
-        <div class="narrow mt-8 reveal">
-          <!-- AI INSTRUCTION: Penjelasan fitur B -->
-          <p class="lead muted">Algoritma menyukai video yang ditonton berulang kali. Pelajari teknik editing tingkat dewa mulai dari "Hook 3 Detik" hingga "Perfect Loop" yang membuat penonton kecanduan.</p>
-          <a href="#cta-akhir" class="link-blue mt-4" style="display:inline-flex;">Pelajari lebih lanjut &rsaquo;</a>
-        </div>
-      </div>
-    </section>
+    <!-- [[ LINK SOSMED: ganti href tiap ikon. Hapus <a> yang tak dipakai. ]] -->
+    <div class="socials">
+      <a href="https://instagram.com/ikhlasclip" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.1.4.3 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.1-1 .3-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.1-.4-.3-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.1 1-.3 2.2-.4C8.4 2.2 8.8 2.2 12 2.2Zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4Zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3Zm6.8-11.2a1.5 1.5 0 1 1-1.5-1.5 1.5 1.5 0 0 1 1.5 1.5Z"/></svg></a>
+      <a href="https://tiktok.com/@ikhlasclipper" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.5 3c.3 2 1.5 3.6 3.5 3.9V10c-1.4 0-2.7-.4-3.9-1.1v6.3a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6 0 .9.1v3.2a2.6 2.6 0 1 0 1.8 2.4V3h3.4Z"/></svg></a>
+      <a href="https://youtube.com/@ikhlasclip" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23 8.2s-.2-1.6-.9-2.3c-.9-.9-1.8-.9-2.3-1C16.5 4.6 12 4.6 12 4.6s-4.5 0-7.8.3c-.5 0-1.5.1-2.3 1-.7.7-.9 2.3-.9 2.3S.8 10 .8 11.9v1.8c0 1.9.2 3.7.2 3.7s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 7.6.2 7.6.2s4.5 0 7.8-.3c.5 0 1.5-.1 2.3-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.7v-1.8c0-1.9-.2-3.6-.2-3.6ZM9.7 15.3V8.9l5.8 3.2-5.8 3.2Z"/></svg></a>
+    </div>
 
-    <!-- ====================================================================
-         4. TEKNOLOGI (hitam) — eyebrow, judul, ilustrasi, STATISTIK
-         ==================================================================== -->
-    <section class="sec-black">
-      <div class="wrap pad">
-        <div class="narrow center reveal">
-          <!-- AI INSTRUCTION: Eyebrow, mis. "Teknologi" / "Di Balik Layar" -->
-          <p class="eyebrow">Algoritma Vertikal</p>
-          <!-- AI INSTRUCTION: Judul besar section teknologi -->
-          <h2 class="h2">Mendominasi FYP TikTok dan Reels</h2>
-        </div>
-        <div class="feature-visual mt-10 reveal" style="max-width:44rem; margin-left:auto; margin-right:auto;">
-          <!-- AI INSTRUCTION (VISUAL): ilustrasi vektor relevan; DILARANG foto produk. -->
-          <svg viewBox="0 0 100 100" aria-hidden="true"><rect x="26" y="26" width="48" height="48" rx="8"/><path d="M50 12v14M50 74v14M12 50h14M74 50h14"/><circle cx="50" cy="50" r="10"/></svg>
-        </div>
+    <!-- Footer -->
 
-        <!-- STATISTIK (OPSIONAL): isi HANYA dengan angka NYATA. Jika tak ada data, HAPUS blok .stats ini. -->
-        
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         5. TESTIMONIAL (putih) — GAMBAR/SCREENSHOT ASLI
-         PENTING: testimoni = GAMBAR screenshot asli. Jangan mengarang.
-         ==================================================================== -->
-    <section class="sec-white">
-      <div class="wrap pad">
-        <div class="narrow center reveal">
-          <!-- AI INSTRUCTION: Judul section testimoni -->
-          <h2 class="h2">Hasil Nyata Menjadi Clipper Profesional</h2>
-        </div>
-        <div class="tgrid mt-14">
-          <!-- KARTU TESTIMONI GAMBAR (duplikat/kurangi; hanya ganti src="" screenshot asli) -->
-          <figure class="testi-card">
-            <!-- [[ GAMBAR TESTIMONI 1: ganti src dengan screenshot asli, mis. testi1.jpg ]] -->
-            <img class="testi-img" src="testimoni-clipper-1.jpg" alt="Screenshot testimoni pelanggan" />
-          </figure>
-          <figure class="testi-card">
-            <!-- [[ GAMBAR TESTIMONI 2 ]] -->
-            <img class="testi-img" src="testimoni-clipper-2.jpg" alt="Screenshot testimoni pelanggan" />
-          </figure>
-          <figure class="testi-card">
-            <!-- [[ GAMBAR TESTIMONI 3 ]] -->
-            <img class="testi-img" src="testimoni-clipper-3.jpg" alt="Screenshot testimoni pelanggan" />
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         6. FAQ (putih)
-         ==================================================================== -->
-    <section class="sec-white">
-      <div class="wrap pad">
-        <div class="center reveal">
-          <!-- AI INSTRUCTION: Judul FAQ -->
-          <h2 class="h2">Pertanyaan Seputar Ngeclip Cuan</h2>
-        </div>
-        <div class="faq mt-12">
-          <!-- ITEM FAQ (duplikat sesuai jumlah pertanyaan) -->
-          <div class="faq-item" data-open="false">
-            <button type="button" class="faq-trigger">
-              <!-- AI INSTRUCTION: Pertanyaan 1 -->
-              <span>Apakah ini cocok untuk pemula yang belum pernah mengedit?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer"><!-- AI INSTRUCTION: Jawaban 1 --><p>Sangat cocok. Saya akan mengajarkan langkah demi langkah dari nol, termasuk cara menggunakan software ringan seperti CapCut Desktop yang ramah untuk pemula.</p></div>
-          </div>
-          <div class="faq-item" data-open="false">
-            <button type="button" class="faq-trigger">
-              <span>Apakah saya butuh PC atau laptop mahal?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer"><p>Tidak. Mengedit klip pendek tidak membutuhkan spesifikasi komputer kelas dewa. Laptop standar dengan prosesor i3/Ryzen 3 dan RAM 8GB sudah sangat cukup untuk memulai.</p></div>
-          </div>
-          <div class="faq-item" data-open="false">
-            <button type="button" class="faq-trigger">
-              <span>Bagaimana dengan aturan hak cipta, apakah aman?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer"><p>Kita menggunakan prinsip "Fair Use". Kamu akan diajarkan cara membuat konten transformatif dengan memberikan nilai tambah, efek visual, dan kredit yang benar agar akunmu tetap aman dari pelanggaran.</p></div>
-          </div>
-          <div class="faq-item" data-open="false">
-            <button type="button" class="faq-trigger">
-              <span>Berapa lama sampai saya bisa mulai menghasilkan cuan?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer"><p>Hasil setiap orang berbeda, tetapi dengan konsistensi "Batch Upload" dan strategi algoritma yang diajarkan, kamu bisa membangun basis penonton dan mesin penghasilanmu dalam 30 hari pertama.</p></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         7. HARGA + CTA AKHIR (putih) — target scroll semua tombol atas
-         ==================================================================== -->
-    <section id="cta-akhir" class="sec-white">
-      <div class="wrap pad center narrow reveal">
-        <!-- AI INSTRUCTION: Eyebrow, mis. "Penawaran Terbatas" -->
-        <p class="eyebrow">Penawaran Spesial</p>
-        <!-- AI INSTRUCTION: Headline penutup, maks 8 kata -->
-        <h2 class="h2">Kesempatan Emas Memulai Karir Clipper Kamu</h2>
-        <!-- AI INSTRUCTION: 1 kalimat urgensi/penutup (jujur) -->
-        <p class="lead muted mt-4">Di masa depan, persaingan Clipper semakin ketat. Sekarang adalah kesempatan emas untuk kamu memulai dan curi start!</p>
-
-        <!-- HARGA (coret di atas, spesial di bawah) -->
-        <div class="mt-8" style="display:flex; flex-direction:column; align-items:center; gap:.1rem;">
-          <!-- AI INSTRUCTION: Harga normal (coret) -->
-          <span class="price-old">Rp 150.000</span>
-          <!-- AI INSTRUCTION: Harga spesial -->
-          <span class="price-new">Rp 49.000</span>
-        </div>
-
-        <!-- [[ LINK CHECKOUT: HANYA tombol INI yang diisi link checkout asli pada href ]] -->
-        <div class="mt-8">
-          <a href="http://lynk.id/ikhlassyamri/59zjee90px7q/checkout" class="btn btn-solid btn-lg">Beli Sekarang</a>
-        </div>
-
-        <!-- AI INSTRUCTION: Catatan penutup (N.B) — tegaskan garansi / hilangkan risiko -->
-        <p class="muted mt-8" style="font-size:.9rem;"><strong style="color:var(--white-text);">N.B:</strong> Miliki blueprint lengkap ini sekarang dengan harga promo sebelum persaingan kreator makin tajam. Ini adalah investasi terbaik untuk penghasilan tambahanmu!</p>
-      </div>
-    </section>
   </main>
 
   <!-- ======================================================================
-       FOOTER (abu terang)
+       LAUT + KAPAL (dekoratif) — hapus seluruh <div class="sea"> ini bila tak dipakai.
+       Ukuran kapal diatur lewat --ship-w pada .ship.
        ====================================================================== -->
-  <footer class="foot">
-    <div class="wrap" style="padding-top:3.5rem; padding-bottom:3rem;">
-      <div class="foot-cols">
-        <div>
-          <!-- AI INSTRUCTION: Nama brand + tagline -->
-          <a href="#" class="logo" style="font-size:1.1rem;">Ngeclip Cuan</a>
-          <p class="mt-3" style="max-width:22rem;">Panduan lengkap membangun mesin konten viral dari video pendek.</p>
-        </div>
-        <div>
-          <h4>Produk</h4>
-          <!-- [[ LINK ]] -->
-          <a href="#">Fitur</a>
-          <a href="#cta-akhir">Harga</a>
-          <a href="#">FAQ</a>
-        </div>
-        <div>
-          <h4>Ikuti Kami</h4>
-          <!-- [[ LINK SOSMED ]] -->
-          <a href="https://www.instagram.com/ikhlasclip?igsh=aWV3aTVvcWIxNmY5">Instagram</a>
-          <a href="https://www.tiktok.com/@ikhlasclipper?_r=1&_t=ZS-98UOK9u2RDo">TikTok</a>
-          <a href="https://youtube.com/@ikhlasclip?si=1u73uRRPHWNdiFVH">YouTube</a>
-        </div>
-      </div>
-      <div class="foot-legal">
-        <!-- AI INSTRUCTION: Nama brand + tahun -->
-        <p>© 2026 Ngeclip Cuan. Semua hak dilindungi.</p>
-      </div>
+  <div class="sea" aria-hidden="true">
+    <!-- KAPAL (vektor, mengapung di kanan bawah) -->
+    <div class="ship">
+     <div class="ship-in">
+      <svg viewBox="0 0 180 200">
+        <g stroke="#43290f" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+          <!-- tiang & sarang gagak -->
+          <rect x="88" y="34" width="7" height="88" fill="#A6702F"/>
+          <path d="M80,40 L84,26 L100,26 L104,40 Z" fill="#F5F1E6"/>
+          <path d="M84,26 L100,26 L98,20 L86,20 Z" fill="#D62828"/>
+          <path d="M92,20 L92,6 L108,10 L92,14" fill="#2b2b2b" stroke-width="3"/>
+          <!-- layar utama -->
+          <path d="M42,54 C68,42 116,42 140,54 C147,80 147,102 142,118 C112,128 70,128 40,118 C36,100 36,76 42,54 Z" fill="#F7F4EA"/>
+          <g stroke="#c9c2ad" stroke-width="2.2"><path d="M66,46 C62,76 62,100 65,124"/><path d="M92,42 C90,76 90,100 92,126"/><path d="M118,46 C122,76 122,100 119,124"/></g>
+          <!-- tulang bersilang -->
+          <g fill="#F7F4EA" stroke-width="3.6">
+            <path d="M58,64 C64,58 72,62 76,68 L110,104 C114,110 122,114 128,108"/>
+            <path d="M128,64 C122,58 114,62 110,68 L76,104 C72,110 64,114 58,108"/>
+            <circle cx="56" cy="62" r="6"/><circle cx="130" cy="62" r="6"/>
+            <circle cx="56" cy="110" r="6"/><circle cx="130" cy="110" r="6"/>
+          </g>
+          <!-- tengkorak + topi jerami -->
+          <circle cx="92" cy="84" r="19" fill="#fff"/>
+          <path d="M83,98 C86,104 98,104 101,98 Z" fill="#fff" stroke-width="3"/>
+          <g fill="#2b2b2b" stroke="none"><ellipse cx="85" cy="82" rx="5" ry="6"/><ellipse cx="99" cy="82" rx="5" ry="6"/></g>
+          <ellipse cx="92" cy="68" rx="24" ry="7" fill="#F2C94C" stroke-width="3"/>
+          <path d="M79,68 C79,56 86,52 92,52 C99,52 106,57 105,68 Z" fill="#F2C94C" stroke-width="3"/>
+          <path d="M79,66 C86,70 99,70 105,66 L105,61 C99,65 86,65 79,61 Z" fill="#E02020" stroke-width="2.4"/>
+          <!-- lambung kayu -->
+          <path d="M14,146 C10,168 26,186 52,192 C92,199 140,192 160,172 C166,166 168,156 167,146 Z" fill="#C08B4A"/>
+          <g stroke="#9a6a30" stroke-width="2.4"><path d="M20,160 C56,172 128,172 164,158"/><path d="M26,174 C60,184 122,184 154,172"/></g>
+          <!-- haluan -->
+          <path d="M14,146 C6,128 8,116 18,110 L30,118 C22,126 20,134 22,146 Z" fill="#C08B4A"/>
+          <!-- pagar merah-putih -->
+          <path d="M18,146 L167,146 L167,120 C120,112 60,112 22,122 Z" fill="#F7F4EA"/>
+          <g fill="#D62828" stroke-width="3">
+            <path d="M44,144 L44,120 C52,118 62,117 70,116 L70,144 Z"/>
+            <path d="M92,144 L92,114 C100,114 110,115 118,116 L118,144 Z"/>
+            <path d="M140,144 L140,118 C148,119 156,121 164,123 L164,144 Z"/>
+          </g>
+          <!-- medali angka 1 -->
+          <circle cx="120" cy="158" r="13" fill="#E8B33A"/>
+          <path d="M120,151 L120,165 M116,154 L120,150" fill="none" stroke="#8a3b12" stroke-width="3.4"/>
+          <!-- kepala singa (figurehead) -->
+          <g transform="translate(30,110)">
+            <path d="M0,-26 L7,-14 L21,-20 L17,-6 L31,0 L17,6 L21,20 L7,14 L0,26 L-7,14 L-21,20 L-17,6 L-31,0 L-17,-6 L-21,-20 L-7,-14 Z" fill="#F07A1E"/>
+            <circle cx="0" cy="0" r="14" fill="#F2C94C"/>
+            <ellipse cx="0" cy="4" rx="7" ry="5" fill="#F9E3A0" stroke-width="2.6"/>
+            <g fill="#43290f" stroke="none"><circle cx="-5" cy="-3" r="2.2"/><circle cx="5" cy="-3" r="2.2"/></g>
+          </g>
+        </g>
+      </svg>
+     </div>
     </div>
-  </footer>
-
-  <!-- ======================================================================
-       FLOATING WHATSAPP (opsional — hapus <a> ini bila tak dipakai)
-       [[ WHATSAPP: ganti nomor 62812XXXXXXX dengan nomor CS Anda (format 62...) ]]
-       ====================================================================== -->
-  <a href="https://wa.me/62895411449962?text=Hallo%20kak%20Ikhlas%2C%20saya%20mau%20Beli%20Ebook%20Ngeclip%20Cuan.%20%F0%9F%99%8F" target="_blank" rel="noopener" class="wa-float" aria-label="Chat WhatsApp">
-    <svg viewBox="0 0 32 32" aria-hidden="true">
-      <path d="M16.003 3C9.383 3 4 8.383 4 15c0 2.113.553 4.176 1.602 5.996L4 29l8.2-1.57A11.9 11.9 0 0016.003 27C22.62 27 28 21.617 28 15S22.62 3 16.003 3zm0 21.8c-1.79 0-3.55-.48-5.086-1.39l-.365-.216-4.87.932.93-4.75-.238-.377A9.77 9.77 0 016.2 15c0-5.4 4.402-9.8 9.803-9.8 5.4 0 9.797 4.4 9.797 9.8 0 5.4-4.397 9.8-9.797 9.8zm5.383-7.34c-.295-.148-1.744-.86-2.014-.96-.27-.098-.467-.147-.664.148-.196.295-.762.96-.934 1.156-.172.196-.344.22-.639.073-.295-.148-1.245-.459-2.372-1.463-.877-.782-1.47-1.748-1.642-2.043-.172-.295-.018-.454.13-.6.134-.132.295-.344.443-.516.148-.172.197-.295.295-.492.098-.196.05-.369-.025-.516-.074-.148-.664-1.6-.91-2.19-.24-.576-.483-.498-.664-.508l-.566-.01c-.196 0-.516.074-.787.369-.27.295-1.033 1.01-1.033 2.46 0 1.45 1.058 2.852 1.205 3.049.148.196 2.082 3.178 5.045 4.457.705.304 1.256.486 1.685.623.708.225 1.352.193 1.862.117.568-.085 1.744-.713 1.99-1.402.246-.688.246-1.279.172-1.402-.074-.123-.27-.196-.565-.344z"/>
+    <!-- OMBAK LAUT -->
+    <svg class="waves" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <g class="w1" fill="#0b78c4" opacity=".55"><path d="M0,62 q150,-26 300,0 t300,0 t300,0 t300,0 t300,0 t300,0 V120 H0 Z"/></g>
+      <g class="w2" fill="#0a5f9e" opacity=".8"><path d="M0,76 q150,-24 300,0 t300,0 t300,0 t300,0 t300,0 t300,0 V120 H0 Z"/></g>
+      <g fill="#083f6d"><path d="M0,96 q150,-18 300,0 t300,0 t300,0 t300,0 V120 H0 Z"/></g>
     </svg>
-  </a>
+  </div>
 
   <script>
-    // FAQ accordion (tunggal)
-    document.querySelectorAll('.faq-trigger').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var item = btn.closest('.faq-item');
-        var open = item.getAttribute('data-open') === 'true';
-        document.querySelectorAll('.faq-item').forEach(function (i) { i.setAttribute('data-open', 'false'); });
-        item.setAttribute('data-open', open ? 'false' : 'true');
-      });
-    });
-    // Carousel: drag pakai mouse di desktop (swipe di HP native)
-    document.querySelectorAll('.carousel').forEach(function (s) {
-      var down = false, startX = 0, start = 0;
-      s.addEventListener('pointerdown', function (e) { down = true; startX = e.clientX; start = s.scrollLeft; s.setPointerCapture(e.pointerId); });
-      s.addEventListener('pointermove', function (e) { if (down) s.scrollLeft = start - (e.clientX - startX); });
-      function end(){ down = false; }
-      s.addEventListener('pointerup', end); s.addEventListener('pointercancel', end); s.addEventListener('pointerleave', end);
-    });
-    // Animasi reveal
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (es) {
-        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
-    } else {
-      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
-    }
+    // Kapal bergerak perlahan ke KIRI saat halaman di-scroll ke bawah.
+    (function () {
+      var ship = document.querySelector('.ship');
+      if (!ship || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var ticking = false;
+      function update() {
+        var max = window.innerWidth * 0.75;           // batas jarak geser
+        var x = Math.min(window.scrollY * 0.25, max); // makin jauh scroll, makin ke kiri
+        ship.style.setProperty('--ship-x', (-x) + 'px');
+        ticking = false;
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      update();
+    })();
   </script>
+
 </body>
 </html>
