@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <!--
   ============================================================================
-  AI-READY BIO / LINK-IN-BIO TEMPLATE - "ZERO-G" (tema anti-gravitasi)
+  AI-READY BIO / LINK-IN-BIO TEMPLATE - "DEEP BLUE" (tema lautan lepas)
   ============================================================================
   Halaman "link in bio": foto profil + nama + bio singkat + daftar tombol tautan.
-  Bertema anti-gravitasi di dalam ruangan: perabot & peralatan melayang, debu
-  mengambang, dan SEMUA elemen (termasuk tombol) ikut melayang pelan.
+  Seluruh layar terasa terendam air: langit senja di atas permukaan, ombak
+  bergelombang yang merendam foto profil, berkas cahaya matahari yang memanjang
+  saat di-scroll, gelembung naik, dasar laut gelap berumput, dan ikan sungut
+  ganda (anglerfish) berlampu yang berenang menerangi dasar.
 
   100% SELF-CONTAINED: HTML + CSS + JS satu file, tanpa framework/CDN, jalan OFFLINE.
 
@@ -50,9 +52,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
 
   <!-- AI INSTRUCTION: Ganti <title> dengan "Nama / @username" (maks 60 karakter) -->
-  <title>@IkhlasClip - Link in Bio</title>
+  <title>@IkhlasClip</title>
   <!-- AI INSTRUCTION: 1 kalimat deskripsi singkat (maks 150 karakter) -->
-  <meta name="description" content="Belajar Menghasilkan Uang untuk Clipper Pemula." />
+  <meta name="description" content="Belajar Menghasilkan Uang untuk Clipper Pemula" />
 
   <!-- [[ FAVICON: ganti href dengan ikon Anda, mis. favicon.png ]] -->
   <link rel="icon" type="image/png" href="logo-clipper.png" />
@@ -68,25 +70,30 @@
        (Untuk AI: JANGAN hapus satu baris pun di blok :root ini.)
        ======================================================================== */
     :root {
-      /* --- WARNA TEMA --- */
-      --accent:      #8B7BFF;   /* Ungu (tombol unggulan & aksen)    */
-      --accent-2:    #46E0C8;   /* Toska (aksen sekunder)            */
-      --warm:        #FFB86B;   /* Cahaya hangat lampu ruangan       */
-      --wall-top:    #171C33;   /* Dinding atas                      */
-      --wall-bottom: #10142a;   /* Dinding bawah                     */
-      --floor:       #0C1024;   /* Lantai                            */
-      --text:        #FFFFFF;
-      --muted:       rgba(255,255,255,.64);
-      --card:        rgba(30,36,64,.78);   /* Tombol (kaca)          */
-      --card-line:   rgba(255,255,255,.14);
+      /* --- WARNA AIR (atas terang -> bawah gelap) --- */
+      --sea-1:   #7FE3EC;   /* tepat di bawah permukaan */
+      --sea-2:   #2AA7C9;
+      --sea-3:   #10618F;
+      --sea-4:   #072F55;
+      --abyss:   #03121F;   /* dasar laut gelap          */
+      --foam:    #FFFFFF;   /* buih ombak                */
+      --lamp:    #FFE9A8;   /* lampu ikan anglerfish     */
+
+      --text:    #FFFFFF;
+      --muted:   rgba(226,246,255,.78);
+      --bubble:  rgba(180,235,255,.16);  /* isi tombol gelembung */
+      --bubble-line: rgba(255,255,255,.55);
 
       /* --- FONT --- */
-      --font-body:   'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --font-body: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 
       /* --- BENTUK & UKURAN --- */
-      --radius-btn:  16px;
-      --floor-h:     9rem;    /* tinggi lantai di bawah layar */
-      --float-amp:   1;       /* kekuatan efek melayang (1 = normal, 0.5 = kalem) */
+      --radius-btn: 999px;   /* 999px = gelembung penuh */
+      --floor-h:    11rem;   /* tinggi dasar laut                    */
+      /* Tinggi LANGIT (di atas permukaan air). Garis air = tengah foto profil,
+         jadi padding konten otomatis ikut nilai ini. */
+      --sky-h:      13rem;
+      --bob:        1;       /* kekuatan gerak mengapung */
     }
     /* ======================================================================== */
     /* JANGAN UBAH KODE DI BAWAH INI KECUALI ANDA PAHAM CSS                      */
@@ -102,20 +109,22 @@
        Untuk mengganti tema, edit blok :root di ATAS, bukan blok ini.
        ---------------------------------------------------------------------- */
     html {
-      --accent:      #8B7BFF;
-      --accent-2:    #46E0C8;
-      --warm:        #FFB86B;
-      --wall-top:    #171C33;
-      --wall-bottom: #10142a;
-      --floor:       #0C1024;
+      --sea-1:       #7FE3EC;
+      --sea-2:       #2AA7C9;
+      --sea-3:       #10618F;
+      --sea-4:       #072F55;
+      --abyss:       #03121F;
+      --foam:        #FFFFFF;
+      --lamp:        #FFE9A8;
       --text:        #FFFFFF;
-      --muted:       rgba(255,255,255,.64);
-      --card:        rgba(30,36,64,.78);
-      --card-line:   rgba(255,255,255,.14);
+      --muted:       rgba(226,246,255,.78);
+      --bubble:      rgba(180,235,255,.16);
+      --bubble-line: rgba(255,255,255,.55);
       --font-body:   'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      --radius-btn:  16px;
-      --floor-h:     9rem;
-      --float-amp:   1;
+      --radius-btn:  999px;
+      --floor-h:     11rem;
+      --sky-h:       13rem;
+      --bob:         1;
     }
     /* ======================================================================== */
 
@@ -123,135 +132,188 @@
     html { -webkit-text-size-adjust: 100%; }
     body {
       font-family: var(--font-body); color: var(--text); min-height: 100vh;
-      background: linear-gradient(180deg, var(--wall-top) 0%, var(--wall-bottom) 70%, var(--floor) 100%);
-      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      /* SELURUH LAYAR TERENDAM AIR */
+      background: linear-gradient(180deg, var(--sea-1) 0%, var(--sea-2) 22%,
+                  var(--sea-3) 48%, var(--sea-4) 74%, var(--abyss) 100%);
+      -webkit-font-smoothing: antialiased; overflow-x: hidden; position: relative;
       display: flex; flex-direction: column; align-items: center;
     }
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
 
-    /* ===================== ANIMASI MELAYANG (dipakai bersama) ================= */
-    @keyframes floatY {
-      0%, 100% { transform: translateY(calc(-9px * var(--float-amp))) rotate(var(--rot-a, -2deg)); }
-      50%      { transform: translateY(calc(9px * var(--float-amp)))  rotate(var(--rot-b, 2deg)); }
-    }
-    @keyframes driftAround {
-      0%   { transform: translate(0, 0) rotate(0deg); }
-      25%  { transform: translate(calc(7px * var(--float-amp)), calc(-11px * var(--float-amp))) rotate(6deg); }
-      50%  { transform: translate(calc(-5px * var(--float-amp)), calc(-16px * var(--float-amp))) rotate(-4deg); }
-      75%  { transform: translate(calc(-8px * var(--float-amp)), calc(-6px * var(--float-amp))) rotate(3deg); }
-      100% { transform: translate(0, 0) rotate(0deg); }
-    }
-    @keyframes dustFloat {
-      0%   { transform: translate(0, 0); }
-      50%  { transform: translate(10px, -26px); }
-      100% { transform: translate(0, 0); }
-    }
-    @keyframes twinkle { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+    /* ===================== ANIMASI ========================================== */
+    @keyframes cloudDrift { from { transform: translateX(-12vw); } to { transform: translateX(112vw); } }
+    @keyframes drift    { from { transform: translateX(0); } to { transform: translateX(-600px); } }
+    @keyframes floatTilt{ 0%,100% { transform: translateY(calc(-6px * var(--bob))) rotate(-4.5deg); }
+                          50%     { transform: translateY(calc(6px * var(--bob))) rotate(2.5deg); } }
+    @keyframes bobY     { 0%,100% { transform: translateY(calc(-7px * var(--bob))); }
+                          50%     { transform: translateY(calc(7px * var(--bob))); } }
+    @keyframes bobSoft  { 0%,100% { transform: translateY(calc(-4px * var(--bob))) rotate(-1deg); }
+                          50%     { transform: translateY(calc(4px * var(--bob))) rotate(1deg); } }
+    @keyframes riseUp   { 0%   { transform: translate(0, 8vh) scale(.7); opacity: 0; }
+                          12%  { opacity: 1; }
+                          100% { transform: translate(var(--dx,20px), -104vh) scale(1.15); opacity: 0; } }
+    @keyframes shimmer  { 0%,100% { opacity: .55; transform: translateX(0) skewX(-8deg); }
+                          50%     { opacity: .95; transform: translateX(14px) skewX(-8deg); } }
+    /* Lentingan rumput laut menjalar dari pangkal ke pucuk: ruas bawah
+       berputar sedikit, ruas atas lebih besar & tertunda fasenya. */
+    @keyframes swayLo   { 0%,100% { transform: rotate(-2.4deg); } 50% { transform: rotate(2.4deg); } }
+    @keyframes swayHi   { 0%,100% { transform: rotate(-7deg); }   50% { transform: rotate(7deg); } }
+    @keyframes swim     { 0%   { transform: translateX(112vw) scaleX(1); }
+                          49%  { transform: translateX(-34vw) scaleX(1); }
+                          50%  { transform: translateX(-34vw) scaleX(-1); }
+                          99%  { transform: translateX(112vw) scaleX(-1); }
+                          100% { transform: translateX(112vw) scaleX(1); } }
+    @keyframes lampPulse{ 0%,100% { opacity: .75; } 50% { opacity: 1; } }
+    @keyframes finFlap  { 0%,100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
 
-    /* ===================== RUANGAN (dekoratif, menetap) ====================== */
-    .room { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-    /* jendela bundar / porthole */
-    .porthole { position: absolute; top: 6%; left: 50%; transform: translateX(-50%);
-      width: min(19rem, 74vw); aspect-ratio: 1; border-radius: 50%;
-      background: radial-gradient(circle at 38% 32%, #253066, #0a0e22 72%);
-      border: 6px solid rgba(255,255,255,.07);
-      box-shadow: 0 0 0 12px rgba(139,123,255,.05), inset 0 0 60px rgba(70,224,200,.10); }
-    .porthole i { position: absolute; border-radius: 50%; background: #fff;
-      animation: twinkle 3.4s ease-in-out infinite; }
-    /* garis panel dinding */
-    .panel { position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,.05); }
-    /* lantai + cahaya hangat */
-    .floor { position: absolute; left: 0; right: 0; bottom: 0; height: var(--floor-h);
-      background: linear-gradient(0deg, var(--floor) 30%, rgba(12,16,36,0)); }
-    .floor::before { content: ""; position: absolute; left: 50%; bottom: 18%; transform: translateX(-50%);
-      width: 78%; height: 60%; border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(255,184,107,.20), transparent 70%); }
-    .floor-line { position: absolute; left: 0; right: 0; bottom: calc(var(--floor-h) - 1px);
-      height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent); }
+    /* ===================== LAPISAN AIR (menetap) ============================ */
+    .sea { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 
-    /* benda-benda melayang */
-    /* PENTING: .props & .dust diberi transform oleh script, sehingga menjadi
-       containing block. Keduanya harus mengisi penuh .room agar posisi persen
-       anak-anaknya (top/left) tetap benar. */
-    .props, .dust { position: absolute; inset: 0; }
-    .prop { position: absolute; display: block; animation: driftAround 12s ease-in-out infinite; }
-    .prop svg { width: 100%; height: auto; display: block;
-      filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)); }
-    .p1 { top: 9%;  left: 4%;  width: 3.1rem; animation-duration: 13s; }
-    .p2 { top: 15%; right: 4%; width: 2.7rem; animation-duration: 16s; animation-delay: -4s; }
-    .p3 { top: 24%; left: 3%;  width: 2.4rem; animation-duration: 11s; animation-delay: -7s; }
-    .p4 { top: 40%; right: 3%; width: 3.3rem; animation-duration: 15s; animation-delay: -2s; }
-    .p5 { top: 60%; left: 4%;  width: 3rem;   animation-duration: 14s; animation-delay: -9s; }
-    .p6 { top: 68%; right: 5%; width: 2.9rem; animation-duration: 12s; animation-delay: -5s; }
-    .p7 { top: 82%; left: 8%;  width: 2.6rem; animation-duration: 17s; animation-delay: -3s; }
-    .p8 { top: 86%; right: 9%; width: 2.5rem; animation-duration: 13s; animation-delay: -8s; }
+    /* ===================== LANGIT (di atas permukaan air) =================== */
+    /* Absolut di puncak dokumen supaya selalu sejajar dengan garis air di foto. */
+    .sky { position: absolute; top: 0; left: 0; width: 100%; height: var(--sky-h); z-index: 0;
+      overflow: hidden; pointer-events: none;
+      background: linear-gradient(180deg, #163A5C 0%, #3D6E96 30%, #7FA8C2 58%,
+                  #C6C7C0 80%, #E8CBA4 94%, #F2D9B6 100%); }
+    /* cahaya matahari rendah dekat cakrawala */
+    .sun { position: absolute; right: 22%; bottom: -10%; width: 16rem; height: 16rem;
+      border-radius: 50%; filter: blur(2px);
+      background: radial-gradient(circle, rgba(255,232,190,.85) 0%, rgba(255,214,150,.35) 38%, rgba(255,214,150,0) 70%); }
+    /* awan tipis (blur, tanpa garis tepi -> tidak terkesan kartun) */
+    .cloud { position: absolute; border-radius: 50%; filter: blur(16px);
+      background: radial-gradient(ellipse at 50% 50%, rgba(255,255,255,.9), rgba(255,255,255,0) 70%);
+      animation: cloudDrift linear infinite; }
+    /* kabut tipis tepat di atas garis air */
+    .haze { position: absolute; left: 0; right: 0; bottom: 0; height: 34%;
+      background: linear-gradient(180deg, rgba(255,240,220,0), rgba(255,240,220,.55)); }
 
-    /* partikel debu */
-    .dust span { position: absolute; border-radius: 50%; background: #cfe3ff;
-      animation: dustFloat 12s ease-in-out infinite; }
+    /* ===================== BERKAS CAHAYA ==================================== */
+    /* Berkas cahaya BUKAN elemen menetap: pangkalnya dipaku pada garis air di
+       puncak dokumen, jadi ikut naik saat halaman di-scroll. Panjangnya
+       bertambah lewat --ray-grow (diatur skrip di bawah), seolah cahaya
+       matahari menembus makin dalam. */
+    .rays { position: absolute; top: var(--sky-h); left: 0; right: 0; height: 0;
+      z-index: 0; pointer-events: none; }
+    .rays i { position: absolute; top: 0; width: 12%;
+      height: calc(34vh + var(--ray-grow, 0px));
+      background: linear-gradient(180deg, rgba(255,255,255,.42) 0%,
+                  rgba(255,255,255,.18) 45%, rgba(255,255,255,0) 100%);
+      filter: blur(7px); animation: shimmer 7s ease-in-out infinite; }
 
-    /* ===================== KONTEN ============================================ */
+    /* gelembung naik */
+    .bubbles { position: absolute; top: var(--sky-h); left: 0; right: 0; bottom: 0; overflow: hidden; }
+    .bubbles span { position: absolute; bottom: -6vh; border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.95), rgba(255,255,255,.12) 42%, rgba(255,255,255,.05) 70%);
+      border: 1px solid rgba(255,255,255,.45); animation: riseUp linear infinite; }
+
+    /* ===================== DASAR LAUT (menetap di bawah) ==================== */
+    .floor { position: fixed; left: 0; bottom: 0; z-index: 0; width: 100%; height: var(--floor-h);
+      pointer-events: none; }
+    .floor svg { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; display: block; }
+    /* Tiap helai dipecah 2 ruas; masing-masing berporos di pangkalnya sendiri
+       (transform-box: view-box -> koordinat px = satuan viewBox SVG). */
+    .weed .lo, .weed .hi { transform-box: view-box; }
+    .weed .lo { animation: swayLo 5.4s ease-in-out infinite; }
+    .weed .hi { animation: swayHi 5.4s ease-in-out infinite; }
+
+    /* ===================== IKAN ANGLERFISH ================================== */
+    .angler { position: fixed; left: 0; bottom: 1.8rem; z-index: 0;
+      width: 8.5rem; pointer-events: none; animation: swim 34s linear infinite; animation-delay: -9s; }
+    .angler-in { animation: bobSoft 4.6s ease-in-out infinite; }
+    .angler svg { width: 100%; height: auto; display: block; }
+    .lamp-glow { animation: lampPulse 2.4s ease-in-out infinite; transform-origin: center; }
+    .fin { transform-origin: 20% 50%; animation: finFlap 1.1s ease-in-out infinite; }
+
+    /* ===================== KONTEN =========================================== */
     .page { position: relative; z-index: 1; width: 100%; max-width: 30rem;
-      padding: 4.5rem 1.25rem calc(var(--floor-h) + 1.5rem); text-align: center; }
+      padding: calc(var(--sky-h) - 4.3rem) 1.25rem calc(var(--floor-h) - 3.5rem); text-align: center; }
 
-    /* --- Profil (ikut melayang) --- */
-    .avatar-wrap { position: relative; width: 8.5rem; height: 8.5rem; margin: 0 auto;
-      --rot-a: -2.5deg; --rot-b: 2.5deg; animation: floatY 7s ease-in-out infinite; }
-    .avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-      border: 4px solid rgba(255,255,255,.16); background: #1b2140;
-      box-shadow: 0 0 0 8px rgba(139,123,255,.12), 0 22px 40px rgba(0,0,0,.55); }
-    /* bayangan lembut di bawah avatar agar terasa mengambang */
-    .shadow { position: absolute; left: 50%; bottom: -1.6rem; transform: translateX(-50%);
-      width: 62%; height: .7rem; border-radius: 50%; background: rgba(0,0,0,.45); filter: blur(6px);
-      animation: floatY 7s ease-in-out infinite reverse; }
+    /* --- Foto profil TERAPUNG di permukaan ombak --- */
+    /* .avatar-zone menahan posisi; ombak tetap datar sementara foto bergoyang-miring */
+    .avatar-zone { position: relative; width: 8.6rem; margin: 0 auto; }
+    /* Permukaan air = DUA lapisan yang mengapit foto:
+       .wave-back  -> air BURAM di BELAKANG foto. Ini yang membentuk batas
+                      langit-air yang berombak (menutup tepi lurus .sky).
+       .wave-front -> film air BENING di DEPAN foto. Karena tembus pandang,
+                      bagian foto yang terendam tetap kelihatan, hanya
+                      kebiruan seperti dilihat dari balik air.
+       Keduanya tetap bergelombang & beranimasi. */
+    .wave-back, .wave-front { position: absolute; top: 52%; left: 50%;
+      transform: translate(-50%, -50%); width: 100vw; height: 6.5rem;
+      pointer-events: none; }
+    .wave-back  { z-index: 1; }
+    .wave-front { z-index: 3; }
+    .wave-back svg, .wave-front svg { position: absolute; inset: 0;
+      width: 100%; height: 100%; display: block; }
+    .fw1 { animation: drift  9s linear infinite; }
+    .fw2 { animation: drift 15s linear infinite; }
+    .fw3 { animation: drift 12s linear infinite; }
+    .avatar-wrap { position: relative; z-index: 2; width: 8.6rem;
+      animation: floatTilt 6s ease-in-out infinite; }
+    .avatar { width: 8.6rem; height: 8.6rem; border-radius: 50%; object-fit: cover;
+      border: 4px solid rgba(255,255,255,.6); background: #0d4e6e;
+      box-shadow: 0 0 0 10px rgba(180,235,255,.12), 0 18px 34px rgba(2,20,40,.55); }
+    /* kilau seperti gelembung di foto */
+    .avatar-wrap::after { content: ""; position: absolute; left: 18%; top: 12%;
+      width: 30%; height: 20%; border-radius: 50%;
+      background: linear-gradient(140deg, rgba(255,255,255,.75), rgba(255,255,255,0));
+      pointer-events: none; }
 
-    .name { font-weight: 800; font-size: clamp(1.7rem, 6vw, 2.4rem); margin-top: 1.6rem;
-      letter-spacing: -.02em; }
-    .bio { margin-top: .7rem; font-size: .98rem; color: var(--muted); line-height: 1.55; }
+    .name { font-weight: 800; font-size: clamp(1.7rem, 6vw, 2.4rem); margin-top: 1.15rem;
+      letter-spacing: -.02em; text-shadow: 0 3px 14px rgba(2,26,48,.6); }
+    .bio { margin-top: .65rem; font-size: .98rem; color: var(--muted); line-height: 1.55;
+      text-shadow: 0 2px 8px rgba(2,26,48,.5); }
 
-    /* --- Tombol tautan (masing-masing melayang) --- */
-    .links { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
-    .link { position: relative; display: block; text-align: left;
-      background: var(--card); border: 1px solid var(--card-line); border-radius: var(--radius-btn);
-      padding: .95rem 1.1rem; backdrop-filter: blur(6px);
-      box-shadow: 0 16px 30px -18px rgba(0,0,0,.9);
-      animation: floatY 6.5s ease-in-out infinite;
-      transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease; }
-    /* fase berbeda supaya tidak melayang serempak */
-    .link:nth-child(2) { animation-duration: 7.6s; animation-delay: -2.2s; --rot-a: 1.6deg; --rot-b: -1.6deg; }
-    .link:nth-child(3) { animation-duration: 8.4s; animation-delay: -4.6s; --rot-a: -1.2deg; --rot-b: 2.2deg; }
-    .link:nth-child(4) { animation-duration: 7.1s; animation-delay: -1.3s; --rot-a: 2deg;    --rot-b: -1.4deg; }
-    .link:nth-child(5) { animation-duration: 8.8s; animation-delay: -3.4s; }
-    /* hover: animasi dijeda (tidak memakai transform agar tidak bentrok) */
-    .link:hover { animation-play-state: paused; background: rgba(40,48,86,.9);
-      border-color: rgba(139,123,255,.65); box-shadow: 0 18px 34px -14px rgba(139,123,255,.55); }
-    .link .t { font-weight: 700; font-size: 1.03rem; }
-    .link .s { font-size: .84rem; color: var(--muted); margin-top: .1rem; }
-    /* Varian unggulan */
-    .link.feature { background: linear-gradient(105deg, rgba(139,123,255,.92), rgba(70,224,200,.82));
-      border-color: transparent; color: #101430; }
-    .link.feature .s { color: rgba(16,20,48,.75); }
-    .link.feature:hover { background: linear-gradient(105deg, rgba(150,136,255,.96), rgba(84,232,210,.9)); }
-    /* Badge kecil */
-    .badge { position: absolute; top: .5rem; right: .7rem; background: #101430; color: #fff;
-      font-size: .62rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
-      padding: .2rem .55rem; border-radius: 999px; }
+    /* --- Tombol GELEMBUNG --- */
+    .links { margin-top: 1.9rem; display: flex; flex-direction: column; gap: 1rem; }
+    .link { position: relative; overflow: hidden; display: block; text-align: left;
+      padding: 1rem 1.5rem; border-radius: var(--radius-btn);
+      background: var(--bubble); border: 1px solid var(--bubble-line);
+      backdrop-filter: blur(4px);
+      box-shadow: inset 0 6px 14px rgba(255,255,255,.22), inset 0 -8px 16px rgba(3,30,55,.30),
+                  0 10px 22px -10px rgba(2,20,40,.75);
+      transition: box-shadow .18s ease, background-color .18s ease, border-color .18s ease; }
+    /* kilau gelembung */
+    .link::before { content: ""; position: absolute; left: 8%; top: 12%; width: 26%; height: 30%;
+      border-radius: 50%; background: linear-gradient(145deg, rgba(255,255,255,.8), rgba(255,255,255,0));
+      pointer-events: none; }
+    .link::after { content: ""; position: absolute; right: 12%; bottom: 16%; width: 10%; height: 16%;
+      border-radius: 50%; background: rgba(255,255,255,.35); pointer-events: none; }
+    .link:hover { background: rgba(180,235,255,.28);
+      border-color: rgba(255,255,255,.85);
+      box-shadow: inset 0 6px 14px rgba(255,255,255,.3), inset 0 -8px 16px rgba(3,30,55,.26),
+                  0 14px 26px -8px rgba(120,225,255,.5); }
+    .link .t { font-weight: 700; font-size: 1.03rem; text-shadow: 0 2px 6px rgba(2,26,48,.55); }
+    .link .s { font-size: .84rem; color: var(--muted); margin-top: .05rem; }
+    /* Varian unggulan: gelembung bercahaya */
+    .link.feature { background: rgba(140,240,255,.3); border-color: rgba(255,255,255,.9);
+      box-shadow: inset 0 6px 16px rgba(255,255,255,.4), inset 0 -8px 16px rgba(3,60,90,.3),
+                  0 0 26px rgba(130,235,255,.45), 0 12px 24px -10px rgba(2,20,40,.7); }
+    /* Badge */
+    .badge { position: absolute; top: .45rem; right: 1.2rem; z-index: 2;
+      background: rgba(255,255,255,.9); color: #05405e; font-size: .62rem; font-weight: 800;
+      letter-spacing: .06em; text-transform: uppercase; padding: .18rem .55rem; border-radius: 999px; }
 
-    /* --- Sosial (ikut melayang) --- */
-    .socials { margin-top: 1.9rem; display: flex; justify-content: center; gap: .7rem; }
-    .socials a { width: 2.8rem; height: 2.8rem; border-radius: 50%;
-      background: rgba(255,255,255,.08); border: 1px solid var(--card-line);
-      display: grid; place-items: center; animation: floatY 6s ease-in-out infinite;
+    /* --- Sosial: gelembung kecil --- */
+    .socials { margin-top: 1.8rem; display: flex; justify-content: center; gap: .75rem; }
+    .socials a { position: relative; width: 2.9rem; height: 2.9rem; border-radius: 50%;
+      background: var(--bubble); border: 1px solid var(--bubble-line);
+      display: grid; place-items: center;
+      box-shadow: inset 0 4px 10px rgba(255,255,255,.25), 0 8px 16px -8px rgba(2,20,40,.7);
       transition: background .18s ease, border-color .18s ease; }
-    .socials a:nth-child(2) { animation-duration: 7.2s; animation-delay: -2s; }
-    .socials a:nth-child(3) { animation-duration: 6.6s; animation-delay: -4s; }
-    .socials a:hover { animation-play-state: paused; background: rgba(139,123,255,.3);
-      border-color: rgba(139,123,255,.6); }
-    .socials svg { width: 1.3rem; height: 1.3rem; fill: #fff; }
+    .socials a::before { content: ""; position: absolute; left: 20%; top: 16%; width: 30%; height: 26%;
+      border-radius: 50%; background: linear-gradient(145deg, rgba(255,255,255,.85), rgba(255,255,255,0)); }
+    .socials a:hover { background: rgba(180,235,255,.3);
+      border-color: rgba(255,255,255,.9); }
+    .socials svg { width: 1.3rem; height: 1.3rem; fill: #fff; position: relative; }
 
     @media (prefers-reduced-motion: reduce) {
-      .prop, .dust span, .porthole i, .avatar-wrap, .shadow, .link, .socials a { animation: none; }
+      .cloud, .rays i, .bubbles span, .weed .lo, .weed .hi,
+      .angler, .angler-in, .lamp-glow, .fin, .avatar-wrap,
+      .fw1, .fw2, .fw3 { animation: none; }
+      .bubbles { display: none; }
+      .angler { left: 8%; }
     }
   </style>
 </head>
@@ -259,76 +321,293 @@
 <body>
 
   <!-- ======================================================================
-       RUANGAN ANTI-GRAVITASI (dekoratif, menetap di layar)
-       Hapus seluruh <div class="room"> ini bila tak dipakai.
+       LAUTAN (dekoratif, menetap) - hapus <div class="sea"> bila tak dipakai
        ====================================================================== -->
-  <div class="room" aria-hidden="true">
-    <!-- jendela bundar berbintang -->
-    <div class="porthole">
-      <i style="left:22%;top:30%;width:3px;height:3px;animation-delay:-.4s"></i>
-      <i style="left:64%;top:18%;width:2px;height:2px;animation-delay:-1.6s"></i>
-      <i style="left:78%;top:52%;width:3px;height:3px;animation-delay:-2.4s"></i>
-      <i style="left:34%;top:70%;width:2px;height:2px;animation-delay:-.9s"></i>
-      <i style="left:52%;top:44%;width:2px;height:2px;animation-delay:-3s"></i>
-      <i style="left:16%;top:58%;width:2px;height:2px;animation-delay:-2s"></i>
-    </div>
-    <span class="panel" style="top:34%"></span>
-    <span class="panel" style="top:58%"></span>
+  <!-- ======================================================================
+       LANGIT DI ATAS PERMUKAAN AIR (dekoratif) - hapus <div class="sky">
+       ini bila tak dipakai.
+       ====================================================================== -->
+  <div class="sky" aria-hidden="true">
+    <span class="sun"></span>
+    <span class="cloud" style="left:-14%; top:18%;  width:26rem; height:5rem;  opacity:.42; animation-duration:120s; animation-delay:-20s"></span>
+    <span class="cloud" style="left:-20%; top:38%;  width:34rem; height:6rem;  opacity:.32; animation-duration:170s; animation-delay:-90s"></span>
+    <span class="cloud" style="left:-16%; top:56%;  width:22rem; height:4rem;  opacity:.5;  animation-duration:140s; animation-delay:-55s"></span>
+    <span class="cloud" style="left:-24%; top:70%;  width:40rem; height:5rem;  opacity:.28; animation-duration:200s; animation-delay:-130s"></span>
+    <span class="haze"></span>
+  </div>
 
-    <!-- PERALATAN MELAYANG (dekoratif) -->
-    <div class="props">
-      <!-- cangkir -->
-      <span class="prop p1"><svg viewBox="0 0 48 44"><g stroke="#cfd6ff" stroke-width="3" fill="rgba(139,123,255,.28)" stroke-linejoin="round"><path d="M6,10 h26 v16 a13,13 0 0 1 -26,0 Z"/><path d="M32,14 h6 a6,6 0 0 1 0,12 h-6" fill="none"/></g></svg></span>
-      <!-- buku terbuka -->
-      <span class="prop p2"><svg viewBox="0 0 52 40"><g stroke="#9fe9dc" stroke-width="3" fill="rgba(70,224,200,.22)" stroke-linejoin="round"><path d="M26,10 C20,5 12,5 5,8 v24 c7,-3 15,-3 21,2 Z"/><path d="M26,10 C32,5 40,5 47,8 v24 c-7,-3 -15,-3 -21,2 Z"/></g></svg></span>
-      <!-- pensil -->
-      <span class="prop p3"><svg viewBox="0 0 40 44"><g stroke="#ffd8a8" stroke-width="3" stroke-linejoin="round"><path d="M12,4 h14 v26 l-7,10 -7,-10 Z" fill="rgba(255,184,107,.3)"/><path d="M12,30 h14" fill="none"/></g></svg></span>
-      <!-- tanaman dalam pot -->
-      <span class="prop p4"><svg viewBox="0 0 46 48"><g stroke="#9fe9dc" stroke-width="3" stroke-linejoin="round"><path d="M14,28 h18 l-3,16 h-12 Z" fill="rgba(255,184,107,.28)"/><path d="M23,28 C23,16 16,10 8,9 c1,10 7,17 15,19 Z" fill="rgba(70,224,200,.28)"/><path d="M23,28 C24,18 30,12 38,12 c-1,9 -7,15 -15,16 Z" fill="rgba(70,224,200,.2)"/></g></svg></span>
-      <!-- headphone -->
-      <span class="prop p5"><svg viewBox="0 0 48 44"><g stroke="#cfd6ff" stroke-width="3" fill="rgba(139,123,255,.28)" stroke-linejoin="round"><path d="M8,26 v-3 a16,16 0 0 1 32,0 v3" fill="none"/><rect x="4" y="24" width="10" height="15" rx="4"/><rect x="34" y="24" width="10" height="15" rx="4"/></g></svg></span>
-      <!-- pesawat kertas -->
-      <span class="prop p6"><svg viewBox="0 0 48 40"><g stroke="#cfd6ff" stroke-width="3" stroke-linejoin="round"><path d="M4,18 L44,4 L28,36 L22,24 Z" fill="rgba(255,255,255,.22)"/><path d="M22,24 L44,4" fill="none"/></g></svg></span>
-      <!-- jam weker -->
-      <span class="prop p7"><svg viewBox="0 0 46 46"><g stroke="#ffd8a8" stroke-width="3" fill="rgba(255,184,107,.24)" stroke-linejoin="round"><circle cx="23" cy="26" r="15"/><path d="M23,18 v8 l6,4" fill="none"/><path d="M10,10 l5,5 M36,10 l-5,5" fill="none"/></g></svg></span>
-      <!-- kacamata -->
-      <span class="prop p8"><svg viewBox="0 0 52 28"><g stroke="#9fe9dc" stroke-width="3" fill="rgba(70,224,200,.2)" stroke-linejoin="round"><circle cx="13" cy="15" r="9"/><circle cx="39" cy="15" r="9"/><path d="M22,14 h8" fill="none"/></g></svg></span>
-    </div>
+  <!-- ======================================================================
+       BERKAS CAHAYA MATAHARI (dekoratif)
+       Pangkalnya menempel di garis air pada puncak dokumen (BUKAN menetap di
+       layar), jadi ikut naik saat halaman di-scroll, sambil memanjang ke
+       kedalaman. Hapus seluruh <div class="rays"> ini bila tak dipakai.
+       ====================================================================== -->
+  <div class="rays" aria-hidden="true">
+    <i style="left:8%;  animation-delay:-1s"></i>
+    <i style="left:31%; animation-delay:-3.5s; width:9%"></i>
+    <i style="left:58%; animation-delay:-2s;  width:14%"></i>
+    <i style="left:80%; animation-delay:-5s;  width:8%"></i>
+  </div>
 
-    <!-- partikel debu melayang -->
-    <div class="dust">
-      <span style="left:44.5%;top:53.3%;width:4.8px;height:4.8px;opacity:0.37;animation-duration:13.2s;animation-delay:-4.6s"></span>
-      <span style="left:19.4%;top:49.0%;width:3.9px;height:3.9px;opacity:0.28;animation-duration:16.1s;animation-delay:-0.8s"></span>
-      <span style="left:10.5%;top:75.2%;width:4.1px;height:4.1px;opacity:0.49;animation-duration:9.4s;animation-delay:-8.8s"></span>
-      <span style="left:63.5%;top:58.2%;width:2.5px;height:2.5px;opacity:0.2;animation-duration:9.1s;animation-delay:-4.8s"></span>
-      <span style="left:19.9%;top:25.3%;width:2.1px;height:2.1px;opacity:0.45;animation-duration:13.2s;animation-delay:-4.0s"></span>
-      <span style="left:50.8%;top:60.3%;width:3.5px;height:3.5px;opacity:0.27;animation-duration:15.0s;animation-delay:-4.1s"></span>
-      <span style="left:95.8%;top:91.6%;width:4.5px;height:4.5px;opacity:0.25;animation-duration:15.4s;animation-delay:-2.8s"></span>
-      <span style="left:29.2%;top:10.2%;width:4.3px;height:4.3px;opacity:0.3;animation-duration:12.6s;animation-delay:-7.6s"></span>
-      <span style="left:92.1%;top:78.6%;width:2.0px;height:2.0px;opacity:0.33;animation-duration:10.9s;animation-delay:-8.2s"></span>
-      <span style="left:94.2%;top:39.0%;width:2.2px;height:2.2px;opacity:0.27;animation-duration:14.7s;animation-delay:-7.0s"></span>
-      <span style="left:10.2%;top:33.3%;width:4.9px;height:4.9px;opacity:0.26;animation-duration:15.8s;animation-delay:-1.1s"></span>
-      <span style="left:11.5%;top:9.3%;width:4.4px;height:4.4px;opacity:0.32;animation-duration:10.6s;animation-delay:-5.0s"></span>
-      <span style="left:19.9%;top:68.4%;width:2.4px;height:2.4px;opacity:0.31;animation-duration:14.8s;animation-delay:-1.0s"></span>
-      <span style="left:22.0%;top:27.7%;width:4.9px;height:4.9px;opacity:0.46;animation-duration:16.2s;animation-delay:-2.7s"></span>
-      <span style="left:21.8%;top:38.7%;width:4.6px;height:4.6px;opacity:0.5;animation-duration:14.8s;animation-delay:-0.9s"></span>
-      <span style="left:22.0%;top:26.7%;width:4.3px;height:4.3px;opacity:0.2;animation-duration:12.0s;animation-delay:-2.7s"></span>
-      <span style="left:10.5%;top:55.3%;width:2.7px;height:2.7px;opacity:0.33;animation-duration:14.4s;animation-delay:-3.3s"></span>
-      <span style="left:92.2%;top:46.6%;width:3.7px;height:3.7px;opacity:0.23;animation-duration:16.8s;animation-delay:-1.6s"></span>
-    </div>
+  <div class="sea" aria-hidden="true">
 
-    <span class="floor-line"></span>
-    <div class="floor"></div>
+    <!-- GELEMBUNG NAIK -->
+    <div class="bubbles">
+      <span style="left:48.8%;width:12.2px;height:12.2px;--dx:3px;opacity:0.46;animation-duration:16.2s;animation-delay:-17.6s"></span>
+      <span style="left:82.6%;width:5.9px;height:5.9px;--dx:9px;opacity:0.62;animation-duration:13.4s;animation-delay:-3.9s"></span>
+      <span style="left:42.0%;width:7.5px;height:7.5px;--dx:7px;opacity:0.67;animation-duration:10.2s;animation-delay:-16.2s"></span>
+      <span style="left:27.3%;width:8.4px;height:8.4px;--dx:6px;opacity:0.64;animation-duration:10.8s;animation-delay:-11.5s"></span>
+      <span style="left:57.4%;width:9.0px;height:9.0px;--dx:31px;opacity:0.4;animation-duration:10.0s;animation-delay:-14.1s"></span>
+      <span style="left:31.3%;width:11.3px;height:11.3px;--dx:1px;opacity:0.47;animation-duration:12.8s;animation-delay:-13.4s"></span>
+      <span style="left:37.5%;width:8.0px;height:8.0px;--dx:-17px;opacity:0.42;animation-duration:18.2s;animation-delay:-17.0s"></span>
+      <span style="left:69.6%;width:9.2px;height:9.2px;--dx:-13px;opacity:0.42;animation-duration:13.4s;animation-delay:-10.2s"></span>
+      <span style="left:69.5%;width:16.3px;height:16.3px;--dx:-24px;opacity:0.55;animation-duration:9.6s;animation-delay:-15.8s"></span>
+      <span style="left:6.9%;width:11.5px;height:11.5px;--dx:-29px;opacity:0.48;animation-duration:11.3s;animation-delay:-14.6s"></span>
+      <span style="left:92.3%;width:11.4px;height:11.4px;--dx:21px;opacity:0.56;animation-duration:13.4s;animation-delay:-11.7s"></span>
+      <span style="left:41.1%;width:7.5px;height:7.5px;--dx:31px;opacity:0.4;animation-duration:16.8s;animation-delay:-9.1s"></span>
+      <span style="left:30.8%;width:10.6px;height:10.6px;--dx:-11px;opacity:0.56;animation-duration:18.9s;animation-delay:-14.0s"></span>
+      <span style="left:79.4%;width:5.7px;height:5.7px;--dx:26px;opacity:0.59;animation-duration:16.5s;animation-delay:-8.5s"></span>
+      <span style="left:36.4%;width:6.0px;height:6.0px;--dx:-17px;opacity:0.56;animation-duration:13.1s;animation-delay:-6.8s"></span>
+      <span style="left:83.2%;width:10.3px;height:10.3px;--dx:-8px;opacity:0.27;animation-duration:10.2s;animation-delay:-10.1s"></span>
+      <span style="left:11.1%;width:9.7px;height:9.7px;--dx:31px;opacity:0.49;animation-duration:9.3s;animation-delay:-2.4s"></span>
+      <span style="left:19.3%;width:5.5px;height:5.5px;--dx:30px;opacity:0.33;animation-duration:11.9s;animation-delay:-5.8s"></span>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       DASAR LAUT GELAP (menetap di bawah)
+       ====================================================================== -->
+  <div class="floor" aria-hidden="true">
+    <svg viewBox="0 0 800 200" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="bed" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#062133"/><stop offset="1" stop-color="#010A12"/>
+        </linearGradient>
+        <radialGradient id="stone" cx="34%" cy="26%">
+          <stop offset="0" stop-color="#123047"/><stop offset="1" stop-color="#040F1A"/>
+        </radialGradient>
+      </defs>
+      <!-- gundukan pasir gelap -->
+      <path d="M0,120 C110,92 210,126 330,112 C450,98 560,124 680,106 C730,99 770,104 800,98 L800,200 L0,200 Z" fill="url(#bed)"/>
+      <!-- batu karang -->
+      <ellipse cx="145" cy="136" rx="132" ry="22" fill="url(#stone)"/>
+      <ellipse cx="648" cy="133" rx="150" ry="25" fill="url(#stone)"/>
+      <ellipse cx="408" cy="144" rx="96" ry="15" fill="url(#stone)" opacity=".9"/>
+      <!-- rumput laut: TERTANAM di pasir/batu; tiap helai 2 ruas -->
+      <g class="weed">
+        <!-- pangkal: gundukan kecil supaya helai tampak menancap di pasir -->
+        <g fill="#02121A" opacity=".9">
+          <ellipse cx="36.0" cy="113.9" rx="7" ry="3"/>
+          <ellipse cx="86.0" cy="109.7" rx="7" ry="3"/>
+          <ellipse cx="142.0" cy="110.7" rx="7" ry="3"/>
+          <ellipse cx="196.0" cy="114.0" rx="7" ry="3"/>
+          <ellipse cx="258.0" cy="116.5" rx="7" ry="3"/>
+          <ellipse cx="312.0" cy="114.8" rx="7" ry="3"/>
+          <ellipse cx="368.0" cy="109.8" rx="7" ry="3"/>
+          <ellipse cx="424.0" cy="108.7" rx="7" ry="3"/>
+          <ellipse cx="478.0" cy="110.3" rx="7" ry="3"/>
+          <ellipse cx="536.0" cy="112.7" rx="7" ry="3"/>
+          <ellipse cx="592.0" cy="110.8" rx="7" ry="3"/>
+          <ellipse cx="650.0" cy="109.0" rx="7" ry="3"/>
+          <ellipse cx="706.0" cy="104.3" rx="7" ry="3"/>
+          <ellipse cx="764.0" cy="102.3" rx="7" ry="3"/>
+        </g>
+        <g class="lo" style="transform-origin:36.0px 114.9px;animation-delay:-3.27s">
+          <path d="M36.0,114.9 C35.7,109.3 34.7,104.9 33.8,101.0" stroke="#0A3F3B" stroke-width="4.0" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:33.8px 101.0px;animation-delay:-2.62s">
+            <path d="M33.8,101.0 C32.0,96.0 27.2,91.3 28.1,87.2" stroke="#0A3F3B" stroke-width="2.4" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:86.0px 110.7px;animation-delay:-2.92s">
+          <path d="M86.0,110.7 C86.2,102.0 87.2,95.0 88.0,88.8" stroke="#083430" stroke-width="3.3" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:88.0px 88.8px;animation-delay:-2.27s">
+            <path d="M88.0,88.8 C89.5,81.0 93.8,73.5 93.0,66.9" stroke="#083430" stroke-width="2.0" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:142.0px 111.7px;animation-delay:-4.69s">
+          <path d="M142.0,111.7 C142.3,104.6 143.7,99.0 144.9,94.1" stroke="#0D5049" stroke-width="3.1" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:144.9px 94.1px;animation-delay:-4.04s">
+            <path d="M144.9,94.1 C147.1,87.7 153.4,81.8 152.2,76.5" stroke="#0D5049" stroke-width="1.9" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:196.0px 115.0px;animation-delay:-1.63s">
+          <path d="M196.0,115.0 C195.7,108.1 194.3,102.5 193.0,97.7" stroke="#0A3F3B" stroke-width="2.9" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:193.0px 97.7px;animation-delay:-0.98s">
+            <path d="M193.0,97.7 C190.8,91.5 184.3,85.6 185.6,80.4" stroke="#0A3F3B" stroke-width="1.8" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:258.0px 117.5px;animation-delay:-3.86s">
+          <path d="M258.0,117.5 C258.3,113.0 259.5,109.3 260.5,106.1" stroke="#083430" stroke-width="4.2" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:260.5px 106.1px;animation-delay:-3.21s">
+            <path d="M260.5,106.1 C262.4,102.0 267.8,98.2 266.8,94.8" stroke="#083430" stroke-width="2.5" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:312.0px 115.8px;animation-delay:-4.75s">
+          <path d="M312.0,115.8 C312.4,106.9 313.8,99.9 315.1,93.7" stroke="#0D5049" stroke-width="4.0" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:315.1px 93.7px;animation-delay:-4.10s">
+            <path d="M315.1,93.7 C317.5,85.8 324.2,78.3 322.9,71.6" stroke="#0D5049" stroke-width="2.4" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:368.0px 110.8px;animation-delay:-4.21s">
+          <path d="M368.0,110.8 C367.7,105.9 366.5,102.0 365.5,98.6" stroke="#083430" stroke-width="3.3" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:365.5px 98.6px;animation-delay:-3.56s">
+            <path d="M365.5,98.6 C363.5,94.2 358.0,90.1 359.0,86.5" stroke="#083430" stroke-width="2.0" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:424.0px 109.7px;animation-delay:-2.88s">
+          <path d="M424.0,109.7 C424.3,101.2 425.5,94.4 426.6,88.5" stroke="#115F55" stroke-width="3.6" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:426.6px 88.5px;animation-delay:-2.23s">
+            <path d="M426.6,88.5 C428.5,80.8 434.1,73.6 433.1,67.2" stroke="#115F55" stroke-width="2.1" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:478.0px 111.3px;animation-delay:-4.62s">
+          <path d="M478.0,111.3 C477.6,105.0 475.9,99.9 474.5,95.4" stroke="#0A3F3B" stroke-width="4.2" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:474.5px 95.4px;animation-delay:-3.97s">
+            <path d="M474.5,95.4 C471.8,89.7 464.2,84.3 465.6,79.6" stroke="#0A3F3B" stroke-width="2.5" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:536.0px 113.7px;animation-delay:-3.85s">
+          <path d="M536.0,113.7 C535.6,104.6 534.2,97.3 533.0,90.8" stroke="#0A3F3B" stroke-width="3.5" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:533.0px 90.8px;animation-delay:-3.20s">
+            <path d="M533.0,90.8 C530.7,82.6 524.1,74.8 525.3,68.0" stroke="#0A3F3B" stroke-width="2.1" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:592.0px 111.8px;animation-delay:-0.48s">
+          <path d="M592.0,111.8 C592.2,106.4 593.2,102.1 594.0,98.3" stroke="#083430" stroke-width="2.9" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:594.0px 98.3px;animation-delay:0.17s">
+            <path d="M594.0,98.3 C595.6,93.4 600.0,88.8 599.2,84.7" stroke="#083430" stroke-width="1.8" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:650.0px 110.0px;animation-delay:-4.15s">
+          <path d="M650.0,110.0 C650.4,101.8 652.1,95.2 653.5,89.4" stroke="#083430" stroke-width="2.8" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:653.5px 89.4px;animation-delay:-3.50s">
+            <path d="M653.5,89.4 C656.2,82.0 663.8,75.0 662.3,68.8" stroke="#083430" stroke-width="1.7" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:706.0px 105.3px;animation-delay:-3.88s">
+          <path d="M706.0,105.3 C705.7,96.7 704.4,89.8 703.2,83.8" stroke="#083430" stroke-width="4.3" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:703.2px 83.8px;animation-delay:-3.23s">
+            <path d="M703.2,83.8 C701.1,76.0 695.0,68.7 696.1,62.3" stroke="#083430" stroke-width="2.6" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g class="lo" style="transform-origin:764.0px 103.3px;animation-delay:-0.04s">
+          <path d="M764.0,103.3 C764.3,97.3 765.5,92.5 766.6,88.3" stroke="#115F55" stroke-width="4.8" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <g class="hi" style="transform-origin:766.6px 88.3px;animation-delay:0.61s">
+            <path d="M766.6,88.3 C768.5,82.9 774.1,77.8 773.0,73.3" stroke="#115F55" stroke-width="2.9" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ======================================================================
+       IKAN ANGLERFISH BERLAMPU (berenang menerangi dasar laut)
+       Hapus seluruh <div class="angler"> ini bila tak dipakai.
+       ====================================================================== -->
+  <div class="angler" aria-hidden="true">
+    <div class="angler-in">
+      <svg viewBox="0 0 260 150">
+        <defs>
+          <radialGradient id="lampG" cx="50%" cy="50%">
+            <stop offset="0" stop-color="#FFF6D5" stop-opacity="1"/>
+            <stop offset="35%" stop-color="#FFE9A8" stop-opacity=".65"/>
+            <stop offset="100%" stop-color="#FFE9A8" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="fish" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2A4A63"/><stop offset="1" stop-color="#0A1C2C"/>
+          </linearGradient>
+        </defs>
+
+        <!-- halo cahaya (membaur ke segala arah, tanpa kerucut sorot) -->
+        <circle class="lamp-glow" cx="44" cy="40" r="46" fill="url(#lampG)"/>
+
+        <!-- ekor -->
+        <path class="fin" d="M214,72 C238,50 254,58 250,74 C254,92 238,100 214,80 Z" fill="#12293D"/>
+        <!-- badan -->
+        <path d="M84,74 C88,40 122,26 156,32 C196,39 218,58 218,76 C218,96 194,114 154,118 C118,122 88,106 84,74 Z" fill="url(#fish)"/>
+        <!-- sirip punggung & bawah -->
+        <path class="fin" d="M150,32 C158,14 176,10 184,20 C172,22 162,28 156,36 Z" fill="#12293D"/>
+        <path d="M132,116 C126,132 138,142 150,136 C142,132 138,124 138,116 Z" fill="#12293D"/>
+        <!-- perut lebih terang -->
+        <path d="M96,88 C112,110 150,118 186,106 C154,116 116,108 96,88 Z" fill="#17364C" opacity=".9"/>
+
+        <!-- mulut & gigi -->
+        <path d="M84,74 C90,88 106,98 124,100 L120,108 C96,106 82,92 78,80 Z" fill="#07121C"/>
+        <g fill="#EAF6FF">
+          <path d="M88,80 l6,9 4,-8 Z"/><path d="M99,87 l6,9 4,-8 Z"/><path d="M110,93 l6,8 4,-7 Z"/>
+          <path d="M92,94 l5,-8 5,8 Z"/><path d="M104,99 l5,-8 5,8 Z"/>
+        </g>
+        <!-- mata -->
+        <circle cx="112" cy="62" r="9" fill="#EAF6FF"/>
+        <circle cx="114" cy="62" r="4.6" fill="#08151F"/>
+        <circle cx="110" cy="59" r="1.8" fill="#fff"/>
+
+        <!-- tangkai lampu (illicium) -->
+        <path d="M136,34 C120,10 84,6 56,26 C48,32 44,36 44,40" stroke="#16324A" stroke-width="6"
+              fill="none" stroke-linecap="round"/>
+        <!-- bola lampu -->
+        <circle cx="44" cy="40" r="11" fill="#FFF2C9"/>
+        <circle cx="44" cy="40" r="6.5" fill="#FFFDF2"/>
+      </svg>
+    </div>
   </div>
 
   <main class="page">
     <!-- ====================================================================
-         PROFIL
+         PROFIL (mengapung)
          ==================================================================== -->
-    <div class="avatar-wrap">
-      <!-- [[ FOTO PROFIL: ganti src dengan foto Anda, mis. profil.jpg ]] -->
-      <img class="avatar" src="logo-clipper.png" alt="Foto profil" />
-      <span class="shadow" aria-hidden="true"></span>
+    <div class="avatar-zone">
+      <div class="avatar-wrap">
+        <!-- [[ FOTO PROFIL: ganti src dengan foto Anda, mis. profil.jpg ]] -->
+        <img class="avatar" src="logo-clipper.png" alt="Foto profil" />
+      </div>
+      <!-- ====================================================================
+           PERMUKAAN AIR - dua lapisan yang MENGAPIT foto profil.
+           .wave-back  : air buram di BELAKANG foto. Lapisan inilah yang
+                         membentuk batas langit-air yang berombak.
+           .wave-front : film air BENING di DEPAN foto, jadi bagian foto yang
+                         terendam TETAP TERLIHAT, hanya kebiruan seperti
+                         dilihat dari balik air.
+           Keduanya bergelombang dan hanyut dengan irama berbeda.
+           ==================================================================== -->
+      <span class="wave-back" aria-hidden="true">
+        <svg viewBox="0 0 1200 88" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="wvBack" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0"   stop-color="#CFF4FA" stop-opacity="1"/>
+              <stop offset=".42" stop-color="#86E5EE" stop-opacity="1"/>
+              <stop offset=".78" stop-color="#4FC3D8" stop-opacity=".9"/>
+              <stop offset="1"   stop-color="#2AA7C9" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="wvSwell" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0"   stop-color="#B6EFF8" stop-opacity="1"/>
+              <stop offset=".46" stop-color="#5FCFE2" stop-opacity="1"/>
+              <stop offset=".80" stop-color="#35B0CC" stop-opacity=".92"/>
+              <stop offset="1"   stop-color="#2AA7C9" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- riak kecil & rapat -->
+          <g class="fw1"><path fill="url(#wvBack)" d="M0,34 q75,-12 150,0 t150,0 t150,0 t150,0 t150,0 t150,0 t150,0 t150,0 t150,0 t150,0 t150,0 t150,0 t150,0 t150,0 t150,0 t150,0 V88 H0 Z"/></g>
+          <!-- ombak besar -->
+          <g class="fw2"><path fill="url(#wvSwell)" d="M0,29 q150,-15 300,0 t300,0 t300,0 t300,0 t300,0 t300,0 t300,0 t300,0 V88 H0 Z"/></g>
+        </svg>
+      </span>
+      <span class="wave-front" aria-hidden="true">
+        <svg viewBox="0 0 1200 88" preserveAspectRatio="none">
+          <defs>
+            <!-- Tembus pandang: pekat tipis di garis permukaan, lalu makin
+                 bening ke bawah supaya foto di baliknya tetap terbaca. -->
+            <linearGradient id="wvFilm" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0"    stop-color="#EAFDFF" stop-opacity=".92"/>
+              <stop offset=".085" stop-color="#B9F0F9" stop-opacity=".62"/>
+              <stop offset=".38"  stop-color="#6FD6E8" stop-opacity=".34"/>
+              <stop offset=".75"  stop-color="#3FB6D2" stop-opacity=".26"/>
+              <stop offset="1"    stop-color="#2AA7C9" stop-opacity=".16"/>
+            </linearGradient>
+          </defs>
+          <g class="fw3"><path fill="url(#wvFilm)" d="M0,33 q100,-13 200,0 t200,0 t200,0 t200,0 t200,0 t200,0 t200,0 t200,0 t200,0 t200,0 t200,0 t200,0 V88 H0 Z"/></g>
+        </svg>
+      </span>
     </div>
 
     <!-- AI INSTRUCTION: Nama tampilan - BEBAS: bisa "@username" ATAU nama biasa (boleh emoji) -->
@@ -339,12 +618,11 @@
     <!-- ====================================================================
          TOMBOL TAUTAN - untuk menambah tautan, DUPLIKAT seluruh blok
          <a class="link"> ... </a>. Jangan ubah nama class.
-         Kelas "feature" = tombol unggulan (pakai di satu tombol saja).
+         Kelas "feature" = gelembung unggulan (pakai di satu tombol saja).
          ==================================================================== -->
     <div class="links">
       <a href="https://joinbib.id/clipper/cara-jadi-clipper" class="link feature">
         <!-- AI INSTRUCTION: Label badge, 1-2 kata (mis. "Utama"). Hapus <span> ini bila tak perlu. -->
-        <span class="badge">Utama</span>
         <!-- AI INSTRUCTION: Judul tautan 1 (maks 4 kata) -->
         <div class="t">Cara Jadi Clipper</div>
         <!-- AI INSTRUCTION: Keterangan singkat tautan 1 (maks 8 kata) -->
@@ -363,27 +641,19 @@
         <div class="s">Lebih Cuan dari Lokal</div>
       </a>
       <a href="https://joinbib.id/sisi-gelap-ai" class="link">
-        <!-- AI INSTRUCTION: Judul tautan 4 -->
         <div class="t">Sisi Gelap AI Clipper</div>
-        <!-- AI INSTRUCTION: Keterangan singkat tautan 4 -->
         <div class="s">AI Bisa Bikin Akunmu Mati</div>
       </a>
       <a href="https://joinbib.id/clipper/ngeclip-cuan" class="link">
-        <!-- AI INSTRUCTION: Judul tautan 5 -->
         <div class="t">E-Book Ngeclip Cuan</div>
-        <!-- AI INSTRUCTION: Keterangan singkat tautan 5 -->
         <div class="s">Belajar Menghasilkan dari 0</div>
       </a>
       <a href="https://joinbib.id/" class="link">
-        <!-- AI INSTRUCTION: Judul tautan 6 -->
         <div class="t">Sistem BiB (Bisnis In a Box)</div>
-        <!-- AI INSTRUCTION: Keterangan singkat tautan 6 -->
         <div class="s">Panduan Lengkap Bangun Bisnis Digital</div>
       </a>
       <a href="https://whatsapp.com/channel/0029VbD3xRK6LwHdluqg330X" class="link">
-        <!-- AI INSTRUCTION: Judul tautan 7 -->
         <div class="t">Gabung WA Channel (Gratis)</div>
-        <!-- AI INSTRUCTION: Keterangan singkat tautan 7 -->
         <div class="s">Berbagai Wawasan Harian Seputar Clipper</div>
       </a>
     </div>
@@ -396,23 +666,29 @@
     </div>
   </main>
 
+  <!-- ======================================================================
+       SKRIP DEKORATIF: memanjangkan berkas cahaya sesuai posisi scroll,
+       supaya cahaya terasa menembus makin dalam (bukan tempelan diam).
+       Hapus seluruh <script> ini bila tak dipakai.
+       ====================================================================== -->
   <script>
-    // Benda melayang bergeser halus saat halaman di-scroll (kesan tanpa gravitasi).
     (function () {
-      var props = document.querySelector('.props');
-      var dust = document.querySelector('.dust');
-      if (!props || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var ticking = false;
-      function update() {
-        var y = window.scrollY;
-        props.style.transform = 'translateY(' + (y * -0.06).toFixed(1) + 'px)';
-        if (dust) dust.style.transform = 'translateY(' + (y * -0.12).toFixed(1) + 'px)';
-        ticking = false;
+      var rays = document.querySelector('.rays');
+      if (!rays) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var queued = false;
+      function apply() {
+        queued = false;
+        var doc = document.documentElement;
+        var max = Math.max(doc.scrollHeight - window.innerHeight, 0);
+        var grow = Math.min(window.pageYOffset, max) * 1.35;
+        rays.style.setProperty('--ray-grow', grow.toFixed(1) + 'px');
       }
       window.addEventListener('scroll', function () {
-        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+        if (!queued) { queued = true; requestAnimationFrame(apply); }
       }, { passive: true });
-      update();
+      window.addEventListener('resize', apply, { passive: true });
+      apply();
     })();
   </script>
 </body>
