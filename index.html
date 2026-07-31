@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!--
   ============================================================================
-  AI-READY LANDING PAGE TEMPLATE #3 · "AIRY" (Dropbox-inspired, clean & airy)
+  AI-READY LANDING PAGE TEMPLATE #4 · "PULSE" (Spotify-inspired, interactive)
   ============================================================================
-  Single-product landing page: banyak ruang kosong (whitespace), tipografi tebal
-  membulat, transisi latar krem -> putih -> hitam. Aksen biru cerah.
-  Cocok untuk software, jasa, kelas, membership, atau produk apa pun.
+  Single-product landing page yang "hidup": warna latar berubah mulus saat scroll
+  (hitam -> hijau -> biru -> hitam), kartu bertumpuk (sticky stacking), headline
+  kata berganti otomatis, dan gambar hero berbentuk lingkaran. Aksen hijau Spotify.
 
   100% SELF-CONTAINED: HTML + CSS + JS dalam satu file. TANPA framework/CDN,
   jadi tetap tampil sempurna & responsif walau dibuka OFFLINE.
@@ -23,18 +23,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- AI INSTRUCTION: Ganti <title> dengan "Nama Produk – Janji singkat" (maks 60 karakter) -->
-  <title>Ngeclip Cuan – Hasilkan Cuan dari Potongan Video</title>
+  <title>Ngeclip Cuan – Blueprint Clipper Profesional Pemula</title>
 
   <!-- AI INSTRUCTION: Ganti description dengan 1 kalimat manfaat utama (maks 155 karakter) -->
-  <meta name="description" content="Blueprint lengkap untuk pemula menjadi Clipper profesional. Kuasai strategi, sistem editing, dan rahasia algoritma untuk mulai menghasilkan hari ini." />
+  <meta name="description" content="Ubah potongan video panjang menjadi mesin pencetak uang harian dengan strategi, sistem, dan rahasia retensi tinggi khusus clipper profesional." />
 
   <!-- [[ FAVICON: ganti href dengan file ikon Anda, mis. favicon.png (32x32) ]] -->
   <link rel="icon" type="image/png" href="logo-clipper.png" />
 
-  <!-- Font: Poppins (opsional, Google Fonts). Bila internet mati, pakai font sistem. -->
+  <!-- Font: Montserrat (tebal/black) — opsional, Google Fonts. Bila mati, pakai font sistem. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
     /* ========================================================================
@@ -42,38 +42,29 @@
        ======================================================================== */
     :root {
       /* --- WARNA AKSEN & TOMBOL --- */
-      --brand:        #0061FF;  /* Biru cerah (tombol utama) */
-      --brand-hover:  #0049c4;
+      --brand:        #1DB954;  /* Hijau Spotify (tombol utama, teks hitam)  */
+      --brand-hover:  #1ed760;
 
-      /* --- SECTION KREM (hero) --- */
-      --cream-bg:     #FAF7F2;
+      /* --- WARNA LATAR (transisi saat scroll) --- */
+      --bg-black:     #000000;
+      --bg-green:     #0b3d2e;  /* Hijau gelap (section testimoni)   */
+      --bg-blue:      #1a56db;  /* Biru cerah (section highlight)    */
 
-      /* --- SECTION TERANG (putih) --- */
-      --light-bg:     #ffffff;
-      --light-text:   #1a1614;
-      --light-muted:  #6b6b6b;
-      --light-card:   #F4F1EC;
-      --light-border: #e7e3db;
-
-      /* --- SECTION GELAP (hitam) --- */
-      --dark-bg:      #0e0e0f;
-      --dark-text:    #ffffff;
-      --dark-muted:   #a7a7ad;
-      --dark-card:    #1b1b1e;
-      --dark-border:  #2d2d31;
+      /* --- WARNA KARTU BERTUMPUK (sticky stacking) --- */
+      --stack-1: #7c3aed;  /* ungu   */
+      --stack-2: #1DB954;  /* hijau  */
+      --stack-3: #f97316;  /* oranye */
 
       /* --- FONT --- */
-      --font-heading: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      --font-body:    'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --font-heading: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --font-body:    'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 
-      /* --- BENTUK (Dropbox = sudut membulat) --- */
-      --radius-btn:   10px;
-      --radius-card:  24px;
-      --section-round: clamp(1.75rem, 5vw, 3rem); /* Lengkung sudut section gelap */
+      /* --- BENTUK (Spotify = pill & sudut besar) --- */
+      --radius-pill:  999px;
+      --radius-card:  1.75rem;
 
-      /* --- GAMBAR PRODUK (hero): rasio asli dipertahankan, hanya dibatasi --- */
-      --hero-img-max-w: 62rem;
-      --hero-img-max-h: 36rem;
+      /* --- GAMBAR HERO (bentuk asli, tinggi dibatasi) --- */
+      --hero-media-h: 22rem;  /* Batas tinggi gambar hero; lebar ikut rasio asli */
     }
     /* ======================================================================== */
     /* JANGAN UBAH KODE DI BAWAH INI KECUALI ANDA PAHAM CSS (mobile-first)       */
@@ -81,135 +72,119 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-    body { font-family: var(--font-body); line-height: 1.6; color: var(--light-text); -webkit-font-smoothing: antialiased; overflow-x: hidden; background: var(--light-bg); }
+    body {
+      font-family: var(--font-body); line-height: 1.6; color: var(--text);
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      background-color: var(--bg-black);
+      transition: background-color .7s ease;   /* transisi warna latar saat scroll */
+    }
     img, svg { max-width: 100%; display: block; }
     a { color: inherit; text-decoration: none; }
     button { font: inherit; cursor: pointer; }
-    h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.08; font-weight: 800; letter-spacing: -0.02em; }
+    h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.02; font-weight: 900; letter-spacing: -0.02em; }
 
-    /* --- Container --- */
-    .wrap { width: 100%; max-width: 80rem; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem; }
+    .wrap { width: 100%; max-width: 78rem; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem; }
     @media (min-width: 768px) { .wrap { padding-left: 2.5rem; padding-right: 2.5rem; } }
     .pad { padding-top: 5rem; padding-bottom: 5rem; }
     @media (min-width: 768px) { .pad { padding-top: 7rem; padding-bottom: 7rem; } }
-    .narrow { max-width: 46rem; margin-left: auto; margin-right: auto; }
+    .narrow { max-width: 48rem; margin-left: auto; margin-right: auto; }
     .center { text-align: center; }
+    .muted { color: var(--muted); }
     #cta-akhir { scroll-margin-top: 5rem; }
 
-    /* --- Tema section --- */
-    .sec-cream { background: var(--cream-bg); }
-    .sec-light { background: var(--light-bg); }
-    .sec-dark  { background: var(--dark-bg); color: var(--dark-text); }
-    .sec-cream .muted, .sec-light .muted { color: var(--light-muted); }
-    .sec-dark  .muted { color: var(--dark-muted); }
-    /* Sudut melengkung section gelap (latar terang mengintip di sudut) */
-    .round-top    { border-top-left-radius: var(--section-round); border-top-right-radius: var(--section-round); }
-    .round-bottom { border-bottom-left-radius: var(--section-round); border-bottom-right-radius: var(--section-round); }
+    .h1 { font-size: clamp(2.6rem, 9vw, 5.5rem); text-transform: none; }
+    .h2 { font-size: clamp(2rem, 6vw, 3.75rem); }
+    .lead { font-size: clamp(1.05rem, 2.3vw, 1.4rem); }
 
-    /* --- Tipografi responsif --- */
-    .h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 900; }
-    .h2 { font-size: clamp(2rem, 5vw, 3.25rem); }
-    .lead { font-size: clamp(1.05rem, 2.2vw, 1.35rem); }
-
-    /* --- Tombol --- */
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; font-weight: 600; padding: .95rem 1.6rem; border: 2px solid transparent; border-radius: var(--radius-btn); transition: transform .12s ease, background-color .12s ease, opacity .12s ease; }
-    .btn:hover { transform: translateY(-1px); }
-    .btn-primary { background: var(--brand); color: #fff; border-color: var(--brand); }
+    /* --- Tombol pill --- */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; font-weight: 800;
+      padding: .95rem 2rem; border: 2px solid transparent; border-radius: var(--radius-pill);
+      transition: transform .12s ease, background-color .12s ease; }
+    .btn:hover { transform: scale(1.04); }
+    .btn-primary { background: var(--brand); color: #000; border-color: var(--brand); }
     .btn-primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
-    .btn-lg { padding: 1.1rem 2rem; font-size: 1.05rem; }
-    /* Ghost: garis tepi menyesuaikan latar */
-    .sec-cream .btn-ghost, .sec-light .btn-ghost { background: transparent; color: var(--light-text); border-color: var(--light-text); }
-    .sec-cream .btn-ghost:hover, .sec-light .btn-ghost:hover { background: var(--light-text); color: #fff; }
-    .sec-dark .btn-ghost { background: transparent; color: #fff; border-color: #fff; }
-    .sec-dark .btn-ghost:hover { background: #fff; color: #000; }
-    .btn .arrow { font-size: 1.1em; line-height: 1; }
-    /* Link tersier (teks + panah, garis bawah tebal) */
-    .link-arrow { display: inline-flex; align-items: center; gap: .35rem; font-weight: 700; color: var(--brand); border-bottom: 2px solid var(--brand); padding-bottom: 2px; }
+    .btn-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,.6); }
+    .btn-outline:hover { border-color: #fff; }
+    .btn-lg { padding: 1.05rem 2.4rem; font-size: 1.05rem; }
+    .btn-sm { padding: .6rem 1.3rem; font-size: .92rem; }
 
     /* --- Navbar --- */
-    .nav { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--cream-bg) 90%, transparent); backdrop-filter: blur(10px); }
-    .nav-inner { height: 4.5rem; display: flex; align-items: center; justify-content: space-between; }
-    .brand { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; }
-    .brand-logo { height: 2rem; width: auto; }
+    .nav { position: sticky; top: 0; z-index: 50; background: rgba(0,0,0,.7); backdrop-filter: blur(10px); }
+    .nav-inner { height: 4.25rem; display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.03em; }
+    .brand-logo { height: 1.9rem; width: auto; }
 
-    /* --- Hero image (rasio asli, dibatasi) --- */
-    .hero-img { margin: 0 auto; width: auto; height: auto; max-width: min(100%, var(--hero-img-max-w)); max-height: var(--hero-img-max-h); border-radius: var(--radius-card); box-shadow: 0 40px 80px -30px rgba(0,0,0,.3); }
+    /* --- Hero lingkaran + teks dinamis --- */
+    /* Gambar hero: tampil sesuai BENTUK ASLI (tidak dipotong), hanya tinggi dibatasi */
+    .hero-media { display: block; margin: 0 auto; width: auto; height: auto; max-width: min(100%, 40rem); max-height: var(--hero-media-h); border-radius: var(--radius-card); }
+    .rotate { color: var(--brand); display: inline-block; transition: opacity .3s ease, transform .3s ease; }
 
-    /* --- Ikon fitur --- */
-    .ico { width: 3rem; height: 3rem; display: grid; place-items: center; border-radius: 14px; background: color-mix(in srgb, var(--brand) 12%, transparent); }
-    .ico svg { width: 1.5rem; height: 1.5rem; stroke: var(--brand); fill: none; stroke-width: 2; }
+    /* --- Daftar fitur --- */
+    .flist { display: flex; flex-direction: column; gap: 1.4rem; max-width: 44rem; margin: 0 auto; }
+    .fitem { display: flex; gap: 1rem; align-items: flex-start; }
+    .fitem .fico { flex-shrink: 0; width: 2rem; height: 2rem; color: var(--brand); }
+    .fitem .fico svg { width: 2rem; height: 2rem; stroke: var(--brand); fill: none; stroke-width: 2.2; }
+    .fitem h3 { font-size: 1.2rem; font-weight: 800; }
 
-    /* --- Baris fitur bergantian (gambar + teks) --- */
-    .feature-row { display: flex; flex-direction: column; gap: 2rem; align-items: center; }
-    .feature-row + .feature-row { margin-top: 4.5rem; }
-    .feature-row .col { width: 100%; }
-    /* Visual fitur = ILUSTRASI VEKTOR (inline SVG), bukan foto produk. */
-    .feature-visual { width: 100%; aspect-ratio: 4 / 3; border-radius: var(--radius-card);
-      background: color-mix(in srgb, var(--brand) 8%, var(--light-card)); display: grid; place-items: center; overflow: hidden; }
-    .feature-visual svg { width: 46%; height: 46%; stroke: var(--brand); fill: none; stroke-width: 1.6;
-      stroke-linecap: round; stroke-linejoin: round; opacity: .92; }
-    @media (min-width: 768px) {
-      .feature-row { flex-direction: row; gap: 4rem; }
-      .feature-row.reverse { flex-direction: row-reverse; }
-      .feature-row .col { width: 50%; }
-    }
+    /* --- Kartu bertumpuk (sticky stacking) --- */
+    .stack { display: flex; flex-direction: column; gap: 1.5rem; }
+    .stack-card { position: sticky; border-radius: var(--radius-card); padding: 2.5rem; min-height: 66vh;
+      display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 -10px 40px rgba(0,0,0,.35); }
+    .stack-card:nth-child(1) { top: 5rem;   background: var(--stack-1); color: #fff; }
+    .stack-card:nth-child(2) { top: 6.25rem; background: var(--stack-2); color: #06210f; }
+    .stack-card:nth-child(3) { top: 7.5rem; background: var(--stack-3); color: #2a1200; }
+    .stack-card .kicker { font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; opacity: .8; }
+    .stack-card h3 { font-size: clamp(1.9rem, 5vw, 3rem); margin-top: .5rem; }
+    .stack-card p { font-size: 1.1rem; margin-top: .75rem; max-width: 32rem; opacity: .9; }
 
-    /* --- Kartu (use case / cocok untuk) --- */
-    .grid { display: grid; gap: 1.5rem; }
-    .g1 { grid-template-columns: 1fr; }
-    @media (min-width: 640px) { .g2 { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 900px) { .g3 { grid-template-columns: repeat(3, 1fr); } }
-    .card-light { background: var(--light-card); border-radius: var(--radius-card); padding: 2rem; }
-    .card-light h3 { font-size: 1.3rem; margin-bottom: .5rem; }
+    /* --- Testimoni gambar (grid, tiap kartu memeluk gambarnya) --- */
+    .tgrid { display: grid; gap: 1.25rem; grid-template-columns: 1fr; align-items: start; }
+    @media (min-width: 640px) { .tgrid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px) { .tgrid { grid-template-columns: repeat(3, 1fr); } }
+    .testi-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-card); padding: .55rem; }
+    .testi-img { width: 100%; height: auto; border-radius: 1.25rem; display: block; }
 
-    /* --- Testimoni gambar (kartu gelap, bingkai minimalis) --- */
-    .card-dark { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: var(--radius-card); padding: .6rem; }
-    .testi-img { width: 100%; height: auto; border-radius: 18px; display: block; pointer-events: none; }
-
-    /* --- Slider testimoni (geser manual kanan-kiri) --- */
-    .testi-slider { display: flex; align-items: center; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch; padding: .25rem .25rem 1rem; cursor: grab; scrollbar-width: thin;
-      scrollbar-color: var(--dark-border) transparent; }
-    .testi-slider:active { cursor: grabbing; }
-    .testi-slider > .card-dark { scroll-snap-align: center; flex: 0 0 82%; }
-    @media (min-width: 640px) { .testi-slider > .card-dark { flex: 0 0 47%; } }
-    @media (min-width: 900px) { .testi-slider > .card-dark { flex: 0 0 31.5%; } }
-    .testi-slider::-webkit-scrollbar { height: 6px; }
-    .testi-slider::-webkit-scrollbar-thumb { background: var(--dark-border); border-radius: 999px; }
-    /* Petunjuk geser */
-    .slide-hint { display: inline-flex; align-items: center; gap: .5rem; color: var(--dark-muted); font-size: .9rem; font-weight: 600; }
-    .slide-hint .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--dark-muted); opacity: .5; }
-    @keyframes hintNudge { 0%,100%{transform:translateX(0)} 50%{transform:translateX(6px)} }
-    @media (prefers-reduced-motion: no-preference) { .slide-hint .swipe { animation: hintNudge 1.4s ease-in-out infinite; } }
+    /* --- Highlight (biru): kartu "cocok untuk" --- */
+    .use-grid { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+    @media (min-width: 768px) { .use-grid { grid-template-columns: repeat(3, 1fr); } }
+    .use-card { background: rgba(255,255,255,.14); border-radius: var(--radius-card); padding: 1.75rem; }
+    .use-card h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: .4rem; }
 
     /* --- FAQ --- */
-    .faq { display: flex; flex-direction: column; gap: .75rem; }
-    .faq-item { border: 1px solid var(--light-border); border-radius: var(--radius-card); overflow: hidden; background: var(--light-bg); }
-    .faq-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; text-align: left; padding: 1.35rem 1.6rem; background: none; border: none; color: inherit; font-weight: 700; font-size: 1.05rem; }
-    .faq-icon { font-size: 1.6rem; line-height: 1; flex-shrink: 0; color: var(--brand); transition: transform .25s ease; }
+    .faq { display: flex; flex-direction: column; gap: .75rem; max-width: 50rem; margin: 0 auto; }
+    .faq-item { border: 1px solid var(--card-border); border-radius: var(--radius-card); overflow: hidden; }
+    .faq-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; text-align: left; padding: 1.3rem 1.6rem; background: none; border: none; color: inherit; font-weight: 800; font-size: 1.05rem; }
+    .faq-icon { font-size: 1.6rem; line-height: 1; color: var(--brand); flex-shrink: 0; transition: transform .25s ease; }
     .faq-answer { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
-    .faq-answer p { padding: 0 1.6rem 1.35rem; color: var(--light-muted); }
+    .faq-answer p { padding: 0 1.6rem 1.3rem; color: var(--muted); }
     .faq-item[data-open="true"] .faq-answer { max-height: 420px; }
     .faq-item[data-open="true"] .faq-icon { transform: rotate(45deg); }
 
-    /* --- Harga --- */
-    .price-old { font-size: 1.35rem; color: var(--light-muted); text-decoration: line-through; }
-    .price-new { font-size: clamp(2.5rem, 7vw, 3.5rem); font-weight: 900; letter-spacing: -0.02em; }
+    /* --- Harga (glow) --- */
+    .price-wrap { position: relative; }
+    .price-wrap::before { content: ""; position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+      width: 60%; height: 50%; background: radial-gradient(50% 50% at 50% 50%, color-mix(in srgb, var(--brand) 45%, transparent), transparent 70%);
+      filter: blur(40px); z-index: 0; pointer-events: none; }
+    .price-card { position: relative; z-index: 1; border: 1px solid var(--card-border); border-radius: var(--radius-card);
+      background: #0a0a0a; padding: 2.5rem 2rem; max-width: 32rem; margin: 0 auto; }
+    .price-old { font-size: 1.3rem; color: var(--muted); text-decoration: line-through; }
+    .price-new { font-size: clamp(2.6rem, 8vw, 3.75rem); font-weight: 900; letter-spacing: -0.02em; }
 
     /* --- Footer --- */
     .footer-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
     @media (min-width: 640px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
-    .footer-col h4 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--dark-muted); margin-bottom: 1rem; }
-    .footer-col a { display: block; padding: .3rem 0; color: var(--dark-text); opacity: .85; }
+    .footer-col h4 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 1rem; }
+    .footer-col a { display: block; padding: .3rem 0; opacity: .85; }
     .footer-col a:hover { opacity: 1; }
-    .footer-bottom { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--dark-border); font-size: .9rem; color: var(--dark-muted); }
+    .socials { display: flex; gap: .75rem; margin-top: 1rem; }
+    .socials a { width: 2.5rem; height: 2.5rem; border-radius: 999px; background: rgba(255,255,255,.1); display: grid; place-items: center; }
+    .footer-bottom { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border); font-size: .9rem; color: var(--muted); }
 
     /* --- Floating WhatsApp --- */
-    .wa-float { position: fixed; z-index: 40; right: 1rem; bottom: 1.5rem; width: 3.5rem; height: 3.5rem; border-radius: 999px; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,.3); transition: transform .15s ease; }
+    .wa-float { position: fixed; z-index: 50; right: 1rem; bottom: 1.5rem; width: 3.5rem; height: 3.5rem; border-radius: 999px; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,.5); transition: transform .15s ease; }
     .wa-float:hover { transform: scale(1.05); }
     .wa-float svg { width: 1.75rem; height: 1.75rem; fill: #fff; }
 
-    /* --- Utility spasi --- */
     .mt-3{margin-top:.75rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.mt-6{margin-top:1.5rem}
     .mt-8{margin-top:2rem}.mt-10{margin-top:2.5rem}.mt-12{margin-top:3rem}.mt-14{margin-top:3.5rem}
 
@@ -223,106 +198,77 @@
 <body>
 
   <!-- ======================================================================
-       HEADER / NAVBAR (krem)
+       HEADER / NAVBAR (sticky, hitam)
        ====================================================================== -->
-  <header class="nav sec-cream">
+  <header class="nav">
     <div class="wrap nav-inner">
       <!-- [[ LOGO / FOTO PROFIL: pakai SALAH SATU — teks brand ATAU <img>. Jangan dua-duanya ]] -->
       <!-- AI INSTRUCTION: Nama brand (teks). Untuk logo gambar, ganti dengan:
            <img src="logo.png" alt="Nama Brand" class="brand-logo" /> lalu hapus teksnya. -->
-      <img src="logo-clipper.png" alt="Ngeclip Cuan" class="brand-logo" />
-
+      <a href="#" class="brand"><img src="logo-clipper.png" alt="Ngeclip Cuan" class="brand-logo" /></a>
       <!-- AI INSTRUCTION: Tombol navbar 1-2 kata. href="#cta-akhir" = scroll ke harga; biarkan. -->
-      <a href="#cta-akhir" class="btn btn-primary">Beli Ebook <span class="arrow">&rarr;</span></a>
+      <a href="#cta-akhir" class="btn btn-primary btn-sm">Beli Sekarang</a>
     </div>
   </header>
 
   <main>
     <!-- ====================================================================
-         1. HERO (krem)
+         1. HERO (hitam) — lingkaran + headline kata berganti
          ==================================================================== -->
-    <section class="sec-cream">
+    <section data-bg="#000000">
       <div class="wrap pad center reveal">
-        <!-- AI INSTRUCTION: HEADLINE (H1) besar — janji utama produk, maks 8-10 kata -->
-        <h1 class="h1 narrow">Hasilkan Cuan Tiap Hari Modal Nge-Clip Video</h1>
-        <!-- AI INSTRUCTION: Sub-headline 1-2 kalimat, perjelas manfaat & untuk siapa -->
-        <p class="lead muted narrow mt-6">Blueprint lengkap untuk pemula menjadi Clipper profesional. Kuasai strategi mencari momen emas, sistem editing tingkat dewa, dan rahasia algoritma untuk mulai menghasilkan dari Konten.com hari ini juga.</p>
-        <!-- CTA hero: SCROLL-KE-HARGA (biarkan href="#cta-akhir") -->
-        <div class="mt-8">
-          <!-- AI INSTRUCTION: Teks tombol berorientasi hasil, mis. "Lihat Harga & Beli" -->
-          <a href="#cta-akhir" class="btn btn-primary btn-lg">Ambil Ebook Sekarang <span class="arrow">&rarr;</span></a>
-        </div>
-        <!-- [[ GAMBAR PRODUK: ganti src dengan mockup/screenshot produk Anda ]] -->
-        <div class="mt-14">
-          <img class="hero-img" src="ngeclip-cuan.png" alt="Ebook Ngeclip Cuan" />
+        <!-- [[ GAMBAR HERO: ganti src dengan foto/mockup produk. Tampil sesuai bentuk asli gambar; tinggi dibatasi. ]] -->
+        <img class="hero-media" src="ngeclip-cuan.png" alt="Ebook Ngeclip Cuan" />
+
+        <!-- AI INSTRUCTION: HEADLINE (H1) ultra-bold. Biarkan <span id="rotateWord"> untuk kata berganti;
+             ganti kata-katanya di <script> paling bawah (array rotateWords). Maks 6-8 kata total. -->
+        <h1 class="h1 narrow mt-8">Blueprint Clipper Profesional untuk <span class="rotate" id="rotateWord">pemula</span></h1>
+
+        <!-- AI INSTRUCTION: Sub-headline 1 kalimat -->
+        <p class="lead muted narrow mt-6">Ubah potongan video panjang menjadi mesin pencetak uang harian dengan strategi dan sistem yang terbukti berhasil.</p>
+
+        <!-- Dua tombol pill. Keduanya scroll ke harga (biarkan href="#cta-akhir"). -->
+        <div class="mt-8" style="display:flex; flex-wrap:wrap; gap:.75rem; justify-content:center;">
+          <!-- AI INSTRUCTION: Tombol utama, mis. "Beli Sekarang" -->
+          <a href="#cta-akhir" class="btn btn-primary btn-lg">Beli Sekarang</a>
+          <!-- AI INSTRUCTION: Tombol sekunder, mis. "Lihat Detail" -->
+          <a href="#cta-akhir" class="btn btn-outline btn-lg">Lihat Modul</a>
         </div>
       </div>
     </section>
 
     <!-- ====================================================================
-         2. HIGHLIGHT / VALUE (hitam) — impact section
+         2. DAFTAR FITUR (hitam) — ikon hijau + teks
          ==================================================================== -->
-    <section class="sec-dark round-top round-bottom">
-      <div class="wrap pad center narrow reveal">
-        <!-- AI INSTRUCTION: Judul value/keamanan — inti kepercayaan/transformasi, maks 8 kata -->
-        <h2 class="h2">Bongkar Rahasia Algoritma & Retensi Video Pendek</h2>
-        <!-- AI INSTRUCTION: 2-3 kalimat memperkuat kenapa produk ini bisa dipercaya/penting -->
-        <p class="lead muted mt-6">Persaingan Clipper semakin ketat. Kamu tidak butuh PC sultan, kamu hanya butuh strategi yang tepat. Pelajari seni memanipulasi retensi, mengekstrak 'Golden Moment', dan jadikan kontenmu viral berkali-kali secara sistematis.</p>
-        <div class="mt-8">
-          <!-- SCROLL-KE-HARGA: biarkan href="#cta-akhir" -->
-          <a href="#cta-akhir" class="btn btn-ghost btn-lg">Pelajari Rahasianya <span class="arrow">&rarr;</span></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         3. FITUR (putih) — baris bergantian gambar/teks
-         ==================================================================== -->
-    <section class="sec-light">
+    <section data-bg="#000000">
       <div class="wrap pad">
         <div class="narrow center reveal">
-          <!-- AI INSTRUCTION: Judul section fitur, mis. "Semua yang Anda butuhkan" -->
-          <h2 class="h2">Apa yang Membuatnya Berbeda</h2>
+          <!-- AI INSTRUCTION: Judul section fitur -->
+          <h2 class="h2">Senjata Rahasia Clipper Profesional</h2>
         </div>
-
-        <div class="mt-14">
-          <!-- BARIS FITUR 1 (gambar kanan) -->
-          <div class="feature-row reverse reveal">
-            <div class="col">
-              <!-- AI INSTRUCTION (VISUAL FITUR): Ini ILUSTRASI VEKTOR (inline SVG), BUKAN foto produk.
-                   KHUSUS di sini kamu BOLEH mengganti isi <svg> di bawah dengan ilustrasi/line-art
-                   sederhana yang RELEVAN dengan poin fitur ini (pakai stroke, tanpa fill).
-                   DILARANG memasukkan foto/mockup/screenshot produk di slot ini. -->
-              <div class="feature-visual">
-                <svg viewBox="0 0 100 100" aria-hidden="true"><rect x="24" y="14" width="52" height="72" rx="6"/><path d="M34 32h32M34 44h32M34 56h20"/><circle cx="70" cy="70" r="12"/><path d="m64 70 4 4 8-8"/></svg>
-              </div>
-            </div>
-            <div class="col">
-              <span class="ico"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg></span>
-              <!-- AI INSTRUCTION: Judul fitur 1 (manfaat), maks 6 kata -->
-              <h3 class="h2" style="font-size:clamp(1.5rem,3vw,2rem); margin-top:1rem;">Seni Menemukan Golden Moment</h3>
-              <!-- AI INSTRUCTION: 2-3 kalimat penjelasan fitur 1 -->
-              <p class="lead muted mt-4">Kamu tidak perlu menonton video berjam-jam untuk mencari bahan. Kuasai teknik 'Radar Konten' untuk memindai video dan mengekstrak momen emas yang pasti memicu emosi penonton hanya dalam 15 menit.</p>
-              <!-- SCROLL-KE-HARGA: link tersier -->
-              <a href="#cta-akhir" class="link-arrow mt-6" style="display:inline-flex;">Bongkar Triknya <span class="arrow">&rarr;</span></a>
+        <div class="flist mt-12 reveal">
+          <!-- ITEM FITUR (duplikat/kurangi .fitem sesuai kebutuhan) -->
+          <div class="fitem">
+            <span class="fico"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg></span>
+            <div>
+              <!-- AI INSTRUCTION: Judul fitur 1 -->
+              <h3>Seni Menemukan "Golden Moment"</h3>
+              <!-- AI INSTRUCTION: 1 kalimat penjelasan fitur 1 -->
+              <p class="muted">Kuasai cara memindai video berjam-jam untuk menemukan momen 60 detik paling viral dan memicu interaksi.</p>
             </div>
           </div>
-
-          <!-- BARIS FITUR 2 (gambar kiri) -->
-          <div class="feature-row reveal">
-            <div class="col">
-              <!-- AI INSTRUCTION (VISUAL FITUR): Ini ILUSTRASI VEKTOR (inline SVG), BUKAN foto produk.
-                   KHUSUS di sini kamu BOLEH mengganti isi <svg> dengan ilustrasi/line-art sederhana
-                   yang RELEVAN dengan poin fitur ini. DILARANG memakai foto/mockup produk di slot ini. -->
-              <div class="feature-visual">
-                <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M18 82h64"/><path d="M28 82V60M46 82V44M64 82V52M82 82V30"/><path d="m24 40 18-12 14 8 22-18"/><path d="M72 18h10v10"/></svg>
-              </div>
+          <div class="fitem">
+            <span class="fico"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg></span>
+            <div>
+              <h3>Teknik Editing Tingkat Dewa</h3>
+              <p class="muted">Pelajari rahasia retensi tinggi dengan hook 3 detik, perfect loop, dan bumbu visual yang menghipnotis penonton.</p>
             </div>
-            <div class="col">
-              <span class="ico"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg></span>
-              <h3 class="h2" style="font-size:clamp(1.5rem,3vw,2rem); margin-top:1rem;">Teknik Editing Tingkat Dewa</h3>
-              <p class="lead muted mt-4">Lupakan gaya amatir yang membosankan. Pelajari cara meracik Hook 3 detik pertama, B-roll, efek suara yang pas, dan 'Perfect Loop' yang akan membuat retensi videomu tembus hingga 150%.</p>
-              <a href="#cta-akhir" class="link-arrow mt-6" style="display:inline-flex;">Kuasai Editingnya <span class="arrow">&rarr;</span></a>
+          </div>
+          <div class="fitem">
+            <span class="fico"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg></span>
+            <div>
+              <h3>Hack Algoritma & Monetisasi</h3>
+              <p class="muted">Pahami cara kerja algoritma short-form, hindari shadowban, dan raih cuan maksimal dari Konten.com.</p>
             </div>
           </div>
         </div>
@@ -330,71 +276,94 @@
     </section>
 
     <!-- ====================================================================
-         4. TESTIMONIAL (hitam) — GAMBAR/SCREENSHOT ASLI
+         3. KARTU BERTUMPUK (sticky stacking) — efek scroll khas Spotify
+         ==================================================================== -->
+    <section data-bg="#000000">
+      <div class="wrap" style="padding-top:2rem; padding-bottom:4rem;">
+        <div class="stack">
+          <!-- KARTU BERTUMPUK (duplikat/kurangi; warna diatur --stack-1..3 di :root) -->
+          <div class="stack-card">
+            <span class="kicker">Poin 01</span>
+            <!-- AI INSTRUCTION: Judul poin nilai 1 (besar & berani, maks 6 kata) -->
+            <h3>MINDSET & SETUP PROFESIONAL</h3>
+            <!-- AI INSTRUCTION: 1-2 kalimat memperkuat poin ini -->
+            <p>Bukan sekadar potong video acak. Saya akan membantu kamu memformat ulang mentalitas dan menyiapkan "Mesin Perang" efisien meski bermodal alat seadanya.</p>
+          </div>
+          <div class="stack-card">
+            <span class="kicker">Poin 02</span>
+            <h3>RITME PACING YANG MEMATIKAN</h3>
+            <p>Bikin penonton kecanduan nonton. Temukan rahasia menghapus ruang kosong (dead air) dan menyusun ritme video yang membuat 60 detik terasa seperti 10 detik.</p>
+          </div>
+          <div class="stack-card">
+            <span class="kicker">Poin 03</span>
+            <h3>ESKALASI DARI SOLO KE AGENSI</h3>
+            <p>Bangun pabrik kontenmu sendiri. Pelajari cara mengubah hobi sampingan menjadi model bisnis agensi media yang menghasilkan puluhan juta secara otomatis.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         4. TESTIMONIAL (hijau) — GAMBAR/SCREENSHOT ASLI
          PENTING: testimoni = GAMBAR screenshot asli. Jangan mengarang.
          ==================================================================== -->
-    <section class="sec-dark round-top round-bottom">
+    <section data-bg="#0b3d2e">
       <div class="wrap pad">
         <div class="narrow center reveal">
           <!-- AI INSTRUCTION: Judul section testimoni -->
-          <h2 class="h2">Kata Mereka yang Sudah Membuktikan</h2>
-          <!-- Petunjuk geser (biarkan; menunjukkan slider bisa digeser) -->
-          <p class="slide-hint mt-4"><span>&larr;</span> Geser untuk lihat lainnya <span class="swipe">&rarr;</span></p>
+          <h2 class="h2">Kata Mereka yang Sudah Mencoba</h2>
         </div>
-
-        <!-- SLIDER TESTIMONI (geser manual: swipe di HP, tarik/drag di desktop).
-             Duplikat/kurangi <figure> sesuai jumlah screenshot; hanya ganti src="". -->
-        <div class="testi-slider mt-10" id="testiSlider">
-          <figure class="card-dark">
+        <div class="tgrid mt-14">
+          <!-- KARTU TESTIMONI GAMBAR (duplikat/kurangi; hanya ganti src="" screenshot asli) -->
+          <figure class="testi-card">
             <!-- [[ GAMBAR TESTIMONI 1: ganti src dengan screenshot asli, mis. testi1.jpg ]] -->
-            <img class="testi-img" src="testimoni-clipper-1.jpg" alt="Screenshot testimoni pelanggan 1" />
+            <img class="testi-img" src="testimoni-clipper-1.jpg" alt="Screenshot testimoni pelanggan" />
           </figure>
-          <figure class="card-dark">
+          <figure class="testi-card">
             <!-- [[ GAMBAR TESTIMONI 2 ]] -->
-            <img class="testi-img" src="testimoni-clipper-2.jpg" alt="Screenshot testimoni pelanggan 2" />
+            <img class="testi-img" src="testimoni-clipper-2.jpg" alt="Screenshot testimoni pelanggan" />
           </figure>
-          <figure class="card-dark">
+          <figure class="testi-card">
             <!-- [[ GAMBAR TESTIMONI 3 ]] -->
-            <img class="testi-img" src="testimoni-clipper-3.jpg" alt="Screenshot testimoni pelanggan 3" />
+            <img class="testi-img" src="testimoni-clipper-3.jpg" alt="Screenshot testimoni pelanggan" />
           </figure>
         </div>
       </div>
     </section>
 
     <!-- ====================================================================
-         5. COCOK UNTUK / USE CASE (putih) — grid kartu abu-abu muda
+         5. HIGHLIGHT (biru) — cocok untuk siapa
          ==================================================================== -->
-    <section class="sec-light">
+    <section data-bg="#1a56db">
       <div class="wrap pad">
         <div class="narrow center reveal">
-          <!-- AI INSTRUCTION: Judul, mis. "Cocok untuk Anda yang..." -->
-          <h2 class="h2">Cocok untuk Kamu yang…</h2>
+          <!-- AI INSTRUCTION: Judul, mis. "Dibuat untuk Anda yang..." -->
+          <h2 class="h2">Dibuat Khusus untuk Kamu yang…</h2>
         </div>
-        <div class="grid g1 g3 mt-14">
-          <!-- KARTU (duplikat/kurangi sesuai kebutuhan) -->
-          <div class="card-light reveal">
-            <!-- AI INSTRUCTION: Judul profil/use-case 1 -->
-            <h3>Pemula Nol Pengalaman</h3>
-            <!-- AI INSTRUCTION: 1-2 kalimat menjelaskan cocoknya untuk profil ini -->
-            <p class="muted">Tidak punya keahlian editing? Saya akan bimbing kamu dari nol, mulai dari instalasi CapCut hingga akun siap tempur menghasilkan cuan.</p>
+        <div class="use-grid mt-14 reveal">
+          <!-- KARTU (duplikat/kurangi) -->
+          <div class="use-card">
+            <!-- AI INSTRUCTION: Profil/kondisi 1 -->
+            <h3>Pemula Tanpa Pengalaman</h3>
+            <p class="muted" style="color:rgba(255,255,255,.8);">Belum pernah mengedit video sebelumnya tapi ingin punya sumber penghasilan baru dari internet.</p>
           </div>
-          <div class="card-light reveal">
-            <h3>Modal HP & Laptop Kentang</h3>
-            <p class="muted">Tidak perlu spesifikasi PC dewa. Teknik ini dirancang agar bisa dieksekusi dengan super ringan meskipun hanya menggunakan laptop standar atau HP.</p>
+          <div class="use-card">
+            <h3>Clipper yang Sering Gagal</h3>
+            <p class="muted" style="color:rgba(255,255,255,.8);">Sudah sering upload klip tapi penonton stuck di angka nol dan belum pernah merasakan cuan.</p>
           </div>
-          <div class="card-light reveal">
-            <h3>Ingin Penghasilan Tambahan</h3>
-            <p class="muted">Sulap waktu luangmu minimal 2 jam sehari menjadi pabrik konten yang mendatangkan penghasilan pasif lewat platform Konten.com.</p>
+          <div class="use-card">
+            <h3>Kaum Rebahan Produktif</h3>
+            <p class="muted" style="color:rgba(255,255,255,.8);">Ingin kerja dari mana saja dan dibayar mahal hanya dengan me-remix konten kreator besar.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ====================================================================
-         6. FAQ (krem)
+         6. FAQ (hitam)
          ==================================================================== -->
-    <section class="sec-cream">
-      <div class="wrap pad" style="max-width:52rem;">
+    <section data-bg="#000000">
+      <div class="wrap pad">
         <div class="center reveal">
           <!-- AI INSTRUCTION: Judul FAQ -->
           <h2 class="h2">Pertanyaan yang Sering Diajukan</h2>
@@ -404,61 +373,63 @@
           <div class="faq-item" data-open="false">
             <button type="button" class="faq-trigger">
               <!-- AI INSTRUCTION: Pertanyaan 1 -->
-              <span>Apakah saya butuh PC mahal untuk mulai?</span>
+              <span>Apakah saya butuh PC atau laptop mahal?</span>
               <span class="faq-icon">+</span>
             </button>
-            <div class="faq-answer"><!-- AI INSTRUCTION: Jawaban 1 --><p>Tentu tidak. Di ebook ini saya jelaskan cara mengoptimalkan software yang sangat ringan (CapCut), yang bahkan bisa dipraktikkan menggunakan HP saja.</p></div>
+            <div class="faq-answer"><!-- AI INSTRUCTION: Jawaban 1 --><p>Sama sekali tidak! Kamu bisa mulai menggunakan smartphone dengan aplikasi gratis seperti CapCut. Yang terpenting adalah strategi dan eksekusinya.</p></div>
           </div>
           <div class="faq-item" data-open="false">
             <button type="button" class="faq-trigger">
-              <span>Apakah pemula tanpa skill editing bisa ikut?</span>
+              <span>Bagaimana jika saya tidak punya pengalaman editing?</span>
               <span class="faq-icon">+</span>
             </button>
-            <div class="faq-answer"><p>Sangat bisa. Panduan ini dibuat khusus untuk membongkar mindset dan teknis dasar bagi pemula, tahap demi tahap hingga kamu mahir menjadi mesin konten.</p></div>
+            <div class="faq-answer"><p>Ebook ini dirancang khusus dari nol. Saya membahas dasar mindset hingga teknik praktis langkah demi langkah yang sangat mudah diikuti pemula.</p></div>
           </div>
           <div class="faq-item" data-open="false">
             <button type="button" class="faq-trigger">
-              <span>Apakah aman dari teguran Hak Cipta?</span>
+              <span>Apakah cara ini aman dari pelanggaran hak cipta?</span>
               <span class="faq-icon">+</span>
             </button>
-            <div class="faq-answer"><p>Saya mengajarkan doktrin *Fair Use* dan etika *clipping*. Kamu akan belajar cara membuat konten transformatif yang mematuhi aturan hak cipta dan aman dari *strike*.</p></div>
+            <div class="faq-answer"><p>Ya, saya mengajarkan doktrin "Fair Use" dan bagaimana memberikan nilai tambah (Added Value) agar klip kamu 100% aman dan legal.</p></div>
           </div>
           <div class="faq-item" data-open="false">
             <button type="button" class="faq-trigger">
-              <span>Kapan saya bisa mulai menghasilkan?</span>
+              <span>Apakah ada garansi saya pasti berhasil?</span>
               <span class="faq-icon">+</span>
             </button>
-            <div class="faq-answer"><p>Semakin cepat kamu mempraktikkan "30-Day Clipper Challenge" di dalam ebook ini, semakin cepat algoritma berpihak padamu. Kuncinya ada di konsistensi dan eksekusi strategi.</p></div>
+            <div class="faq-answer"><p>Keberhasilan bergantung pada konsistensi kamu. Saya memberikan blueprint yang sudah terbukti menghasilkan, tugas kamu adalah mempraktikkannya dengan disiplin.</p></div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ====================================================================
-         7. HARGA + CTA AKHIR (krem) — target scroll semua tombol atas
+         7. HARGA + CTA AKHIR (hitam, glow) — target scroll semua tombol atas
          ==================================================================== -->
-    <section id="cta-akhir" class="sec-cream">
-      <div class="wrap pad center narrow reveal">
-        <!-- AI INSTRUCTION: Headline penutup, maks 8 kata -->
-        <h2 class="h2">Kesempatan Emas Dimulai Sekarang</h2>
-        <!-- AI INSTRUCTION: 1 kalimat urgensi/penutup (jujur) -->
-        <p class="lead muted mt-4">Dimasa depan, persaingan Clipper Semakin Ketat, Sekarang adalah Kesempatan Emas untuk Kamu memulai.</p>
-
-        <!-- HARGA (coret di atas, spesial di bawah) -->
-        <div class="mt-8" style="display:flex; flex-direction:column; align-items:center; gap:.15rem;">
-          <!-- AI INSTRUCTION: Harga normal (coret) -->
-          <span class="price-old">Rp 150.000</span>
-          <!-- AI INSTRUCTION: Harga spesial -->
-          <span class="price-new">Rp 49.000</span>
+    <section id="cta-akhir" data-bg="#000000">
+      <div class="wrap pad price-wrap">
+        <div class="center narrow reveal" style="position:relative; z-index:1;">
+          <!-- AI INSTRUCTION: Headline penutup, maks 8 kata -->
+          <h2 class="h2">Ambil Kesempatan Emas Ini Sekarang</h2>
+          <!-- AI INSTRUCTION: 1 kalimat urgensi/penutup (jujur) -->
+          <p class="lead muted mt-4">Di masa depan, persaingan Clipper Semakin Ketat, Sekarang adalah Kesempatan Emas untuk Kamu memulai.</p>
         </div>
 
-        <!-- [[ LINK CHECKOUT: HANYA tombol INI yang diisi link checkout asli pada href ]] -->
-        <div class="mt-8">
-          <a href="http://lynk.id/ikhlassyamri/59zjee90px7q/checkout" class="btn btn-primary btn-lg">Ambil Ebook Ngeclip Cuan <span class="arrow">&rarr;</span></a>
+        <div class="price-card center mt-10 reveal">
+          <!-- HARGA (coret di atas, spesial di bawah) -->
+          <div style="display:flex; flex-direction:column; align-items:center; gap:.15rem;">
+            <!-- AI INSTRUCTION: Harga normal (coret) -->
+            <span class="price-old">Rp 150.000</span>
+            <!-- AI INSTRUCTION: Harga spesial -->
+            <span class="price-new">Rp 49.000</span>
+          </div>
+          <!-- [[ LINK CHECKOUT: HANYA tombol INI yang diisi link checkout asli pada href ]] -->
+          <div class="mt-6">
+            <a href="http://lynk.id/ikhlassyamri/59zjee90px7q/checkout" class="btn btn-primary btn-lg">Beli Sekarang</a>
+          </div>
+          <!-- AI INSTRUCTION: Catatan penutup (N.B) — tegaskan garansi / hilangkan risiko -->
+          <p class="muted mt-6" style="font-size:.9rem;"><strong style="color:#fff;">N.B:</strong> Jangan tunda lagi. Harga promo Rp 49.000 ini sangat terbatas dan bisa naik kapan saja seiring bertambahnya permintaan!</p>
         </div>
-
-        <!-- AI INSTRUCTION: Catatan penutup (N.B) — tegaskan garansi / hilangkan risiko -->
-        <p class="muted mt-8" style="font-size:.9rem;"><strong style="color:var(--light-text);">N.B:</strong> Investasi ilmu seharga kopi ini akan membantumu membangun aset digital yang bekerja 24 jam. Jangan tunggu persaingan semakin brutal!</p>
       </div>
     </section>
   </main>
@@ -466,27 +437,31 @@
   <!-- ======================================================================
        FOOTER (hitam)
        ====================================================================== -->
-  <footer class="sec-dark">
+  <footer data-bg="#000000">
     <div class="wrap" style="padding-top:4rem; padding-bottom:3rem;">
       <div class="footer-grid">
         <div class="footer-col">
-          <!-- AI INSTRUCTION: Nama brand + 1 kalimat tagline -->
-          <img src="logo-clipper.png" alt="Ngeclip Cuan" style="height:2rem; width:auto; margin-bottom:1rem;" />
-          <p class="muted mt-4" style="max-width:22rem;">Blueprint Clipper Profesional. Bangun mesin konten yang otomatis menghasilkan cuan tanpa batas.</p>
+          <!-- AI INSTRUCTION: Nama brand + tagline -->
+          <a href="#" class="brand"><img src="logo-clipper.png" alt="Ngeclip Cuan" class="brand-logo" /></a>
+          <p class="muted mt-4" style="max-width:22rem;">Strategi, Sistem, dan Skalasi untuk bangun mesin konten yang menghasilkan.</p>
+          <!-- [[ LINK SOSMED: ganti href ]] -->
+          <div class="socials">
+            <a href="https://www.instagram.com/ikhlasclip?igsh=aWV3aTVvcWIxNmY5" aria-label="Instagram"><img src="instagram.png" alt="Instagram" style="width:18px;height:18px;object-fit:contain;"></a>
+            <a href="https://www.tiktok.com/@ikhlasclipper?_r=1&_t=ZS-98UOK9u2RDo" aria-label="TikTok"><img src="tiktok.png" alt="TikTok" style="width:18px;height:18px;object-fit:contain;"></a>
+            <a href="https://youtube.com/@ikhlasclip?si=1u73uRRPHWNdiFVH" aria-label="YouTube"><img src="youtube.png" alt="YouTube" style="width:18px;height:18px;object-fit:contain;"></a>
+          </div>
         </div>
         <div class="footer-col">
           <h4>Produk</h4>
           <!-- [[ LINK ]] -->
-          <a href="#">Fitur</a>
+          <a href="#cta-akhir">Fitur</a>
           <a href="#cta-akhir">Harga</a>
-          <a href="#">FAQ</a>
+          <a href="#cta-akhir">FAQ</a>
         </div>
         <div class="footer-col">
-          <h4>Ikuti Kami</h4>
-          <!-- [[ LINK SOSMED ]] -->
-          <a href="https://www.instagram.com/ikhlasclip?igsh=aWV3aTVvcWIxNmY5" target="_blank" rel="noopener">Instagram</a>
-          <a href="https://www.tiktok.com/@ikhlasclipper?_r=1&_t=ZS-98UOK9u2RDo" target="_blank" rel="noopener">TikTok</a>
-          <a href="https://youtube.com/@ikhlasclip?si=1u73uRRPHWNdiFVH" target="_blank" rel="noopener">YouTube</a>
+          <h4>Bantuan</h4>
+          <a href="#">Kontak</a>
+          <a href="https://wa.me/62895411449962?text=Hallo%20kak%20Ikhlas%2C%20saya%20mau%20Beli%20Ebook%20Ngeclip%20Cuan.%20%F0%9F%99%8F">WhatsApp</a>
         </div>
       </div>
       <div class="footer-bottom">
@@ -507,7 +482,7 @@
   </a>
 
   <script>
-    // FAQ accordion (tunggal)
+    // 1) FAQ accordion (tunggal)
     document.querySelectorAll('.faq-trigger').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var item = btn.closest('.faq-item');
@@ -516,7 +491,34 @@
         item.setAttribute('data-open', open ? 'false' : 'true');
       });
     });
-    // Animasi reveal
+
+    // 2) Transisi WARNA LATAR saat scroll (hitam -> hijau -> biru -> hitam)
+    if ('IntersectionObserver' in window) {
+      var bgObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            var c = e.target.getAttribute('data-bg');
+            if (c) document.body.style.backgroundColor = c;
+          }
+        });
+      }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+      document.querySelectorAll('[data-bg]').forEach(function (s) { bgObs.observe(s); });
+    }
+
+    // 3) Headline kata berganti otomatis
+    // AI INSTRUCTION: ganti daftar kata di bawah agar sesuai produk (3-5 kata).
+    var rotateWords = ['pemula', 'kreator', 'editor', 'kaum rebahan'];
+    var rEl = document.getElementById('rotateWord');
+    if (rEl && rotateWords.length) {
+      var ri = 0;
+      setInterval(function () {
+        ri = (ri + 1) % rotateWords.length;
+        rEl.style.opacity = '0'; rEl.style.transform = 'translateY(8px)';
+        setTimeout(function () { rEl.textContent = rotateWords[ri]; rEl.style.opacity = '1'; rEl.style.transform = 'none'; }, 300);
+      }, 2200);
+    }
+
+    // 4) Animasi reveal
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (es) {
         es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
@@ -525,26 +527,6 @@
     } else {
       document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
     }
-
-    // Slider testimoni: swipe otomatis di HP; drag pakai mouse di desktop.
-    (function () {
-      var s = document.getElementById('testiSlider');
-      if (!s) return;
-      var down = false, startX = 0, startScroll = 0, moved = 0;
-      s.addEventListener('pointerdown', function (e) {
-        down = true; moved = 0; startX = e.clientX; startScroll = s.scrollLeft;
-        s.setPointerCapture(e.pointerId);
-      });
-      s.addEventListener('pointermove', function (e) {
-        if (!down) return;
-        var dx = e.clientX - startX; moved = Math.abs(dx);
-        s.scrollLeft = startScroll - dx;
-      });
-      function end() { down = false; }
-      s.addEventListener('pointerup', end);
-      s.addEventListener('pointercancel', end);
-      s.addEventListener('pointerleave', end);
-    })();
   </script>
 </body>
 </html>
