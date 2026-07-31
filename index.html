@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <!--
   ============================================================================
-  AI-READY BIO / LINK-IN-BIO TEMPLATE · "GRAND LINE" (tema Monkey D. Luffy)
+  AI-READY BIO / LINK-IN-BIO TEMPLATE · "WEB SLINGER" (tema Spider-Man)
   ============================================================================
-  Halaman "link in bio" (seperti Linktree): foto profil bulat, nama, bio singkat,
-  dan daftar tombol tautan. Bertema One Piece / Luffy: langit-laut, merah-kuning,
-  topi jerami. Cocok untuk taut semua link penting di satu halaman.
+  Halaman "link in bio": foto profil + nama + bio singkat + daftar tombol tautan.
+  Bertema Spider-Man: malam kota, jaring laba-laba, merah-biru, laba-laba
+  bergelantungan yang turun saat halaman di-scroll.
 
   100% SELF-CONTAINED: HTML + CSS + JS satu file, tanpa framework/CDN, jalan OFFLINE.
 
   CARA PAKAI:
   1. Ubah TEMA (warna & font) di blok :root pada bagian STYLE di bawah.
-  2. Isi teks & tautan dengan bantuan AI (komentar "AI INSTRUCTION" jadi panduan).
-  3. Ganti ASET (foto profil, link). Cari penanda [[ ... ]].
-  4. Tambah/kurangi tombol: cukup duplikat/hapus blok <a class="link"> ... </a>.
+  2. Isi teks & tautan dengan bantuan AI (lihat PANDUAN-PROMPT-BIO.md di folder induk).
+  3. Ganti ASET (foto profil, favicon, link). Cari penanda [[ ... ]].
+  4. Tambah/kurangi tombol: duplikat/hapus blok <a class="link"> ... </a>.
   ============================================================================
   ATURAN UNTUK AI YANG MENGEDIT FILE INI - BACA DULU
   ============================================================================
@@ -49,7 +49,7 @@
        TIDAK dibatasi (tanpa maximum-scale / user-scalable=no) demi aksesibilitas. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
 
-  <!-- AI INSTRUCTION: Ganti <title> dengan "Nama / @username" -->
+  <!-- AI INSTRUCTION: Ganti <title> dengan "Nama / @username" (maks 60 karakter) -->
   <title>@IkhlasClip</title>
   <!-- AI INSTRUCTION: 1 kalimat deskripsi singkat (maks 150 karakter) -->
   <meta name="description" content="Belajar Menghasilkan Uang untuk Clipper Pemula" />
@@ -57,31 +57,36 @@
   <!-- [[ FAVICON: ganti href dengan ikon Anda, mis. favicon.png ]] -->
   <link rel="icon" type="image/png" href="logo-clipper.png" />
 
-  <!-- Font: Poppins. Bila offline, pakai font sistem. -->
+  <!-- Font: Poppins. Bila offline, otomatis pakai font sistem. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
     /* ========================================================================
-       PENGATURAN USER — SILAKAN UBAH BAGIAN INI SAJA
+       PENGATURAN USER - SILAKAN UBAH BAGIAN INI SAJA
        (Untuk AI: JANGAN hapus satu baris pun di blok :root ini.)
        ======================================================================== */
     :root {
-      /* --- WARNA TEMA (One Piece / Luffy) --- */
-      --red:       #E12A2A;   /* Merah baju Luffy (aksen/bayangan)  */
-      --yellow:    #FFD028;   /* Kuning topi/sabuk (tombol unggulan) */
-      --sky:       #58BFF2;   /* Biru langit (latar atas)           */
-      --sea:       #0E5FA6;   /* Biru laut (latar bawah)            */
-      --ink:       #17293a;   /* Teks gelap di atas tombol putih    */
-      --btn-bg:    #ffffff;   /* Latar tombol                       */
-      --btn-text:  #17293a;   /* Teks tombol                        */
+      /* --- WARNA TEMA --- */
+      --red:        #D9202C;   /* Merah kostum (tombol unggulan & aksen) */
+      --red-dark:   #8E1119;
+      --blue:       #2B5BD7;   /* Biru kostum (aksen sekunder)          */
+      --bg-top:     #0A0D1A;   /* Latar atas (langit malam)             */
+      --bg-bottom:  #141024;   /* Latar bawah                           */
+      --glow:       #FF9E3D;   /* Cahaya kota di kaki langit            */
+      --text:       #FFFFFF;
+      --muted:      rgba(255,255,255,.66);
+      --card:       #171826;   /* Latar tombol                          */
+      --card-line:  rgba(255,255,255,.10);
 
       /* --- FONT --- */
-      --font-body: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --font-body:  'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 
-      /* --- BENTUK --- */
-      --radius-btn: 16px;
+      /* --- BENTUK & UKURAN --- */
+      --radius-btn: 14px;
+      --city-h:     11rem;   /* tinggi panel kota di bawah layar */
+      --spider-w:   3.4rem;  /* ukuran laba-laba bergelantungan  */
     }
     /* ======================================================================== */
     /* JANGAN UBAH KODE DI BAWAH INI KECUALI ANDA PAHAM CSS                      */
@@ -97,208 +102,253 @@
        Untuk mengganti tema, edit blok :root di ATAS, bukan blok ini.
        ---------------------------------------------------------------------- */
     html {
-      --red:        #E12A2A;
-      --yellow:     #FFD028;
-      --sky:        #58BFF2;
-      --sea:        #0E5FA6;
-      --ink:        #17293a;
-      --btn-bg:     #ffffff;
-      --btn-text:   #17293a;
+      --red:        #D9202C;
+      --red-dark:   #8E1119;
+      --blue:       #2B5BD7;
+      --bg-top:     #0A0D1A;
+      --bg-bottom:  #141024;
+      --glow:       #FF9E3D;
+      --text:       #FFFFFF;
+      --muted:      rgba(255,255,255,.66);
+      --card:       #171826;
+      --card-line:  rgba(255,255,255,.10);
       --font-body:  'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      --radius-btn: 16px;
+      --radius-btn: 14px;
+      --city-h:     11rem;
+      --spider-w:   3.4rem;
     }
     /* ======================================================================== */
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { -webkit-text-size-adjust: 100%; }
     body {
-      font-family: var(--font-body); color: #fff; min-height: 100vh;
-      background: linear-gradient(180deg, var(--sky) 0%, var(--sea) 60%, #093f70 100%);
+      font-family: var(--font-body); color: var(--text); min-height: 100vh;
+      background: linear-gradient(180deg, var(--bg-top) 0%, #101427 55%, var(--bg-bottom) 100%);
       -webkit-font-smoothing: antialiased; overflow-x: hidden;
       display: flex; flex-direction: column; align-items: center;
     }
-    /* Matahari lembut di pojok atas + ombak dekoratif */
-    body::before { content: ""; position: fixed; top: -12%; right: -10%; width: 55vw; height: 55vw; max-width: 320px; max-height: 320px;
-      background: radial-gradient(circle, rgba(255,224,130,.6), transparent 70%); pointer-events: none; z-index: 0; }
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
 
+    /* --- Lapisan dekorasi jaring (menetap di layar) --- */
+    .bg-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .web { position: absolute; width: 15rem; max-width: 58vw; opacity: .5; }
+    .web-tl { top: -1.5rem; left: -1.5rem; }
+    .web-tr { top: -1.5rem; right: -1.5rem; transform: scaleX(-1); }
+    .web line, .web polyline { fill: none; stroke: rgba(255,255,255,.16); stroke-width: 1.4; }
+
     .page { position: relative; z-index: 1; width: 100%; max-width: 30rem;
-      padding: 4.75rem 1.25rem calc(var(--sea-h, 12rem) + 1.5rem); text-align: center; }
+      padding: 4.5rem 1.25rem calc(var(--city-h) + 1.5rem); text-align: center; }
 
     /* --- Profil --- */
-    .avatar-wrap { position: relative; width: 8rem; margin: 0 auto; }
-    .avatar { width: 8rem; height: 8rem; border-radius: 50%; object-fit: cover; border: 5px solid #fff;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25); background: #eaf6ff; }
-    /* Topi jerami (SVG inline) — duduk di atas avatar, hanya menutupi bagian atasnya.
-       Atur --hat-w (ukuran) & --hat-top (seberapa turun menutupi foto). */
-    .hat { position: absolute; top: var(--hat-top, -3.35rem); left: 50%; transform: translateX(-50%);
-      width: var(--hat-w, 9.5rem); z-index: 2; filter: drop-shadow(0 5px 5px rgba(0,0,0,.25)); }
-    .hat svg { width: 100%; height: auto; display: block; }
+    .avatar-wrap { position: relative; width: 8.5rem; height: 8.5rem; margin: 0 auto; }
+    /* denyut "spidey-sense" */
+    .pulse { position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--red);
+      opacity: 0; animation: pulse 3.2s ease-out infinite; }
+    .pulse.b { animation-delay: 1.6s; }
+    @keyframes pulse { 0% { transform: scale(1); opacity: .55; } 70% { opacity: 0; } 100% { transform: scale(1.55); opacity: 0; } }
+    .avatar { position: relative; z-index: 1; width: 100%; height: 100%; border-radius: 50%;
+      object-fit: cover; border: 4px solid var(--red); background: #0f1220;
+      box-shadow: 0 0 0 6px rgba(217,32,44,.16), 0 14px 34px rgba(0,0,0,.5); }
+    /* emblem laba-laba di pojok avatar */
+    .emblem { position: absolute; z-index: 2; right: -.15rem; bottom: -.15rem; width: 2.6rem; height: 2.6rem;
+      border-radius: 50%; background: var(--red); border: 3px solid var(--bg-top);
+      display: grid; place-items: center; }
+    .emblem svg { width: 1.5rem; height: 1.5rem; fill: #fff; }
 
-    /* Nama: satu baris, bersih & modern (bisa "@username" atau nama biasa) */
-    .name { font-weight: 800; font-size: clamp(1.7rem, 6vw, 2.4rem); margin-top: 1.2rem; color: #fff;
-      text-shadow: 0 2px 6px rgba(0,0,0,.22); }
-    .bio { margin-top: .8rem; font-size: .98rem; opacity: .95; line-height: 1.5; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+    .name { font-weight: 800; font-size: clamp(1.7rem, 6vw, 2.4rem); margin-top: 1.25rem;
+      letter-spacing: -.02em; text-shadow: 0 2px 14px rgba(217,32,44,.35); }
+    .bio { margin-top: .7rem; font-size: .98rem; color: var(--muted); line-height: 1.55; }
 
     /* --- Tombol tautan --- */
-    .links { margin-top: 1.8rem; display: flex; flex-direction: column; gap: .9rem; }
-    .link { position: relative; display: block; background: var(--btn-bg); color: var(--btn-text);
-      border-radius: var(--radius-btn); padding: 1rem 1.1rem; box-shadow: 0 6px 0 rgba(0,0,0,.18);
-      transition: transform .12s ease, box-shadow .12s ease; }
-    .link:hover { transform: translateY(-2px); box-shadow: 0 9px 0 rgba(0,0,0,.18); }
-    .link:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
-    .link .t { font-weight: 700; font-size: 1.05rem; }
-    .link .s { font-size: .85rem; color: #5b6b78; margin-top: .1rem; }
-    /* Varian tombol unggulan (kuning) */
-    .link.feature { background: var(--yellow); }
-    .link.feature .s { color: #7a5c00; }
-    /* Badge kecil di pojok kanan atas tombol */
-    .badge { position: absolute; top: -.55rem; right: .8rem; background: var(--red); color: #fff;
-      font-size: .65rem; font-weight: 800; letter-spacing: .04em; padding: .2rem .55rem; border-radius: 999px; text-transform: uppercase; }
+    .links { margin-top: 1.9rem; display: flex; flex-direction: column; gap: .85rem; }
+    .link { position: relative; display: block;
+      background: var(--card); border: 1px solid var(--card-line); border-left: 4px solid var(--red);
+      border-radius: var(--radius-btn); padding: .95rem 1.1rem; text-align: left;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease; }
+    .link:hover { transform: translateY(-2px); border-color: rgba(217,32,44,.6);
+      box-shadow: 0 10px 26px -12px rgba(217,32,44,.85); }
+    .link:active { transform: translateY(0); }
+    .link .t { font-weight: 700; font-size: 1.03rem; }
+    .link .s { font-size: .84rem; color: var(--muted); margin-top: .1rem; }
+    /* Varian unggulan */
+    .link.feature { background: linear-gradient(100deg, var(--red), var(--red-dark));
+      border-color: transparent; border-left-color: var(--blue); }
+    .link.feature .s { color: rgba(255,255,255,.82); }
+    /* Badge kecil */
+    .badge { position: absolute; top: .5rem; right: .7rem; background: var(--blue); color: #fff;
+      font-size: .62rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+      padding: .18rem .5rem; border-radius: 999px; }
 
-    /* --- Sosial (opsional) --- */
-    .socials { margin-top: 1.6rem; display: flex; justify-content: center; gap: .75rem; }
-    .socials a { width: 2.75rem; height: 2.75rem; border-radius: 50%; background: rgba(255,255,255,.18);
-      display: grid; place-items: center; transition: background .12s ease; }
-    .socials a:hover { background: rgba(255,255,255,.32); }
-    .socials svg { width: 1.35rem; height: 1.35rem; fill: #fff; }
+    /* --- Sosial --- */
+    .socials { margin-top: 1.7rem; display: flex; justify-content: center; gap: .7rem; }
+    .socials a { width: 2.8rem; height: 2.8rem; border-radius: 50%; background: rgba(255,255,255,.07);
+      border: 1px solid var(--card-line); display: grid; place-items: center;
+      transition: background .15s ease, transform .15s ease; }
+    .socials a:hover { background: rgba(217,32,44,.25); transform: translateY(-2px); }
+    .socials svg { width: 1.3rem; height: 1.3rem; fill: #fff; }
 
-    /* --- LAUT + KAPAL (dekoratif, di bawah halaman) --- */
-    /* Laut & kapal MENETAP di bawah layar (tidak ikut ter-scroll) */
-    .sea { position: fixed; left: 0; bottom: 0; z-index: 0; width: 100%; height: var(--sea-h, 12rem); pointer-events: none; }
-    .waves { position: absolute; bottom: 0; left: 0; width: 100%; height: 7.5rem; display: block; }
-    /* Kapal ada di KANAN BAWAH; ombak digambar setelahnya sehingga lambung tampak tenggelam sedikit */
-    /* Pembungkus luar: bergeser ke kiri saat halaman di-scroll */
-    .ship { position: absolute; right: 7%; bottom: 2.75rem; width: var(--ship-w, 8rem);
-      transform: translateX(var(--ship-x, 0px)); will-change: transform; }
-    /* Pembungkus dalam: animasi mengapung (naik-turun & miring) */
-    .ship-in { transform-origin: 50% 90%; animation: shipBob 4.5s ease-in-out infinite; }
-    .ship svg { width: 100%; height: auto; display: block; }
-    @keyframes shipBob { 0%,100% { transform: translateY(0) rotate(-2.5deg); } 50% { transform: translateY(-9px) rotate(2.5deg); } }
-    @keyframes seaDrift { from { transform: translateX(0); } to { transform: translateX(-600px); } }
-    .w1 { animation: seaDrift 14s linear infinite; }
-    .w2 { animation: seaDrift 9s linear infinite; }
-    @media (prefers-reduced-motion: reduce) { .ship-in, .w1, .w2 { animation: none; } }
+    /* --- Kota di bawah layar (menetap) --- */
+    .city { position: fixed; left: 0; bottom: 0; z-index: 0; width: 100%; height: var(--city-h);
+      pointer-events: none; }
+    .city-glow { position: absolute; inset: auto 0 0 0; height: 100%;
+      background: linear-gradient(0deg, rgba(255,158,61,.30), rgba(255,158,61,.06) 45%, transparent 75%); }
+    .skyline { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; display: block; }
+    .twinkle rect { animation: blink 2.6s ease-in-out infinite; }
+    .twinkle rect:nth-child(2n) { animation-delay: .9s; }
+    .twinkle rect:nth-child(3n) { animation-delay: 1.7s; }
+    @keyframes blink { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+
+    /* --- Laba-laba bergelantungan (menetap; benang MEMANJANG saat scroll) --- */
+    .spider-drop { position: fixed; top: 0; right: 9%; z-index: 2; pointer-events: none; }
+    /* Satu poros ayun di titik gantung: benang + laba-laba berayun SEIRAMA */
+    .spider-swing { transform-origin: 50% 0; animation: sway 4.5s ease-in-out infinite; }
+    /* Titik lekat pada jaring latar belakang */
+    .anchor { display: block; width: .5rem; height: .5rem; margin: 0 auto; border-radius: 50%;
+      background: rgba(255,255,255,.55); box-shadow: 0 0 6px rgba(255,255,255,.35); }
+    /* Benang: TINGGINYA bertambah mengikuti scroll (bukan digeser turun) */
+    .thread { width: 2px; margin: 0 auto; background: rgba(255,255,255,.42);
+      height: calc(var(--thread-base, 4.5rem) + var(--drop, 0px)); }
+    .spider { width: var(--spider-w); margin: -2px auto 0; }
+    .spider svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 3px 6px rgba(0,0,0,.6)); }
+    @keyframes sway { 0%, 100% { transform: rotate(-3.2deg); } 50% { transform: rotate(3.2deg); } }
+
+    /* --- Jaring yang menempel di tombol (menyambung ke jaring latar) --- */
+    .web-tack { position: absolute; top: -2.1rem; right: -.6rem; width: 8.5rem; pointer-events: none; }
+    .web-tack svg { width: 100%; height: auto; display: block; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pulse, .twinkle rect, .spider-swing { animation: none; }
+      .pulse { opacity: 0; }
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- ======================================================================
+       DEKORASI JARING (menetap) - hapus <div class="bg-fx"> bila tak dipakai
+       ====================================================================== -->
+  <div class="bg-fx" aria-hidden="true">
+    <svg class="web web-tl" viewBox="0 0 230 230">
+      <g>
+        <line x1="0" y1="0" x2="227.8" y2="32.0"/><line x1="0" y1="0" x2="213.3" y2="86.2"/>
+        <line x1="0" y1="0" x2="186.1" y2="135.2"/><line x1="0" y1="0" x2="147.8" y2="176.2"/>
+        <line x1="0" y1="0" x2="100.8" y2="206.7"/><line x1="0" y1="0" x2="32.0" y2="227.8"/>
+        <polyline points="59.4,8.4 55.6,22.5 48.5,35.3 38.6,46.0 26.3,53.9 8.4,59.4"/>
+        <polyline points="108.9,15.3 102.0,41.2 89.0,64.7 70.7,84.3 48.2,98.8 15.3,108.9"/>
+        <polyline points="163.4,23.0 153.0,61.8 133.5,97.0 106.1,126.4 72.3,148.3 23.0,163.4"/>
+        <polyline points="217.9,30.6 204.0,82.4 178.0,129.3 141.4,168.5 96.4,197.7 30.6,217.9"/>
+      </g>
+    </svg>
+    <svg class="web web-tr" viewBox="0 0 230 230">
+      <g>
+        <line x1="0" y1="0" x2="227.8" y2="32.0"/><line x1="0" y1="0" x2="213.3" y2="86.2"/>
+        <line x1="0" y1="0" x2="186.1" y2="135.2"/><line x1="0" y1="0" x2="147.8" y2="176.2"/>
+        <line x1="0" y1="0" x2="100.8" y2="206.7"/><line x1="0" y1="0" x2="32.0" y2="227.8"/>
+        <polyline points="59.4,8.4 55.6,22.5 48.5,35.3 38.6,46.0 26.3,53.9 8.4,59.4"/>
+        <polyline points="108.9,15.3 102.0,41.2 89.0,64.7 70.7,84.3 48.2,98.8 15.3,108.9"/>
+        <polyline points="163.4,23.0 153.0,61.8 133.5,97.0 106.1,126.4 72.3,148.3 23.0,163.4"/>
+        <polyline points="217.9,30.6 204.0,82.4 178.0,129.3 141.4,168.5 96.4,197.7 30.6,217.9"/>
+      </g>
+    </svg>
+  </div>
+
   <main class="page">
     <!-- ====================================================================
          PROFIL
          ==================================================================== -->
     <div class="avatar-wrap">
-      <!-- Topi jerami (SVG dekoratif) -->
-      <span class="hat" aria-hidden="true">
-        <svg viewBox="0 0 240 150">
-          <defs>
-            <clipPath id="hatBrim"><ellipse cx="120" cy="98" rx="112" ry="40" transform="rotate(-7 120 98)"/></clipPath>
-            <clipPath id="hatCrown"><path d="M62,86 C58,44 78,16 112,16 C148,16 172,42 168,76 C146,94 86,98 62,86 Z"/></clipPath>
-          </defs>
-
-          <!-- 1. BRIM (Pinggiran Topi & Anyaman) -->
-          <ellipse cx="120" cy="98" rx="112" ry="40" transform="rotate(-7 120 98)" fill="#C2A480"/>
-          <g clip-path="url(#hatBrim)">
-            <ellipse cx="111" cy="109" rx="112" ry="40" transform="rotate(-7 111 109)" fill="#F2C94C"/>
-            <!-- anyaman cincin konsentris -->
-            <g fill="none" stroke="#C9982F" stroke-width="1.5" opacity=".5">
-              <ellipse cx="112" cy="107" rx="99" ry="33" transform="rotate(-7 112 107)"/>
-              <ellipse cx="112" cy="105" rx="86" ry="27" transform="rotate(-7 112 105)"/>
-              <ellipse cx="112" cy="103" rx="73" ry="21" transform="rotate(-7 112 103)"/>
-              <ellipse cx="112" cy="101" rx="60" ry="15" transform="rotate(-7 112 101)"/>
-            </g>
-            <!-- anyaman guratan radial -->
-            <g stroke="#C9982F" stroke-width="1.7" stroke-linecap="round" opacity=".55">
-              <path d="M22,96 l14,5"/><path d="M28,112 l13,7"/><path d="M44,124 l10,9"/>
-              <path d="M64,132 l7,10"/><path d="M88,138 l4,10"/><path d="M112,140 l1,10"/>
-              <path d="M136,138 l-1,10"/><path d="M160,132 l-4,10"/><path d="M182,122 l-7,9"/>
-              <path d="M200,108 l-11,8"/><path d="M212,92 l-13,6"/><path d="M218,76 l-14,4"/>
-            </g>
-          </g>
-          <!-- Garis Luar Brim -->
-          <ellipse cx="120" cy="98" rx="112" ry="40" transform="rotate(-7 120 98)" fill="none" stroke="#3B2A18" stroke-width="5"/>
-
-          <!-- 2. CROWN (Warna Dasar & Bayangan) -->
-          <path d="M62,86 C58,44 78,16 112,16 C148,16 172,42 168,76 C146,94 86,98 62,86 Z" fill="#F2C94C"/>
-          <g clip-path="url(#hatCrown)">
-            <ellipse cx="182" cy="26" rx="70" ry="68" fill="#C2A480"/>
-            <ellipse cx="90" cy="42" rx="24" ry="28" fill="#F9DE84" opacity=".75"/>
-            <g fill="none" stroke="#C9982F" stroke-width="1.5" opacity=".5">
-              <path d="M74,84 C69,56 78,28 94,17"/>
-              <path d="M92,90 C89,58 94,30 106,16"/>
-              <path d="M111,92 C110,60 112,32 115,16"/>
-              <path d="M130,90 C133,58 133,32 127,18"/>
-              <path d="M148,84 C154,58 152,34 141,23"/>
-            </g>
-          </g>
-          
-          <!-- 3. PITA MERAH — DIKURUNG ke bentuk crown (clip) agar warna & garisnya
-               tidak pernah menonjol keluar siluet topi. -->
-          <g clip-path="url(#hatCrown)">
-            <path d="M56,56 C88,74 148,70 178,44 L178,80 C148,98 88,98 56,80 Z" fill="#E02020"/>
-            <path d="M56,56 C88,74 148,70 178,44 L178,55 C148,80 88,84 56,66 Z" fill="#F04444" opacity=".5"/>
-            <path d="M56,56 C88,74 148,70 178,44" fill="none" stroke="#3B2A18" stroke-width="4.5" stroke-linecap="round"/>
-            <path d="M56,80 C88,98 148,96 178,80" fill="none" stroke="#3B2A18" stroke-width="4.5" stroke-linecap="round"/>
-          </g>
-
-          <!-- Garis Luar Crown digambar TERAKHIR agar tepi pita tertutup rapi -->
-          <path d="M62,86 C58,44 78,16 112,16 C148,16 172,42 168,76" fill="none" stroke="#3B2A18" stroke-width="5" stroke-linecap="round"/>
-        </svg>
-      </span>
+      <span class="pulse" aria-hidden="true"></span>
+      <span class="pulse b" aria-hidden="true"></span>
       <!-- [[ FOTO PROFIL: ganti src dengan foto Anda, mis. profil.jpg ]] -->
       <img class="avatar" src="logo-clipper.png" alt="Foto profil" />
+      <!-- Emblem laba-laba (dekoratif) - hapus <span class="emblem"> bila tak dipakai -->
+      <span class="emblem" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 6.6c1.5 0 2.7 1.2 2.7 2.7 0 1.5-1.2 2.8-2.7 2.8s-2.7-1.3-2.7-2.8c0-1.5 1.2-2.7 2.7-2.7Z"/>
+          <path d="M9.6 8.2 5.9 6.1 3.4 7.6l.6 1 1.9-1.1 3.3 1.9.4-1.2Zm4.8 0 3.7-2.1 2.5 1.5-.6 1-1.9-1.1-3.3 1.9-.4-1.2ZM9.3 10.6 5.2 11 3 13.4l.9.7 1.7-1.9 3.7-.4v-1.2Zm5.4 0 4.1.4 2.2 2.4-.9.7-1.7-1.9-3.7-.4v-1.2ZM10 12.6l-2.8 2.9-.5 3.3 1.2.2.4-2.7 2.5-2.6-.8-1.1Zm4 0 2.8 2.9.5 3.3-1.2.2-.4-2.7-2.5-2.6.8-1.1Z"/>
+        </svg>
+      </span>
     </div>
 
-    <!-- AI INSTRUCTION: Nama tampilan -->
+    <!-- AI INSTRUCTION: Nama tampilan - BEBAS: bisa "@username" ATAU nama biasa (boleh emoji) -->
     <h1 class="name">@IkhlasClip</h1>
-    <!-- AI INSTRUCTION: Bio singkat -->
+    <!-- AI INSTRUCTION: Bio singkat 1-2 kalimat (boleh emoji) -->
     <p class="bio">Belajar Menghasilkan Uang untuk Clipper Pemula</p>
 
     <!-- ====================================================================
-         TOMBOL TAUTAN
+         TOMBOL TAUTAN - untuk menambah tautan, DUPLIKAT seluruh blok
+         <a class="link"> ... </a>. Jangan ubah nama class.
+         Kelas "feature" = tombol merah unggulan (pakai di satu tombol saja).
          ==================================================================== -->
     <div class="links">
-      <!-- TOMBOL TAUTAN: untuk menambah tautan, DUPLIKAT seluruh blok <a class="link"> ... </a>.
-           Jangan mengubah class-nya. Kelas "feature" = tombol kuning (unggulan). -->
       <a href="https://joinbib.id/clipper/cara-jadi-clipper" class="link feature">
         <!-- AI INSTRUCTION: Label badge, 1-2 kata (mis. "Utama"). Hapus <span> ini bila tak perlu. -->
-        <span class="badge">Utama</span>
+        
         <!-- AI INSTRUCTION: Judul tautan 1 (maks 4 kata) -->
         <div class="t">Cara Jadi Clipper</div>
         <!-- AI INSTRUCTION: Keterangan singkat tautan 1 (maks 8 kata) -->
         <div class="s">Peta Lengkap Menghasilkan dari Clipper</div>
       </a>
+      
       <a href="https://joinbib.id/clipper/platform-clipper-indonesia" class="link">
+        <!-- Jaring dekoratif yang menempel di sudut tombol & menjulur ke atas
+             (seolah menyambung ke jaring latar belakang). Hapus <span> ini bila tak dipakai. -->
+        <span class="web-tack" aria-hidden="true">
+          <svg viewBox="0 0 170 70">
+            <defs>
+              <linearGradient id="wfade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+                <stop offset=".55" stop-color="#fff" stop-opacity=".30"/>
+                <stop offset="1" stop-color="#fff" stop-opacity=".55"/>
+              </linearGradient>
+            </defs>
+            <g fill="none" stroke="url(#wfade)" stroke-width="1.5" stroke-linecap="round">
+              <!-- benang radial dari sudut atas-kanan -->
+              <path d="M166,2 L76,50"/><path d="M166,2 L96,64"/><path d="M166,2 L118,68"/>
+              <path d="M166,2 L140,69"/><path d="M166,2 L158,66"/>
+              <!-- anyaman melintang (membuatnya terbaca sebagai jaring) -->
+              <polyline points="125.5,23.6 134.5,29.9 144.4,31.7 154.3,32.2 162.4,30.8"/>
+              <polyline points="95.8,39.4 111.4,50.4 128.6,53.5 145.7,54.3 159.8,51.9"/>
+              <polyline points="86,45 104,57 123,61 143,62 161,59"/>
+            </g>
+          </svg>
+        </span>
         <!-- AI INSTRUCTION: Judul tautan 2 -->
         <div class="t">Platform Clipper Indonesia</div>
         <!-- AI INSTRUCTION: Keterangan singkat tautan 2 -->
         <div class="s">Rekomendasi Daftar + Komisinya</div>
       </a>
+      
       <a href="https://joinbib.id/clipper/platform-clipper-luar-negeri" class="link">
         <!-- AI INSTRUCTION: Judul tautan 3 -->
         <div class="t">Platform Clipper Luar Negeri</div>
         <!-- AI INSTRUCTION: Keterangan singkat tautan 3 -->
         <div class="s">Lebih Cuan dari Lokal</div>
       </a>
+      
       <a href="https://joinbib.id/sisi-gelap-ai" class="link">
         <!-- AI INSTRUCTION: Judul tautan 4 -->
         <div class="t">Sisi Gelap AI Clipper</div>
         <!-- AI INSTRUCTION: Keterangan singkat tautan 4 -->
         <div class="s">AI Bisa Bikin Akunmu Mati</div>
       </a>
+      
       <a href="https://joinbib.id/clipper/ngeclip-cuan" class="link">
         <!-- AI INSTRUCTION: Judul tautan 5 -->
         <div class="t">E-Book Ngeclip Cuan</div>
         <!-- AI INSTRUCTION: Keterangan singkat tautan 5 -->
         <div class="s">Belajar Menghasilkan dari 0</div>
       </a>
+      
       <a href="https://joinbib.id/" class="link">
         <!-- AI INSTRUCTION: Judul tautan 6 -->
         <div class="t">Sistem BiB (Bisnis In a Box)</div>
         <!-- AI INSTRUCTION: Keterangan singkat tautan 6 -->
         <div class="s">Panduan Lengkap Bangun Bisnis Digital</div>
       </a>
+      
       <a href="https://whatsapp.com/channel/0029VbD3xRK6LwHdluqg330X" class="link">
         <!-- AI INSTRUCTION: Judul tautan 7 -->
         <div class="t">Gabung WA Channel (Gratis)</div>
@@ -307,96 +357,139 @@
       </a>
     </div>
 
-    <!-- ====================================================================
-         SOSIAL
-         ==================================================================== -->
     <!-- [[ LINK SOSMED: ganti href tiap ikon. Hapus <a> yang tak dipakai. ]] -->
     <div class="socials">
       <a href="https://instagram.com/ikhlasclip" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.1.4.3 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.1-1 .3-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.1-.4-.3-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.1 1-.3 2.2-.4C8.4 2.2 8.8 2.2 12 2.2Zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4Zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3Zm6.8-11.2a1.5 1.5 0 1 1-1.5-1.5 1.5 1.5 0 0 1 1.5 1.5Z"/></svg></a>
       <a href="https://tiktok.com/@ikhlasclipper" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.5 3c.3 2 1.5 3.6 3.5 3.9V10c-1.4 0-2.7-.4-3.9-1.1v6.3a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6 0 .9.1v3.2a2.6 2.6 0 1 0 1.8 2.4V3h3.4Z"/></svg></a>
       <a href="https://youtube.com/@ikhlasclip" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23 8.2s-.2-1.6-.9-2.3c-.9-.9-1.8-.9-2.3-1C16.5 4.6 12 4.6 12 4.6s-4.5 0-7.8.3c-.5 0-1.5.1-2.3 1-.7.7-.9 2.3-.9 2.3S.8 10 .8 11.9v1.8c0 1.9.2 3.7.2 3.7s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 7.6.2 7.6.2s4.5 0 7.8-.3c.5 0 1.5-.1 2.3-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.7v-1.8c0-1.9-.2-3.6-.2-3.6ZM9.7 15.3V8.9l5.8 3.2-5.8 3.2Z"/></svg></a>
     </div>
-
-    <!-- Footer -->
-
   </main>
 
   <!-- ======================================================================
-       LAUT + KAPAL (dekoratif) — hapus seluruh <div class="sea"> ini bila tak dipakai.
-       Ukuran kapal diatur lewat --ship-w pada .ship.
+       KOTA MALAM (dekoratif, menetap di bawah layar)
+       Hapus seluruh <div class="city"> ini bila tak dipakai.
        ====================================================================== -->
-  <div class="sea" aria-hidden="true">
-    <!-- KAPAL (vektor, mengapung di kanan bawah) -->
-    <div class="ship">
-     <div class="ship-in">
-      <svg viewBox="0 0 180 200">
-        <g stroke="#43290f" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
-          <!-- tiang & sarang gagak -->
-          <rect x="88" y="34" width="7" height="88" fill="#A6702F"/>
-          <path d="M80,40 L84,26 L100,26 L104,40 Z" fill="#F5F1E6"/>
-          <path d="M84,26 L100,26 L98,20 L86,20 Z" fill="#D62828"/>
-          <path d="M92,20 L92,6 L108,10 L92,14" fill="#2b2b2b" stroke-width="3"/>
-          <!-- layar utama -->
-          <path d="M42,54 C68,42 116,42 140,54 C147,80 147,102 142,118 C112,128 70,128 40,118 C36,100 36,76 42,54 Z" fill="#F7F4EA"/>
-          <g stroke="#c9c2ad" stroke-width="2.2"><path d="M66,46 C62,76 62,100 65,124"/><path d="M92,42 C90,76 90,100 92,126"/><path d="M118,46 C122,76 122,100 119,124"/></g>
-          <!-- tulang bersilang -->
-          <g fill="#F7F4EA" stroke-width="3.6">
-            <path d="M58,64 C64,58 72,62 76,68 L110,104 C114,110 122,114 128,108"/>
-            <path d="M128,64 C122,58 114,62 110,68 L76,104 C72,110 64,114 58,108"/>
-            <circle cx="56" cy="62" r="6"/><circle cx="130" cy="62" r="6"/>
-            <circle cx="56" cy="110" r="6"/><circle cx="130" cy="110" r="6"/>
+  <div class="city" aria-hidden="true">
+    <div class="city-glow"></div>
+    <svg class="skyline" viewBox="0 0 800 200" preserveAspectRatio="xMidYMax slice">
+          <g fill="#0d1220">
+            <rect x="0" y="110" width="60" height="90"/>
+            <rect x="62" y="68" width="44" height="132"/>
+            <rect x="110" y="128" width="70" height="72"/>
+            <rect x="184" y="48" width="50" height="152"/>
+            <rect x="238" y="96" width="38" height="104"/>
+            <rect x="280" y="78" width="64" height="122"/>
+            <rect x="348" y="28" width="46" height="172"/>
+            <rect x="398" y="104" width="56" height="96"/>
+            <rect x="458" y="58" width="42" height="142"/>
+            <rect x="504" y="88" width="68" height="112"/>
+            <rect x="576" y="38" width="40" height="162"/>
+            <rect x="620" y="114" width="58" height="86"/>
+            <rect x="682" y="74" width="48" height="126"/>
+            <rect x="734" y="98" width="66" height="102"/>
           </g>
-          <!-- tengkorak + topi jerami -->
-          <circle cx="92" cy="84" r="19" fill="#fff"/>
-          <path d="M83,98 C86,104 98,104 101,98 Z" fill="#fff" stroke-width="3"/>
-          <g fill="#2b2b2b" stroke="none"><ellipse cx="85" cy="82" rx="5" ry="6"/><ellipse cx="99" cy="82" rx="5" ry="6"/></g>
-          <ellipse cx="92" cy="68" rx="24" ry="7" fill="#F2C94C" stroke-width="3"/>
-          <path d="M79,68 C79,56 86,52 92,52 C99,52 106,57 105,68 Z" fill="#F2C94C" stroke-width="3"/>
-          <path d="M79,66 C86,70 99,70 105,66 L105,61 C99,65 86,65 79,61 Z" fill="#E02020" stroke-width="2.4"/>
-          <!-- lambung kayu -->
-          <path d="M14,146 C10,168 26,186 52,192 C92,199 140,192 160,172 C166,166 168,156 167,146 Z" fill="#C08B4A"/>
-          <g stroke="#9a6a30" stroke-width="2.4"><path d="M20,160 C56,172 128,172 164,158"/><path d="M26,174 C60,184 122,184 154,172"/></g>
-          <!-- haluan -->
-          <path d="M14,146 C6,128 8,116 18,110 L30,118 C22,126 20,134 22,146 Z" fill="#C08B4A"/>
-          <!-- pagar merah-putih -->
-          <path d="M18,146 L167,146 L167,120 C120,112 60,112 22,122 Z" fill="#F7F4EA"/>
-          <g fill="#D62828" stroke-width="3">
-            <path d="M44,144 L44,120 C52,118 62,117 70,116 L70,144 Z"/>
-            <path d="M92,144 L92,114 C100,114 110,115 118,116 L118,144 Z"/>
-            <path d="M140,144 L140,118 C148,119 156,121 164,123 L164,144 Z"/>
+          <g fill="#FFC46B">
+            <rect x="8" y="164" width="6" height="9" opacity="0.25"/>
+            <rect x="24" y="144" width="6" height="9" opacity="0.85"/>
+            <rect x="70" y="122" width="6" height="9" opacity="0.25"/>
+            <rect x="118" y="142" width="6" height="9" opacity="0.25"/>
+            <rect x="134" y="142" width="6" height="9" opacity="0.25"/>
+            <rect x="150" y="162" width="6" height="9" opacity="0.85"/>
+            <rect x="192" y="62" width="6" height="9" opacity="0.4"/>
+            <rect x="192" y="82" width="6" height="9" opacity="0.4"/>
+            <rect x="192" y="102" width="6" height="9" opacity="0.25"/>
+            <rect x="192" y="122" width="6" height="9" opacity="0.7"/>
+            <rect x="208" y="62" width="6" height="9" opacity="0.7"/>
+            <rect x="208" y="122" width="6" height="9" opacity="0.25"/>
+            <rect x="208" y="142" width="6" height="9" opacity="0.55"/>
+            <rect x="246" y="110" width="6" height="9" opacity="0.25"/>
+            <rect x="288" y="92" width="6" height="9" opacity="0.85"/>
+            <rect x="288" y="112" width="6" height="9" opacity="0.55"/>
+            <rect x="304" y="152" width="6" height="9" opacity="0.85"/>
+            <rect x="320" y="92" width="6" height="9" opacity="0.55"/>
+            <rect x="320" y="132" width="6" height="9" opacity="0.4"/>
+            <rect x="320" y="152" width="6" height="9" opacity="0.4"/>
+            <rect x="356" y="102" width="6" height="9" opacity="0.25"/>
+            <rect x="372" y="62" width="6" height="9" opacity="0.7"/>
+            <rect x="372" y="82" width="6" height="9" opacity="0.7"/>
+            <rect x="406" y="118" width="6" height="9" opacity="0.85"/>
+            <rect x="422" y="118" width="6" height="9" opacity="0.85"/>
+            <rect x="422" y="138" width="6" height="9" opacity="0.85"/>
+            <rect x="422" y="158" width="6" height="9" opacity="0.25"/>
+            <rect x="466" y="72" width="6" height="9" opacity="0.85"/>
+            <rect x="466" y="132" width="6" height="9" opacity="0.25"/>
+            <rect x="466" y="152" width="6" height="9" opacity="0.7"/>
+            <rect x="528" y="162" width="6" height="9" opacity="0.85"/>
+            <rect x="544" y="102" width="6" height="9" opacity="0.55"/>
+            <rect x="544" y="122" width="6" height="9" opacity="0.25"/>
+            <rect x="544" y="142" width="6" height="9" opacity="0.7"/>
+            <rect x="584" y="72" width="6" height="9" opacity="0.55"/>
+            <rect x="584" y="112" width="6" height="9" opacity="0.85"/>
+            <rect x="584" y="132" width="6" height="9" opacity="0.25"/>
+            <rect x="628" y="128" width="6" height="9" opacity="0.25"/>
+            <rect x="644" y="148" width="6" height="9" opacity="0.85"/>
+            <rect x="644" y="168" width="6" height="9" opacity="0.4"/>
+            <rect x="690" y="88" width="6" height="9" opacity="0.4"/>
+            <rect x="690" y="108" width="6" height="9" opacity="0.4"/>
+            <rect x="690" y="128" width="6" height="9" opacity="0.25"/>
+            <rect x="690" y="148" width="6" height="9" opacity="0.7"/>
+            <rect x="690" y="168" width="6" height="9" opacity="0.55"/>
+            <rect x="706" y="88" width="6" height="9" opacity="0.55"/>
+            <rect x="742" y="132" width="6" height="9" opacity="0.85"/>
+            <rect x="742" y="152" width="6" height="9" opacity="0.55"/>
+            <rect x="758" y="132" width="6" height="9" opacity="0.7"/>
+            <rect x="758" y="152" width="6" height="9" opacity="0.7"/>
+            <rect x="774" y="132" width="6" height="9" opacity="0.25"/>
+            <rect x="774" y="152" width="6" height="9" opacity="0.7"/>
           </g>
-          <!-- medali angka 1 -->
-          <circle cx="120" cy="158" r="13" fill="#E8B33A"/>
-          <path d="M120,151 L120,165 M116,154 L120,150" fill="none" stroke="#8a3b12" stroke-width="3.4"/>
-          <!-- kepala singa (figurehead) -->
-          <g transform="translate(30,110)">
-            <path d="M0,-26 L7,-14 L21,-20 L17,-6 L31,0 L17,6 L21,20 L7,14 L0,26 L-7,14 L-21,20 L-17,6 L-31,0 L-17,-6 L-21,-20 L-7,-14 Z" fill="#F07A1E"/>
-            <circle cx="0" cy="0" r="14" fill="#F2C94C"/>
-            <ellipse cx="0" cy="4" rx="7" ry="5" fill="#F9E3A0" stroke-width="2.6"/>
-            <g fill="#43290f" stroke="none"><circle cx="-5" cy="-3" r="2.2"/><circle cx="5" cy="-3" r="2.2"/></g>
+          <g fill="#FFD79B" class="twinkle">
+            <rect x="246" y="170" width="6" height="9"/>
+            <rect x="288" y="152" width="6" height="9"/>
+            <rect x="304" y="132" width="6" height="9"/>
+            <rect x="320" y="112" width="6" height="9"/>
+            <rect x="584" y="92" width="6" height="9"/>
           </g>
-        </g>
-      </svg>
-     </div>
-    </div>
-    <!-- OMBAK LAUT -->
-    <svg class="waves" viewBox="0 0 1200 120" preserveAspectRatio="none">
-      <g class="w1" fill="#0b78c4" opacity=".55"><path d="M0,62 q150,-26 300,0 t300,0 t300,0 t300,0 t300,0 t300,0 V120 H0 Z"/></g>
-      <g class="w2" fill="#0a5f9e" opacity=".8"><path d="M0,76 q150,-24 300,0 t300,0 t300,0 t300,0 t300,0 t300,0 V120 H0 Z"/></g>
-      <g fill="#083f6d"><path d="M0,96 q150,-18 300,0 t300,0 t300,0 t300,0 V120 H0 Z"/></g>
     </svg>
   </div>
 
+  <!-- ======================================================================
+       LABA-LABA BERGELANTUNGAN (dekoratif, turun perlahan saat scroll)
+       Hapus seluruh <div class="spider-drop"> ini bila tak dipakai.
+       ====================================================================== -->
+  <div class="spider-drop" aria-hidden="true">
+    <div class="spider-swing">
+      <span class="anchor"></span>
+      <div class="thread"></div>
+      <!-- Laba-laba menggantung: PERUT (tempat keluar benang) di ATAS, kepala di BAWAH -->
+      <div class="spider">
+        <svg viewBox="0 0 60 58">
+          <g stroke="#454A66" stroke-width="3.4" fill="none" stroke-linecap="round">
+            <path d="M23,30 C13,26 9,20 5,12"/><path d="M22,34 C11,34 6,32 2,26"/>
+            <path d="M22,38 C11,40 7,44 4,40"/><path d="M24,42 C16,47 13,52 9,49"/>
+            <path d="M37,30 C47,26 51,20 55,12"/><path d="M38,34 C49,34 54,32 58,26"/>
+            <path d="M38,38 C49,40 53,44 56,40"/><path d="M36,42 C44,47 47,52 51,49"/>
+          </g>
+          <!-- perut (abdomen) — benang keluar dari sini -->
+          <ellipse cx="30" cy="20" rx="11" ry="13" fill="#20233A" stroke="#5A6086" stroke-width="1.6"/>
+          <path d="M30,13 l5,7 -5,7 -5,-7 Z" fill="#D9202C"/>
+          <!-- kepala -->
+          <ellipse cx="30" cy="38" rx="8" ry="7" fill="#20233A" stroke="#5A6086" stroke-width="1.6"/>
+          <circle cx="27" cy="39" r="1.7" fill="#fff"/><circle cx="33" cy="39" r="1.7" fill="#fff"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Kapal bergerak perlahan ke KIRI saat halaman di-scroll ke bawah.
+    // Benang memanjang saat halaman di-scroll (titik gantung tetap di atas).
     (function () {
-      var ship = document.querySelector('.ship');
-      if (!ship || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var el = document.querySelector('.spider-drop');
+      if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       var ticking = false;
       function update() {
-        var max = window.innerWidth * 0.75;           // batas jarak geser
-        var x = Math.min(window.scrollY * 0.25, max); // makin jauh scroll, makin ke kiri
-        ship.style.setProperty('--ship-x', (-x) + 'px');
+        var max = window.innerHeight * 0.42;                 // batas panjang benang tambahan
+        var d = Math.min(window.scrollY * 0.35, max);
+        el.style.setProperty('--drop', d.toFixed(1) + 'px'); // BENANG memanjang, titik gantung tetap
         ticking = false;
       }
       window.addEventListener('scroll', function () {
@@ -405,6 +498,5 @@
       update();
     })();
   </script>
-
 </body>
 </html>
